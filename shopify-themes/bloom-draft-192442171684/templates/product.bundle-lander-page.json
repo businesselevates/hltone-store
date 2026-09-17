@@ -1070,8 +1070,10 @@
         "reverse": false,
         "separator": "✦",
         "speed": 34,
-        "text_size": 22,
-        "tilt": false
+        "text_size": 16,
+        "tilt": false,
+        "gap": 20,
+        "text_color": "white"
       },
       "type": "hlt-marquee"
     },
