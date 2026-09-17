@@ -38,3 +38,5 @@ Written to the draft theme 192442171684:
 - `blocks/ai_gen_block_9ee722a.liquid` (brand logos): logos blend into the section colour (multiply) when the card style is off. On the bundle lander the block now runs without cards, with smaller logos and tighter padding, and the hero below it has less top padding.
 - `sections/hlt-marquee.liquid`: new "Gap between items" and "Text colour" settings; on the bundle lander the promises strip runs at 16px, 20px gaps, white text.
 - `sections/hlt-media-text.liquid`: wider spacing in the copy column (28px between heading, list and small print; 22px between list items; looser line height).
+- `sections/hlt-text.liquid`: the same spacing as the image-with-text sections (28px between blocks, 36px under the heading, 22px between list items).
+- `assets/hlt-buy-box.css`: the buy box no longer overflows phone screens (the thumbnail strip was widening the grid column); 36px between title, gallery and panel on phones.
