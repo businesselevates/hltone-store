@@ -3,12 +3,16 @@
    Phones stack them title first, like Bloom; desktop puts the gallery on the
    left with the title and panel stacked on the right. */
 .hlt-bb__grid {
-  display: grid; gap: 24px; align-items: start;
+  display: grid; gap: 36px; align-items: start;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas: "head" "gallery" "panel";
 }
-.hlt-bb__head { grid-area: head; }
-.hlt-bb__gallery { grid-area: gallery; }
-.hlt-bb__panel { grid-area: panel; }
+/* min-width: 0 matters on phones: the thumbnail strip's fixed-width thumbs
+   otherwise set the column's minimum width and push the gallery past the
+   right edge of the screen. */
+.hlt-bb__head { grid-area: head; min-width: 0; max-width: 100%; }
+.hlt-bb__gallery { grid-area: gallery; min-width: 0; max-width: 100%; }
+.hlt-bb__panel { grid-area: panel; min-width: 0; max-width: 100%; }
 @media (min-width: 990px) {
   .hlt-bb__grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -18,7 +22,7 @@
 }
 
 /* Gallery */
-.hlt-bb__stage { position: relative; }
+.hlt-bb__stage { position: relative; max-width: 100%; }
 .hlt-bb__track {
   display: flex; gap: 12px;
   overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
@@ -47,7 +51,7 @@
    Desktop: main image with square tiles under it, so no strip is needed. */
 .hlt-bb__dots { display: none !important; }
 .hlt-bb__thumbs {
-  display: flex; gap: 8px; margin-top: 10px; padding-bottom: 2px;
+  display: flex; gap: 8px; margin-top: 10px; padding-bottom: 2px; max-width: 100%;
   overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .hlt-bb__thumbs::-webkit-scrollbar { display: none; }
