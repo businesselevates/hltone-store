@@ -30,3 +30,8 @@ Written to the draft theme 192442171684:
 - `layout/theme.liquid`: hides the Tidio bubble according to that setting.
 - `templates/cart.json`: order-note field switched off on the cart page.
 - `backup-2026-09-17/`: the previous versions of each changed file.
+
+## 2026-09-17, bundle lander buy box (follow-up)
+
+- `sections/hlt-buy-box.liquid` + `assets/hlt-buy-box.css`: the title block (rating, name, body, tags) sits above the gallery on phones with a thumbnail strip instead of dots; on desktop the gallery is one main image with square tiles below it, Bloom style (tiles past the fourth stay in the phone slider only).
+- `sections/hlt-pair-with.liquid`: the round "+" is now a full "Add to cart · price" button, label editable in the section settings.
