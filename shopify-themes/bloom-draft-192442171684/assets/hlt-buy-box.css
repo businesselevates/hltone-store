@@ -64,7 +64,8 @@
   .hlt-bb__slide { flex: none; width: auto; min-width: 0; }
   .hlt-bb__slide[data-hlt-age-only] { grid-column: 1 / -1; }
   .hlt-bb__slide--extra { display: none; }
-  .hlt-bb__slide:not([data-hlt-age-only]) .hlt-bb__caption { left: 10px; right: 10px; bottom: 10px; padding: 8px 12px; font-size: 14px; }
+  /* Only the main image carries a caption; the tiles are picture-only. */
+  .hlt-bb__slide:not([data-hlt-age-only]) .hlt-bb__caption { display: none; }
   .hlt-bb__quote-inner { gap: 10px; padding: 10%; }
   .hlt-bb__quote-text { font-size: clamp(18px, 1.7vw, 24px); }
   .hlt-bb__quote-img { width: 48px; height: 48px; }
