@@ -35,3 +35,4 @@ Written to the draft theme 192442171684:
 
 - `sections/hlt-buy-box.liquid` + `assets/hlt-buy-box.css`: the title block (rating, name, body, tags) sits above the gallery on phones with a thumbnail strip instead of dots; on desktop the gallery is one main image with square tiles below it, Bloom style (tiles past the fourth stay in the phone slider only).
 - `sections/hlt-pair-with.liquid`: the round "+" is now a full "Add to cart · price" button, label editable in the section settings.
+- `blocks/ai_gen_block_9ee722a.liquid` (brand logos): logos blend into the section colour (multiply) when the card style is off. On the bundle lander the block now runs without cards, with smaller logos and tighter padding, and the hero below it has less top padding.
