@@ -1556,7 +1556,7 @@
         "type": "text",
         "id": "drawer_trust_text",
         "label": "Text",
-        "default": "Rated 4.9 by Singapore parents"
+        "default": "Rated 4.9 by 20k parents"
       },
       {
         "type": "checkbox",

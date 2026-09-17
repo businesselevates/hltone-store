@@ -10,8 +10,9 @@
      - the totals block shows one "Total" line and one editable note;
      - the checkout button carries a lock icon, with the reassurance line
        under it;
-     - on phones the drawer leaves a strip of the page visible so shoppers
-       can tap out and keep browsing.
+     - on phones the drawer fills the whole screen;
+     - the cross-sell cards are horizontal (image, name, variant, price, Add)
+       and slide one at a time, Bloom style.
 
    Every Dawn hook the cart JS depends on is untouched (#CartDrawer,
    .drawer__inner, cart-drawer-items, .cart-drawer__footer, .totals,
@@ -26,17 +27,13 @@
   padding: 0 20px;
 }
 
-/* Phones: the drawer stops short of the left edge so the page stays visible
-   and one tap on it closes the drawer. */
+/* Phones: the drawer fills the screen edge to edge; the Continue shopping
+   link and the close button are the way back to the page. */
 @media screen and (max-width: 749px) {
   .drawer__inner {
-    width: min(40rem, 84vw);
-    max-width: 84vw;
+    width: 100vw;
+    max-width: 100vw;
     padding: 0 16px;
-  }
-
-  .drawer {
-    background-color: rgba(27, 46, 92, 0.32);
   }
 }
 
@@ -354,10 +351,29 @@
 }
 
 .cart-drawer .cart__ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
   margin-top: 14px;
 }
 
+.cart-drawer .hlt-drawer-trust {
+  width: 100%;
+  margin: 10px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-drawer .hlt-drawer-trust__stars svg,
+.cart-drawer .hlt-drawer-trust__stars .hlt-icon {
+  fill: currentColor !important;
+  stroke: currentColor;
+}
+
 .cart-drawer .hlt-drawer__checkout {
+  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -374,6 +390,104 @@
   flex: none;
   width: 18px;
   height: 18px;
+}
+
+
+/* ---------- Cross-sell cards ("Picked just for you"): horizontal ----------
+   Overrides the stacked card in hlt-cart-upsell.css (loaded before this
+   file). Same DOM, so hlt-cart-upsell.js is untouched. */
+
+.cart-drawer .hlt-upsell {
+  padding-bottom: 4px;
+}
+
+.cart-drawer .hlt-upsell__track {
+  gap: 10px;
+  padding: 2px 0 6px;
+}
+
+.cart-drawer .hlt-upsell__card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "media name  add"
+    "media sub   add"
+    "media price add";
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 2px;
+  flex: 0 0 auto;
+  width: calc(100% - 36px);
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--hlt-paper, #fff);
+  box-shadow: inset 0 0 0 1.5px rgba(27, 46, 92, 0.1);
+}
+
+.cart-drawer .hlt-upsell__media {
+  grid-area: media;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  aspect-ratio: auto;
+  border-radius: 12px;
+  background: var(--hlt-splash-pale, #eaf4fb);
+}
+
+.cart-drawer .hlt-upsell__name {
+  grid-area: name;
+  align-self: end;
+  font-size: 13.5px;
+}
+
+.cart-drawer .hlt-upsell__sub {
+  grid-area: sub;
+  font-size: 12px;
+}
+
+.cart-drawer .hlt-upsell__price {
+  grid-area: price;
+  align-self: start;
+  margin: 0;
+  font-size: 13px;
+}
+
+.cart-drawer .hlt-upsell__actions {
+  grid-area: add;
+  align-self: center;
+  margin: 0;
+}
+
+.cart-drawer .hlt-upsell__add {
+  width: auto;
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--hlt-navy, #1b2e5c);
+  background: transparent;
+  color: var(--hlt-navy, #1b2e5c);
+}
+
+.cart-drawer .hlt-upsell__add:hover:not([disabled]) {
+  background: var(--hlt-navy, #1b2e5c);
+  color: var(--hlt-cream, #fdf7ec);
+  transform: none;
+  box-shadow: none;
+}
+
+.cart-drawer .hlt-upsell__error {
+  grid-column: 1 / -1;
+}
+
+@media screen and (max-width: 420px) {
+  .cart-drawer .hlt-upsell__card {
+    width: calc(100% - 28px);
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+  }
+
+  .cart-drawer .hlt-upsell__media {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 /* Short viewports keep Dawn's whole-drawer scroll, so nothing to override. */
