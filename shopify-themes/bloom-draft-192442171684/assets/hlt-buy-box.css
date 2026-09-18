@@ -8,8 +8,9 @@
 .hlt-bb__side { display: contents; }
 /* Phones and tablets: the whole block (title, gallery, buy box) sits in one card. */
 @media (max-width: 989px) {
-  .hlt-bb { padding: 12px 0 8px; }
+  .hlt-bb { padding: 24px 0 8px; }
   .hlt-bb > .hlt__inner {
+    --hlt-bb-card-pad: 22px;
     margin: 0 16px; padding: 22px 18px 24px;
     background: #fff;
     border: 1.5px solid rgba(27, 46, 92, 0.1);
@@ -27,7 +28,8 @@
      stays in view while the tall gallery scrolls. */
   .hlt-bb__side {
     display: block; grid-area: side; min-width: 0;
-    position: sticky; top: calc(var(--header-height, 80px) + 16px); align-self: start;
+    --hlt-bb-card-pad: 28px;
+    position: sticky; top: calc(var(--header-height, 80px) + 18px); align-self: start;
     padding: 28px 28px 24px;
     background: #fff;
     border: 1.5px solid rgba(27, 46, 92, 0.1);
@@ -40,10 +42,19 @@
 
 /* Title block */
 .hlt-bb__pills { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+/* Rating pill sits on the card's top border, Bloom style: pulled up by the
+   card's top padding and half its own height, so the border runs through its
+   middle. --hlt-bb-card-pad is set on the card at each breakpoint. */
+.hlt-bb__head { position: relative; }
+.hlt-bb__head .hlt-bb__pills {
+  position: absolute; left: 0; top: calc(-1 * var(--hlt-bb-card-pad, 22px));
+  transform: translateY(-50%); z-index: 2; flex-wrap: nowrap;
+}
+.hlt-bb__head .hlt-bb__pills + * { margin-top: 0 !important; }
 .hlt-bb__pill {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 6px 12px; border-radius: var(--hlt-r-pill);
-  border: 1.5px solid rgba(27, 46, 92, 0.14); background: var(--hlt-paper);
+  border: 1.5px solid rgba(27, 46, 92, 0.14); background: #fff;
   color: var(--hlt-navy); font-size: 13px; font-weight: 700; line-height: 1.2;
 }
 .hlt-bb__pill-stars { display: inline-flex; gap: 2px; color: var(--hlt-sun); }

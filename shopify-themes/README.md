@@ -40,3 +40,4 @@ Written to the draft theme 192442171684:
 - `sections/hlt-media-text.liquid`: wider spacing in the copy column (28px between heading, list and small print; 22px between list items; looser line height).
 - `sections/hlt-text.liquid`: the same spacing as the image-with-text sections (28px between blocks, 36px under the heading, 22px between list items).
 - `assets/hlt-buy-box.css`: the buy box no longer overflows phone screens (the thumbnail strip was widening the grid column); 36px between title, gallery and panel on phones.
+- `assets/hlt-buy-box.css`: rating pill sits on the top border of the title/buy-box card (Bloom style) on phones and desktop; the pill is white so the border runs behind it. Note: the buy box section and stylesheet were edited on the theme by someone else on 17 Sep (sticky card, "View all" gallery button); the repo copies were synced to that version first.
