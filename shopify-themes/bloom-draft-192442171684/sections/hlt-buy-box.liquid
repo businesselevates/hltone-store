@@ -345,13 +345,19 @@
     -%}
     {%- if pair_total > 0 -%}
     <div class="hlt-bb__pair" data-hlt-pair="{{ section.id }}" data-hlt-reveal="right">
-      <div class="hlt-bb__pair-tabs">
-        <span class="hlt-bb__pair-tab">{{ section.settings.pair_heading | default: 'Pair it with' }}</span>
+      <div class="hlt-bb__pair-tabs" role="tablist">
+        {%- if pair_products.size > 0 -%}
+          <button type="button" class="hlt-bb__pair-tab is-active" role="tab" aria-selected="true" data-hlt-pair-tab="products">{{ section.settings.pair_heading | default: 'Pair it with' }}</button>
+        {%- endif -%}
+        {%- if pair_nexts.size > 0 -%}
+          <button type="button" class="hlt-bb__pair-tab{% if pair_products.size == 0 %} is-active{% endif %}" role="tab" aria-selected="{% if pair_products.size == 0 %}true{% else %}false{% endif %}" data-hlt-pair-tab="next">{{ section.settings.pair_next_tab | default: 'The next age bundle' }}</button>
+        {%- endif -%}
       </div>
       <div class="hlt-bb__pair-card">
-        <div class="hlt-bb__pair-track" data-hlt-pair-track>
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'pair_product' -%}
+        {%- comment -%} Tab 1: add-on products, one per view {%- endcomment -%}
+        <div class="hlt-bb__pair-pane" data-hlt-pair-pane="products"{% if pair_products.size == 0 %} hidden{% endif %}>
+          <div class="hlt-bb__pair-track" data-hlt-pair-track>
+            {%- for block in pair_products -%}
               {%- liquid
                 assign p = block.settings.product
                 assign variant = nil
@@ -389,29 +395,33 @@
                   <p class="hlt-bb__error hlt-bb__pair-error" role="alert" data-hlt-error hidden></p>
                 </div>
               </article>
-            {%- elsif block.type == 'pair_next' -%}
-              {%- liquid
-                assign pair_title = block.settings.title | default: 'The next age bundle'
-                assign pair_img = block.settings.image
-              -%}
-              <article class="hlt-bb__pair-item" data-hlt-next-card {{ block.shopify_attributes }}>
-                <div class="hlt-media hlt-media--contain hlt-bb__pair-img" style="--hlt-ratio: 1 / 1;">
-                  {%- if pair_img != blank -%}
-                    {{ pair_img | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240, 360, 480', sizes: '200px', alt: pair_title }}
-                  {%- else -%}
-                    {{ 'product-3' | placeholder_svg_tag: 'hlt-placeholder' }}
-                  {%- endif -%}
-                </div>
-                <div class="hlt-bb__pair-body">
-                  <p class="hlt-bb__pair-title">{{ pair_title }}</p>
-                  {%- if block.settings.line != blank -%}<p class="hlt-bb__pair-line">{{ block.settings.line }}</p>{%- endif -%}
-                  <button type="button" class="hlt-btn hlt-bb__pair-add" data-hlt-pair-add data-hlt-add-next data-hlt-variant="" aria-label="{{ pair_add | escape }}: {{ pair_title | escape }}">
-                    <span>{{ pair_add }}</span>
-                  </button>
-                  <p class="hlt-bb__error hlt-bb__pair-error" role="alert" data-hlt-error hidden></p>
-                </div>
-              </article>
-            {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- comment -%} Tab 2: the next age bundle (hlt-home.js hides the card at the last age) {%- endcomment -%}
+        <div class="hlt-bb__pair-pane" data-hlt-pair-pane="next"{% if pair_products.size > 0 %} hidden{% endif %}>
+          {%- for block in pair_nexts -%}
+            {%- liquid
+              assign pair_title = block.settings.title | default: 'The next age bundle'
+              assign pair_img = block.settings.image
+            -%}
+            <article class="hlt-bb__pair-item" data-hlt-next-card {{ block.shopify_attributes }}>
+              <div class="hlt-media hlt-media--contain hlt-bb__pair-img" style="--hlt-ratio: 1 / 1;">
+                {%- if pair_img != blank -%}
+                  {{ pair_img | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240, 360, 480', sizes: '200px', alt: pair_title }}
+                {%- else -%}
+                  {{ 'product-3' | placeholder_svg_tag: 'hlt-placeholder' }}
+                {%- endif -%}
+              </div>
+              <div class="hlt-bb__pair-body">
+                <p class="hlt-bb__pair-title">{{ pair_title }}</p>
+                {%- if block.settings.line != blank -%}<p class="hlt-bb__pair-line">{{ block.settings.line }}</p>{%- endif -%}
+                <button type="button" class="hlt-btn hlt-bb__pair-add" data-hlt-pair-add data-hlt-add-next data-hlt-variant="" aria-label="{{ pair_add | escape }}: {{ pair_title | escape }}">
+                  <span>{{ pair_add }}</span>
+                </button>
+                <p class="hlt-bb__error hlt-bb__pair-error" role="alert" data-hlt-error hidden></p>
+              </div>
+            </article>
           {%- endfor -%}
         </div>
       </div>
@@ -524,18 +534,30 @@
 
 <script>
   (function () {
-    /* Pair it with: one add-on per view with dots, plus its own add buttons.
-       The global cross-sell click handler in hlt-home.js ignores buttons inside
-       the buy box, so the pair buttons are wired here. */
+    /* Pair it with: two tabs (add-on products, next age bundle). The products
+       tab shows one add-on per view with dots. Tabs hide themselves when the
+       chosen bundle leaves them nothing to show. The global cross-sell click
+       handler in hlt-home.js ignores buttons inside the buy box, so the pair
+       buttons are wired here. */
     var wrap = document.querySelector('[data-hlt-pair="{{ section.id }}"]');
     if (!wrap || wrap.hltReady) return;
     wrap.hltReady = true;
     var track = wrap.querySelector('[data-hlt-pair-track]');
     var dots = wrap.querySelector('[data-hlt-pair-dots]');
-    if (!track || !dots) return;
+    var tabs = Array.prototype.slice.call(wrap.querySelectorAll('[data-hlt-pair-tab]'));
+    var panes = Array.prototype.slice.call(wrap.querySelectorAll('[data-hlt-pair-pane]'));
+    var nextCard = wrap.querySelector('[data-hlt-next-card]');
+    var firstTab = tabs.filter(function (t) { return t.classList.contains('is-active'); })[0] || tabs[0];
+    var current = firstTab ? firstTab.getAttribute('data-hlt-pair-tab') : null;
 
     function visible() {
+      if (!track) return [];
       return Array.prototype.filter.call(track.children, function (c) { return !c.hidden; });
+    }
+    function available(name) {
+      if (name === 'products') return visible().length > 0;
+      if (name === 'next') return !!nextCard && !nextCard.hidden;
+      return false;
     }
     function activeIndex(cards) {
       var left = track.scrollLeft, idx = 0, best = Infinity;
@@ -545,9 +567,24 @@
       });
       return idx;
     }
+    function show(name) {
+      current = name;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-hlt-pair-tab') === name;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panes.forEach(function (pn) { pn.hidden = pn.getAttribute('data-hlt-pair-pane') !== name; });
+    }
     function paint() {
-      var cards = visible();
-      wrap.hidden = cards.length === 0;
+      var names = tabs.map(function (t) { return t.getAttribute('data-hlt-pair-tab'); });
+      var open = names.filter(available);
+      tabs.forEach(function (t) { t.hidden = open.indexOf(t.getAttribute('data-hlt-pair-tab')) === -1; });
+      wrap.hidden = open.length === 0;
+      if (open.length && open.indexOf(current) === -1) show(open[0]);
+      else show(current);
+      if (!dots) return;
+      var cards = current === 'products' ? visible() : [];
       if (dots.children.length !== cards.length) {
         dots.innerHTML = '';
         cards.forEach(function (c, i) {
@@ -558,12 +595,14 @@
           dots.appendChild(b);
         });
       }
-      var idx = activeIndex(cards);
-      Array.prototype.forEach.call(dots.children, function (b, i) {
-        var on = i === idx;
-        b.classList.toggle('is-active', on);
-        b.setAttribute('aria-current', on ? 'true' : 'false');
-      });
+      if (cards.length) {
+        var idx = activeIndex(cards);
+        Array.prototype.forEach.call(dots.children, function (b, i) {
+          var on = i === idx;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-current', on ? 'true' : 'false');
+        });
+      }
       dots.hidden = cards.length < 2;
     }
     function goTo(i) {
@@ -571,7 +610,10 @@
       if (!cards[i]) return;
       track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
     }
-    dots.addEventListener('click', function (e) {
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { show(t.getAttribute('data-hlt-pair-tab')); paint(); });
+    });
+    if (dots) dots.addEventListener('click', function (e) {
       var b = e.target && e.target.closest ? e.target.closest('button') : null;
       if (!b || b.parentElement !== dots) return;
       goTo(Array.prototype.indexOf.call(dots.children, b));
@@ -590,10 +632,10 @@
       if (frame) return;
       frame = window.requestAnimationFrame(function () { frame = null; paint(); });
     }
-    track.addEventListener('scroll', schedule, { passive: true });
+    if (track) track.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     function onBundleChange() {
-      window.requestAnimationFrame(function () { track.scrollLeft = 0; paint(); });
+      window.requestAnimationFrame(function () { if (track) track.scrollLeft = 0; paint(); });
     }
     document.addEventListener('hlt:bundle-change', onBundleChange);
     paint();
@@ -629,7 +671,8 @@
     { "type": "checkbox", "id": "sticky_bar", "label": "Sticky add-to-cart bar", "info": "Shows from the moment the page loads and hides only while the main Add to cart button is on screen.", "default": true },
     { "type": "header", "content": "Pair it with" },
     { "type": "paragraph", "content": "Add-ons shown under the buy box, one per view with dots. Add them as 'Pair: product' and 'Pair: next age bundle' blocks. They use the price prefix and Add to cart label above." },
-    { "type": "text", "id": "pair_heading", "label": "Tab label", "default": "Pair it with" },
+    { "type": "text", "id": "pair_heading", "label": "Tab 1 label (add-on products)", "default": "Pair it with" },
+    { "type": "text", "id": "pair_next_tab", "label": "Tab 2 label (next age bundle)", "default": "The next age bundle" },
     { "type": "header", "content": "Rating" },
     { "type": "checkbox", "id": "show_rating", "label": "Show the star rating line", "info": "Turn on once there is a rating to claim.", "default": false },
     { "type": "range", "id": "rating_value", "label": "Stars filled", "min": 1, "max": 5, "step": 1, "default": 5 },

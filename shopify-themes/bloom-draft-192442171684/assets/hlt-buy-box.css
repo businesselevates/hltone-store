@@ -235,15 +235,23 @@ body.hlt-sticky-on { padding-bottom: 84px; }
    A tab sits on the card's top-left corner, one add-on shows at a time
    (image left, text and a full-width Add to cart right), dots below. */
 .hlt-bb__pair[hidden] { display: none; }
-.hlt-bb__pair-tabs { display: flex; align-items: flex-end; }
+.hlt-bb__pair-tabs { display: flex; align-items: flex-end; gap: 6px; }
 .hlt-bb__pair-tab {
   position: relative; z-index: 1;
   padding: 10px 20px 12px; margin-bottom: -1.5px;
   border: 1.5px solid rgba(27, 46, 92, 0.1); border-bottom: 0;
   border-radius: 16px 16px 0 0;
-  background: var(--hlt-cream); color: var(--hlt-navy);
+  background: #fff; color: var(--hlt-ocean);
   font-family: var(--hlt-font-display); font-weight: 700; font-size: 15px; line-height: 1.2;
+  cursor: pointer; -webkit-appearance: none; appearance: none;
+  transition: background-color 0.25s, color 0.25s;
 }
+.hlt-bb__pair-tab:hover { color: var(--hlt-navy); }
+.hlt-bb__pair-tab:focus-visible { outline: 3px solid var(--hlt-splash); outline-offset: 2px; }
+/* The chosen tab shares the card's colour and covers its top border, so the two read as one shape. */
+.hlt-bb__pair-tab.is-active { background: var(--hlt-cream); color: var(--hlt-navy); z-index: 2; }
+.hlt-bb__pair-tab[hidden] { display: none; }
+.hlt-bb__pair-pane[hidden] { display: none; }
 .hlt-bb__pair-card {
   position: relative; overflow: hidden;
   border: 1.5px solid rgba(27, 46, 92, 0.1); border-radius: 0 22px 22px 22px;

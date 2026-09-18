@@ -766,7 +766,8 @@
         "title": "Yummybara Age Bundle",
         "title_size": 36,
         "value_value": "Value Pack",
-        "pair_heading": "Pair it with"
+        "pair_heading": "Pair it with",
+        "pair_next_tab": "The next age bundle"
       },
       "type": "hlt-buy-box"
     },
