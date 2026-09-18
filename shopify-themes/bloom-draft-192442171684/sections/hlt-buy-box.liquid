@@ -157,6 +157,7 @@
       One card on desktop (title block + buy box, sticky). On phones the wrapper
       uses display: contents so the title still sits above the gallery. {%- endcomment -%}
     <div class="hlt-bb__side">
+    <div class="hlt-bb__card">
     {%- comment -%} ---------------- Title block ----------------
       Sits above the gallery on phones and beside it on desktop (see the
       grid areas in hlt-buy-box.css). {%- endcomment -%}
@@ -330,6 +331,94 @@
       </div>
     </div>
     </div>
+
+    {%- comment -%} ---------------- Pair it with ----------------
+      Bloom-style add-on carousel in the same column as the buy box: a tab on
+      top, one add-on per view, dots underneath. Product add-ons can hide
+      while the Value pack is selected; the next-age card follows the age. {%- endcomment -%}
+    {%- liquid
+      assign pair_products = section.blocks | where: 'type', 'pair_product'
+      assign pair_nexts = section.blocks | where: 'type', 'pair_next'
+      assign pair_total = pair_products.size | plus: pair_nexts.size
+      assign pair_prefix = section.settings.price_prefix
+      assign pair_add = section.settings.add_label | default: 'Add to cart'
+    -%}
+    {%- if pair_total > 0 -%}
+    <div class="hlt-bb__pair" data-hlt-pair="{{ section.id }}" data-hlt-reveal="right">
+      <div class="hlt-bb__pair-tabs">
+        <span class="hlt-bb__pair-tab">{{ section.settings.pair_heading | default: 'Pair it with' }}</span>
+      </div>
+      <div class="hlt-bb__pair-card">
+        <div class="hlt-bb__pair-track" data-hlt-pair-track>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'pair_product' -%}
+              {%- liquid
+                assign p = block.settings.product
+                assign variant = nil
+                if p != blank
+                  assign variant = p.selected_or_first_available_variant
+                  if block.settings.variant_title != blank
+                    for v in p.variants
+                      if v.title == block.settings.variant_title
+                        assign variant = v
+                      endif
+                    endfor
+                  endif
+                endif
+                assign pair_title = block.settings.title | default: p.title
+                assign pair_img = block.settings.image | default: p.featured_image
+              -%}
+              <article class="hlt-bb__pair-item" {% if block.settings.hide_on_value %}data-hlt-size-only="standard"{% endif %} {{ block.shopify_attributes }}>
+                <div class="hlt-media hlt-media--contain hlt-bb__pair-img" style="--hlt-ratio: 1 / 1;">
+                  {%- if pair_img != blank -%}
+                    {{ pair_img | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240, 360, 480', sizes: '200px', alt: pair_title }}
+                  {%- else -%}
+                    {{ 'product-3' | placeholder_svg_tag: 'hlt-placeholder' }}
+                  {%- endif -%}
+                </div>
+                <div class="hlt-bb__pair-body">
+                  <p class="hlt-bb__pair-title">{{ pair_title }}</p>
+                  {%- if block.settings.line != blank -%}<p class="hlt-bb__pair-line">{{ block.settings.line }}</p>{%- endif -%}
+                  {%- if variant and variant.available -%}
+                    <button type="button" class="hlt-btn hlt-bb__pair-add" data-hlt-pair-add data-hlt-variant="{{ variant.id }}" aria-label="{{ pair_add | escape }}: {{ pair_title | escape }}">
+                      <span>{{ pair_add }}<span class="hlt-bb__pair-price"> · {{ pair_prefix }}{{ variant.price | money_without_currency }}</span></span>
+                    </button>
+                  {%- elsif p != blank -%}
+                    <span class="hlt-bb__pair-soldout">{{ section.settings.sold_out_label | default: 'Sold out' }}</span>
+                  {%- endif -%}
+                  <p class="hlt-bb__error hlt-bb__pair-error" role="alert" data-hlt-error hidden></p>
+                </div>
+              </article>
+            {%- elsif block.type == 'pair_next' -%}
+              {%- liquid
+                assign pair_title = block.settings.title | default: 'The next age bundle'
+                assign pair_img = block.settings.image
+              -%}
+              <article class="hlt-bb__pair-item" data-hlt-next-card {{ block.shopify_attributes }}>
+                <div class="hlt-media hlt-media--contain hlt-bb__pair-img" style="--hlt-ratio: 1 / 1;">
+                  {%- if pair_img != blank -%}
+                    {{ pair_img | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240, 360, 480', sizes: '200px', alt: pair_title }}
+                  {%- else -%}
+                    {{ 'product-3' | placeholder_svg_tag: 'hlt-placeholder' }}
+                  {%- endif -%}
+                </div>
+                <div class="hlt-bb__pair-body">
+                  <p class="hlt-bb__pair-title">{{ pair_title }}</p>
+                  {%- if block.settings.line != blank -%}<p class="hlt-bb__pair-line">{{ block.settings.line }}</p>{%- endif -%}
+                  <button type="button" class="hlt-btn hlt-bb__pair-add" data-hlt-pair-add data-hlt-add-next data-hlt-variant="" aria-label="{{ pair_add | escape }}: {{ pair_title | escape }}">
+                    <span>{{ pair_add }}</span>
+                  </button>
+                  <p class="hlt-bb__error hlt-bb__pair-error" role="alert" data-hlt-error hidden></p>
+                </div>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="hlt-bb__pair-dots" data-hlt-pair-dots role="group" aria-label="Choose which add-on to show"></div>
+    </div>
+    {%- endif -%}
+    </div>
   </div>
 </section>
 
@@ -433,6 +522,91 @@
   </script>
 {%- endif -%}
 
+<script>
+  (function () {
+    /* Pair it with: one add-on per view with dots, plus its own add buttons.
+       The global cross-sell click handler in hlt-home.js ignores buttons inside
+       the buy box, so the pair buttons are wired here. */
+    var wrap = document.querySelector('[data-hlt-pair="{{ section.id }}"]');
+    if (!wrap || wrap.hltReady) return;
+    wrap.hltReady = true;
+    var track = wrap.querySelector('[data-hlt-pair-track]');
+    var dots = wrap.querySelector('[data-hlt-pair-dots]');
+    if (!track || !dots) return;
+
+    function visible() {
+      return Array.prototype.filter.call(track.children, function (c) { return !c.hidden; });
+    }
+    function activeIndex(cards) {
+      var left = track.scrollLeft, idx = 0, best = Infinity;
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft - track.offsetLeft - left);
+        if (d < best) { best = d; idx = i; }
+      });
+      return idx;
+    }
+    function paint() {
+      var cards = visible();
+      wrap.hidden = cards.length === 0;
+      if (dots.children.length !== cards.length) {
+        dots.innerHTML = '';
+        cards.forEach(function (c, i) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'hlt-dot hlt-bb__pair-dot';
+          b.setAttribute('aria-label', 'Show item ' + (i + 1) + ' of ' + cards.length);
+          dots.appendChild(b);
+        });
+      }
+      var idx = activeIndex(cards);
+      Array.prototype.forEach.call(dots.children, function (b, i) {
+        var on = i === idx;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+      dots.hidden = cards.length < 2;
+    }
+    function goTo(i) {
+      var cards = visible();
+      if (!cards[i]) return;
+      track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+    }
+    dots.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('button') : null;
+      if (!b || b.parentElement !== dots) return;
+      goTo(Array.prototype.indexOf.call(dots.children, b));
+    });
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-hlt-pair-add]');
+      if (!btn || !window.HLT || !window.HLT.addToCart) return;
+      e.preventDefault();
+      var item = btn.closest('.hlt-bb__pair-item');
+      var err = item ? item.querySelector('[data-hlt-error]') : null;
+      window.HLT.addToCart(btn.getAttribute('data-hlt-variant'), btn, err);
+    });
+
+    var frame = null;
+    function schedule() {
+      if (frame) return;
+      frame = window.requestAnimationFrame(function () { frame = null; paint(); });
+    }
+    track.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    function onBundleChange() {
+      window.requestAnimationFrame(function () { track.scrollLeft = 0; paint(); });
+    }
+    document.addEventListener('hlt:bundle-change', onBundleChange);
+    paint();
+    schedule();
+    document.addEventListener('shopify:section:unload', function cleanup() {
+      if (wrap.isConnected) return;
+      document.removeEventListener('hlt:bundle-change', onBundleChange);
+      window.removeEventListener('resize', schedule);
+      document.removeEventListener('shopify:section:unload', cleanup);
+    });
+  })();
+</script>
+
 {{ 'hlt-buy-box.css' | asset_url | stylesheet_tag }}
 
 {% schema %}
@@ -453,6 +627,9 @@
     { "type": "text", "id": "view_less_label", "label": "Gallery 'View less' label", "default": "View less" },
     { "type": "checkbox", "id": "tile_captions", "label": "Show text on the smaller gallery images", "info": "The main bundle image always keeps its text.", "default": false },
     { "type": "checkbox", "id": "sticky_bar", "label": "Sticky add-to-cart bar", "info": "Shows from the moment the page loads and hides only while the main Add to cart button is on screen.", "default": true },
+    { "type": "header", "content": "Pair it with" },
+    { "type": "paragraph", "content": "Add-ons shown under the buy box, one per view with dots. Add them as 'Pair: product' and 'Pair: next age bundle' blocks. They use the price prefix and Add to cart label above." },
+    { "type": "text", "id": "pair_heading", "label": "Tab label", "default": "Pair it with" },
     { "type": "header", "content": "Rating" },
     { "type": "checkbox", "id": "show_rating", "label": "Show the star rating line", "info": "Turn on once there is a rating to claim.", "default": false },
     { "type": "range", "id": "rating_value", "label": "Stars filled", "min": 1, "max": 5, "step": 1, "default": 5 },
@@ -570,6 +747,28 @@
         { "type": "header", "content": "Waiting on HLT One" },
         { "type": "richtext", "id": "pending_text", "label": "Extra text to confirm" },
         { "type": "checkbox", "id": "show_pending", "label": "Show the extra text", "default": false }
+      ]
+    },
+    {
+      "type": "pair_product",
+      "name": "Pair: product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "variant_title", "label": "Variant name to add", "info": "For example: 3 Packs. Leave empty for the first available." },
+        { "type": "text", "id": "title", "label": "Title (replaces product name)" },
+        { "type": "text", "id": "line", "label": "Line" },
+        { "type": "image_picker", "id": "image", "label": "Image (replaces product image)" },
+        { "type": "checkbox", "id": "hide_on_value", "label": "Hide while the Value pack is selected", "default": true }
+      ]
+    },
+    {
+      "type": "pair_next",
+      "name": "Pair: next age bundle",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "The next age bundle" },
+        { "type": "text", "id": "line", "label": "Line", "default": "Ready for when they move up." },
+        { "type": "image_picker", "id": "image", "label": "Image" }
       ]
     }
   ],

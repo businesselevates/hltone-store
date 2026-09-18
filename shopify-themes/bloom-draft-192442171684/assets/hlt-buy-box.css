@@ -1,11 +1,12 @@
 /* HLT Gallery and buy box. Layout modelled on Bloom's Greens & Superfoods product page. */
 .hlt-bb > .hlt__inner { max-width: 1760px; }
 /* Title block sits above the gallery on phones and beside it on desktop. */
-.hlt-bb__grid { display: grid; gap: 28px; align-items: start; grid-template-areas: 'head' 'gallery' 'panel'; }
+.hlt-bb__grid { display: grid; gap: 28px; align-items: start; grid-template-areas: 'head' 'gallery' 'panel' 'pair'; }
 .hlt-bb__head { grid-area: head; }
 .hlt-bb__gallery { grid-area: gallery; min-width: 0; }
 .hlt-bb__panel { grid-area: panel; min-width: 0; }
-.hlt-bb__side { display: contents; }
+.hlt-bb__pair { grid-area: pair; min-width: 0; }
+.hlt-bb__side, .hlt-bb__card { display: contents; }
 /* Phones and tablets: the whole block (title, gallery, buy box) sits in one card. */
 @media (max-width: 989px) {
   .hlt-bb { padding: 24px 0 8px; }
@@ -28,16 +29,20 @@
      stays in view while the tall gallery scrolls. */
   .hlt-bb__side {
     display: block; grid-area: side; min-width: 0;
-    --hlt-bb-card-pad: 28px;
     position: sticky; top: calc(var(--header-height, 80px) + 18px); align-self: start;
+  }
+  .hlt-bb__card {
+    display: block;
+    --hlt-bb-card-pad: 28px;
     padding: 28px 28px 24px;
     background: #fff;
     border: 1.5px solid rgba(27, 46, 92, 0.1);
     border-radius: 28px;
     box-shadow: 0 24px 48px -28px rgba(27, 46, 92, 0.28), 0 2px 6px rgba(27, 46, 92, 0.04);
   }
-  .hlt-bb__head, .hlt-bb__panel { grid-area: auto; }
+  .hlt-bb__head, .hlt-bb__panel, .hlt-bb__pair { grid-area: auto; }
   .hlt-bb__head { margin-bottom: 24px; }
+  .hlt-bb__pair { margin-top: 28px; }
 }
 
 /* Title block */
@@ -226,3 +231,50 @@ body.hlt-sticky-on { padding-bottom: 84px; }
 }
 @media (min-width: 990px) { .hlt-sticky__inner { justify-content: flex-end; } .hlt-sticky__field { flex: 0 1 260px; } .hlt-sticky__btn { flex: 0 0 auto; } }
 
+/* Pair it with: Bloom-style add-on carousel under the buy box, same column.
+   A tab sits on the card's top-left corner, one add-on shows at a time
+   (image left, text and a full-width Add to cart right), dots below. */
+.hlt-bb__pair[hidden] { display: none; }
+.hlt-bb__pair-tabs { display: flex; align-items: flex-end; }
+.hlt-bb__pair-tab {
+  position: relative; z-index: 1;
+  padding: 10px 20px 12px; margin-bottom: -1.5px;
+  border: 1.5px solid rgba(27, 46, 92, 0.1); border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  background: var(--hlt-cream); color: var(--hlt-navy);
+  font-family: var(--hlt-font-display); font-weight: 700; font-size: 15px; line-height: 1.2;
+}
+.hlt-bb__pair-card {
+  position: relative; overflow: hidden;
+  border: 1.5px solid rgba(27, 46, 92, 0.1); border-radius: 0 22px 22px 22px;
+  background: var(--hlt-cream);
+}
+.hlt-bb__pair-track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none;
+}
+.hlt-bb__pair-track::-webkit-scrollbar { display: none; }
+.hlt-bb__pair-item {
+  scroll-snap-align: start; min-width: 0;
+  display: grid; grid-template-columns: minmax(120px, 34%) minmax(0, 1fr); gap: 20px; align-items: center;
+  padding: 18px;
+}
+.hlt-bb__pair-item[hidden] { display: none; }
+.hlt-bb__pair-img { border-radius: 16px; background: #fff; }
+.hlt-bb__pair-body { display: flex; flex-direction: column; align-items: stretch; gap: 8px; min-width: 0; }
+.hlt-bb__pair-title { font-family: var(--hlt-font-display); font-weight: 700; font-size: 18px; line-height: 1.25; color: var(--hlt-navy); }
+.hlt-bb__pair-line { font-size: 14px; line-height: 1.45; color: var(--hlt-ocean); }
+.hlt-bb__pair-add { width: 100%; margin-top: 6px; min-height: 48px; padding: 12px 18px; font-size: 15px; }
+.hlt-bb__pair-price { font-weight: 600; }
+.hlt-bb__pair-soldout { font-size: 14px; font-weight: 700; color: var(--hlt-ocean); }
+.hlt-bb__pair-error[hidden] { display: none; }
+.hlt-bb__pair-dots { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; }
+.hlt-bb__pair-dots[hidden] { display: none; }
+.hlt-bb__pair-dot { position: relative; padding: 0; border: 0; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.hlt-bb__pair-dot::after { content: ''; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; transform: translate(-50%, -50%); }
+.hlt-bb__pair-dot:focus-visible { outline: 3px solid var(--hlt-splash); outline-offset: 5px; }
+@media (max-width: 480px) {
+  .hlt-bb__pair-item { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 14px; }
+  .hlt-bb__pair-title { font-size: 16px; }
+}
