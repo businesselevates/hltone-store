@@ -54,59 +54,6 @@
   <script type="application/json" data-hlt-bundle-data>{{ bundle_json }}</script>
 
   <div class="hlt__inner hlt-bb__grid">
-    {%- comment -%} ---------------- Title block ----------------
-      Sits above the gallery on phones and beside it on desktop (see the
-      grid areas in hlt-buy-box.css). {%- endcomment -%}
-    <div class="hlt-bb__head hlt-stack" style="--hlt-gap: 12px;" data-hlt-reveal="right">
-    <div class="hlt-stack" style="--hlt-gap: 12px;">
-      {%- if section.settings.show_rating or section.settings.show_badge2 -%}
-        <ul class="hlt-bb__pills">
-          {%- if section.settings.show_rating -%}
-            <li class="hlt-bb__pill">
-              <span class="hlt-bb__pill-stars" aria-hidden="true">
-                {%- for i in (1..5) -%}
-                  {%- if i <= section.settings.rating_value -%}
-                    {% render 'hlt-icon', name: 'star', size: 15 %}
-                  {%- else -%}
-                    <span class="is-empty">{% render 'hlt-icon', name: 'star', size: 15 %}</span>
-                  {%- endif -%}
-                {%- endfor -%}
-              </span>
-              {%- if section.settings.rating_text != blank -%}<span>{{ section.settings.rating_text }}</span>{%- endif -%}
-            </li>
-          {%- endif -%}
-          {%- if section.settings.show_badge2 and section.settings.badge2_text != blank -%}
-            <li class="hlt-bb__pill">{{ section.settings.badge2_text }}</li>
-          {%- endif -%}
-        </ul>
-      {%- endif -%}
-      {%- if section.settings.show_eyebrow and section.settings.eyebrow != blank -%}<p class="hlt-overline">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      {%- if section.settings.title != blank -%}<h2 class="hlt-h2 hlt-bb__title" style="--hlt-title-size: {{ section.settings.title_size }}px;">{{ section.settings.title }}</h2>{%- endif -%}
-      {%- if section.settings.body != blank -%}<div class="hlt-body">{{ section.settings.body }}</div>{%- endif -%}
-    </div>
-
-    {%- assign tag_blocks = section.blocks | where: 'type', 'tag' -%}
-    {%- if tag_blocks.size > 0 -%}
-      <ul class="hlt-tags">
-        {%- for tag in tag_blocks -%}
-          {%- if tag.settings.text != blank -%}
-            <li class="hlt-tag" {{ tag.shopify_attributes }}>{% render 'hlt-icon', name: tag.settings.icon, size: 17 %}{{ tag.settings.text }}</li>
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-    {%- else -%}
-      {%- assign tags = section.settings.tags | split: '|' -%}
-      {%- if tags.size > 0 -%}
-        <ul class="hlt-tags">
-          {%- for t in tags -%}
-            {%- assign tt = t | strip -%}
-            {%- if tt != blank -%}<li class="hlt-tag">{% render 'hlt-icon', name: 'check', size: 17 %}{{ tt }}</li>{%- endif -%}
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-    {%- endif -%}
-    </div>
-
     {%- comment -%} ---------------- Gallery ---------------- {%- endcomment -%}
     <div class="hlt-bb__gallery" data-hlt-gallery data-hlt-reveal="left">
       <div class="hlt-bb__stage">
@@ -167,7 +114,7 @@
                       {{ 'product-2' | placeholder_svg_tag: 'hlt-placeholder' }}
                     {%- endif -%}
                   </div>
-                  {%- if caption != blank -%}<figcaption class="hlt-bb__caption">{{ caption }}</figcaption>{%- endif -%}
+                  {%- if section.settings.tile_captions and caption != blank -%}<figcaption class="hlt-bb__caption">{{ caption }}</figcaption>{%- endif -%}
                 {%- endif -%}
               </figure>
             {%- endif -%}
@@ -175,6 +122,12 @@
         </div>
         <div class="hlt-bb__dots" data-hlt-dots aria-hidden="true"></div>
       </div>
+
+      {%- if hlt_tile_n > 4 -%}
+        <button type="button" class="hlt-bb__view-all" data-hlt-view-all data-hlt-label-more="{{ section.settings.view_all_label | default: 'View all' | escape }}" data-hlt-label-less="{{ section.settings.view_less_label | default: 'View less' | escape }}" aria-expanded="false">
+          <span data-hlt-view-all-label>{{ section.settings.view_all_label | default: 'View all' }}</span>
+        </button>
+      {%- endif -%}
 
       <div class="hlt-bb__thumbs" role="list">
         {%- if section.settings.age_image_first -%}
@@ -198,6 +151,63 @@
           {%- endif -%}
         {%- endfor -%}
       </div>
+    </div>
+
+    {%- comment -%} ---------------- Right column ----------------
+      One card on desktop (title block + buy box, sticky). On phones the wrapper
+      uses display: contents so the title still sits above the gallery. {%- endcomment -%}
+    <div class="hlt-bb__side">
+    {%- comment -%} ---------------- Title block ----------------
+      Sits above the gallery on phones and beside it on desktop (see the
+      grid areas in hlt-buy-box.css). {%- endcomment -%}
+    <div class="hlt-bb__head hlt-stack" style="--hlt-gap: 12px;" data-hlt-reveal="right">
+    <div class="hlt-stack" style="--hlt-gap: 12px;">
+      {%- if section.settings.show_rating or section.settings.show_badge2 -%}
+        <ul class="hlt-bb__pills">
+          {%- if section.settings.show_rating -%}
+            <li class="hlt-bb__pill">
+              <span class="hlt-bb__pill-stars" aria-hidden="true">
+                {%- for i in (1..5) -%}
+                  {%- if i <= section.settings.rating_value -%}
+                    {% render 'hlt-icon', name: 'star', size: 15 %}
+                  {%- else -%}
+                    <span class="is-empty">{% render 'hlt-icon', name: 'star', size: 15 %}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+              </span>
+              {%- if section.settings.rating_text != blank -%}<span>{{ section.settings.rating_text }}</span>{%- endif -%}
+            </li>
+          {%- endif -%}
+          {%- if section.settings.show_badge2 and section.settings.badge2_text != blank -%}
+            <li class="hlt-bb__pill">{{ section.settings.badge2_text }}</li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.show_eyebrow and section.settings.eyebrow != blank -%}<p class="hlt-overline">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.title != blank -%}<h2 class="hlt-h2 hlt-bb__title" style="--hlt-title-size: {{ section.settings.title_size }}px;">{{ section.settings.title }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<div class="hlt-body">{{ section.settings.body }}</div>{%- endif -%}
+    </div>
+
+    {%- assign tag_blocks = section.blocks | where: 'type', 'tag' -%}
+    {%- if tag_blocks.size > 0 -%}
+      <ul class="hlt-tags">
+        {%- for tag in tag_blocks -%}
+          {%- if tag.settings.text != blank -%}
+            <li class="hlt-tag" {{ tag.shopify_attributes }}>{% render 'hlt-icon', name: tag.settings.icon, size: 17 %}{{ tag.settings.text }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      {%- assign tags = section.settings.tags | split: '|' -%}
+      {%- if tags.size > 0 -%}
+        <ul class="hlt-tags">
+          {%- for t in tags -%}
+            {%- assign tt = t | strip -%}
+            {%- if tt != blank -%}<li class="hlt-tag">{% render 'hlt-icon', name: 'check', size: 17 %}{{ tt }}</li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endif -%}
     </div>
 
     {%- comment -%} ---------------- Buy box ---------------- {%- endcomment -%}
@@ -319,6 +329,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -438,6 +449,9 @@
     { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "S$" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Buttons elsewhere scroll to #this-id.", "default": "hlt-buy-box" },
     { "type": "checkbox", "id": "age_image_first", "label": "Show each age's bundle image first in the gallery", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "Gallery 'View all' label", "info": "Shown on desktop when there are more than 4 gallery images under the main image.", "default": "View all" },
+    { "type": "text", "id": "view_less_label", "label": "Gallery 'View less' label", "default": "View less" },
+    { "type": "checkbox", "id": "tile_captions", "label": "Show text on the smaller gallery images", "info": "The main bundle image always keeps its text.", "default": false },
     { "type": "checkbox", "id": "sticky_bar", "label": "Sticky add-to-cart bar", "info": "Shows from the moment the page loads and hides only while the main Add to cart button is on screen.", "default": true },
     { "type": "header", "content": "Rating" },
     { "type": "checkbox", "id": "show_rating", "label": "Show the star rating line", "info": "Turn on once there is a rating to claim.", "default": false },
@@ -562,4 +576,5 @@
   "presets": [{ "name": "HLT Gallery and buy box" }]
 }
 {% endschema %}
+
 
