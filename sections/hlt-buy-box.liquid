@@ -250,6 +250,12 @@
               -%}
               <div class="hlt-bb__card{% if size == 1 %} is-selected{% endif %}" role="radio" tabindex="0" data-hlt-size="{{ size_key }}" aria-checked="{% if size == 1 %}true{% else %}false{% endif %}">
                 {%- if card_tag != blank -%}<span class="hlt-bb__card-tag">{{ card_tag }}</span>{%- endif -%}
+                {%- for age in age_blocks -%}
+                  {%- if size == 1 -%}{%- assign save_text = age.settings.card1_save -%}{%- else -%}{%- assign save_text = age.settings.card2_save -%}{%- endif -%}
+                  {%- if save_text != blank -%}
+                    <span class="hlt-bb__card-save" data-hlt-age-only="{{ age.id }}"{% unless forloop.first %} hidden{% endunless %}>{{ save_text }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
                 <span class="hlt-bb__radio" aria-hidden="true"></span>
                 <div class="hlt-bb__card-head">
                   <div>
@@ -719,13 +725,15 @@
         { "type": "text", "id": "image_text_value", "label": "Image text, Value pack", "default": "24 boxes. 10 different snacks. 112 snack packs." },
         { "type": "header", "content": "Card 1 (Standard)" },
         { "type": "text", "id": "card1_line", "label": "Line", "default": "12 boxes, 56 snack packs" },
-        { "type": "text", "id": "card1_price", "label": "Price", "default": "S$64.99, was S$72.20 bought separately" },
+        { "type": "text", "id": "card1_price", "label": "Price", "info": "Just the price, for example S$64.99. The discount goes in 'Savings badge' below.", "default": "S$64.99" },
+        { "type": "text", "id": "card1_save", "label": "Savings badge", "info": "Sits on the card's top border. Leave empty to hide it.", "default": "Save S$7.21" },
         { "type": "text", "id": "card1_per", "label": "Per snack", "default": "About S$1.16 a snack" },
         { "type": "text", "id": "card1_first_bullet", "label": "First bullet", "default": "One box of nearly every flavour for this age" },
         { "type": "text", "id": "fallback_standard", "label": "Button price if the product is unavailable", "default": "64.99" },
         { "type": "header", "content": "Card 2 (Value pack)" },
         { "type": "text", "id": "card2_line", "label": "Line", "default": "24 boxes, 112 snack packs" },
-        { "type": "text", "id": "card2_price", "label": "Price", "default": "S$119.99, was S$144.40 bought separately" },
+        { "type": "text", "id": "card2_price", "label": "Price", "info": "Just the price, for example S$119.99. The discount goes in 'Savings badge' below.", "default": "S$119.99" },
+        { "type": "text", "id": "card2_save", "label": "Savings badge", "info": "Sits on the card's top border and shows in gold, since this is the pack we push.", "default": "Save S$24.41" },
         { "type": "text", "id": "card2_per", "label": "Per snack", "default": "About S$1.07 a snack" },
         { "type": "text", "id": "card2_first_bullet", "label": "First bullet", "default": "Every flavour for this age, two or three boxes each" },
         { "type": "text", "id": "fallback_value", "label": "Button price if the product is unavailable", "default": "119.99" }

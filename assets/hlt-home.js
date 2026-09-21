@@ -98,6 +98,17 @@
       if (!track) return;
       var thumbs = gallery.querySelectorAll('[data-hlt-thumb]');
       var dots = gallery.querySelector('[data-hlt-dots]');
+      var strip = gallery.querySelector('.hlt-bb__thumbs');
+      var painted = null;
+      /* Swiping the main image drags the thumbnail strip along, so the marked
+         thumbnail never ends up off screen. */
+      function keepThumbInView(thumb) {
+        if (!strip || strip.scrollWidth <= strip.clientWidth + 1) return;
+        var t = thumb.getBoundingClientRect();
+        var box = strip.getBoundingClientRect();
+        if (t.left < box.left) strip.scrollBy({ left: t.left - box.left - 8, behavior: 'smooth' });
+        else if (t.right > box.right) strip.scrollBy({ left: t.right - box.right + 8, behavior: 'smooth' });
+      }
       function visibleSlides() {
         return Array.prototype.filter.call(track.children, function (s) { return !s.hidden; });
       }
@@ -111,7 +122,13 @@
       function paint() {
         var active = current();
         var id = active ? active.getAttribute('data-hlt-slide') : null;
-        thumbs.forEach(function (t) { t.setAttribute('aria-current', t.getAttribute('data-hlt-thumb') === id ? 'true' : 'false'); });
+        var moved = id !== painted;
+        painted = id;
+        thumbs.forEach(function (t) {
+          var on = t.getAttribute('data-hlt-thumb') === id;
+          t.setAttribute('aria-current', on ? 'true' : 'false');
+          if (on && moved) keepThumbInView(t);
+        });
         if (dots) {
           var slides = visibleSlides();
           dots.innerHTML = slides.map(function (s) {
@@ -137,7 +154,12 @@
         });
       }
       track.addEventListener('scroll', function () { window.requestAnimationFrame(paint); }, { passive: true });
-      gallery.hltReset = function () { track.scrollTo({ left: 0 }); paint(); };
+      gallery.hltReset = function () {
+        track.scrollTo({ left: 0 });
+        if (strip) strip.scrollTo({ left: 0 });
+        painted = null;
+        paint();
+      };
       paint();
     });
   }
