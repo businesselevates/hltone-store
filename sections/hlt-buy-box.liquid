@@ -4,6 +4,16 @@
   assign anchor = section.settings.anchor_id | default: 'hlt-buy-box'
   assign age_blocks = section.blocks | where: 'type', 'age'
   assign first_age = age_blocks.first
+  assign use_product_images = section.settings.gallery_from_product
+  assign variant_image_ids = ''
+  if product != blank
+    for v in product.variants
+      if v.image != blank
+        assign variant_image_ids = variant_image_ids | append: ',' | append: v.image.id
+      endif
+    endfor
+    assign variant_image_ids = variant_image_ids | append: ','
+  endif
 -%}
 
 {%- capture bundle_json -%}
@@ -60,14 +70,37 @@
         <div class="hlt-bb__track" data-hlt-gallery-track>
           {%- if section.settings.age_image_first -%}
             {%- for age in age_blocks -%}
+              {%- liquid
+                assign img_std = blank
+                assign img_val = blank
+                if use_product_images and product != blank
+                  for v in product.variants
+                    if v.option1 == age.settings.option_value and v.image != blank
+                      if v.option2 == section.settings.standard_value
+                        assign img_std = v.image
+                      elsif v.option2 == section.settings.value_value
+                        assign img_val = v.image
+                      endif
+                    endif
+                  endfor
+                endif
+                if img_std == blank
+                  assign img_std = age.settings.image
+                endif
+              -%}
               <figure class="hlt-bb__slide" data-hlt-slide="age-{{ age.id }}" data-hlt-age-only="{{ age.id }}"{% unless forloop.first %} hidden{% endunless %}>
-                <div class="hlt-media" style="--hlt-ratio: 1 / 1;">
-                  {%- if age.settings.image != blank -%}
-                    {{ age.settings.image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+                <div class="hlt-media" style="--hlt-ratio: 1 / 1;"{% if img_val != blank %} data-hlt-size-only="standard" data-hlt-age-only="{{ age.id }}"{% endif %}>
+                  {%- if img_std != blank -%}
+                    {{ img_std | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
                   {%- else -%}
                     {{ 'product-1' | placeholder_svg_tag: 'hlt-placeholder' }}
                   {%- endif -%}
                 </div>
+                {%- if img_val != blank -%}
+                  <div class="hlt-media" style="--hlt-ratio: 1 / 1;" data-hlt-size-only="value" data-hlt-age-only="{{ age.id }}" hidden>
+                    {{ img_val | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+                  </div>
+                {%- endif -%}
                 {%- if age.settings.image_text_standard != blank -%}
                   <figcaption class="hlt-bb__caption" data-hlt-size-only="standard" data-hlt-age-only="{{ age.id }}">{{ age.settings.image_text_standard }}</figcaption>
                 {%- endif -%}
@@ -79,8 +112,25 @@
           {%- endif -%}
 
           {%- assign hlt_tile_n = 0 -%}
+          {%- if use_product_images and product != blank -%}
+            {%- for image in product.images -%}
+              {%- assign needle = ',' | append: image.id | append: ',' -%}
+              {%- unless variant_image_ids contains needle -%}
+                {%- assign hlt_tile_n = hlt_tile_n | plus: 1 -%}
+                <figure class="hlt-bb__slide{% if hlt_tile_n > 4 %} hlt-bb__slide--extra{% endif %}" data-hlt-slide="prod-{{ image.id }}">
+                  <div class="hlt-media" style="--hlt-ratio: 1 / 1;">
+                    {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+                  </div>
+                  {%- if section.settings.tile_captions and image.alt != blank -%}
+                    <figcaption class="hlt-bb__caption">{{ image.alt }}</figcaption>
+                  {%- endif -%}
+                </figure>
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'gallery_image' and block.settings.show -%}
+              {%- if use_product_images and block.settings.style != 'quote' -%}{%- continue -%}{%- endif -%}
               {%- liquid
                 assign hlt_tile_n = hlt_tile_n | plus: 1
                 assign caption = block.settings.image_text
@@ -132,13 +182,38 @@
       <div class="hlt-bb__thumbs" role="list">
         {%- if section.settings.age_image_first -%}
           {%- for age in age_blocks -%}
+            {%- liquid
+              assign thumb_image = blank
+              if use_product_images and product != blank
+                for v in product.variants
+                  if v.option1 == age.settings.option_value and v.option2 == section.settings.standard_value and v.image != blank
+                    assign thumb_image = v.image
+                    break
+                  endif
+                endfor
+              endif
+              if thumb_image == blank
+                assign thumb_image = age.settings.image
+              endif
+            -%}
             <button type="button" class="hlt-bb__thumb" role="listitem" data-hlt-thumb="age-{{ age.id }}" data-hlt-age-only="{{ age.id }}"{% unless forloop.first %} hidden{% endunless %} aria-label="Image {{ forloop.index }}">
-              {%- if age.settings.image != blank -%}{{ age.settings.image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'hlt-placeholder' }}{%- endif -%}
+              {%- if thumb_image != blank -%}{{ thumb_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'hlt-placeholder' }}{%- endif -%}
             </button>
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if use_product_images and product != blank -%}
+          {%- for image in product.images -%}
+            {%- assign needle = ',' | append: image.id | append: ',' -%}
+            {%- unless variant_image_ids contains needle -%}
+              <button type="button" class="hlt-bb__thumb" role="listitem" data-hlt-thumb="prod-{{ image.id }}" aria-label="Image">
+                {{ image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '' }}
+              </button>
+            {%- endunless -%}
           {%- endfor -%}
         {%- endif -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'gallery_image' and block.settings.show -%}
+            {%- if use_product_images and block.settings.style != 'quote' -%}{%- continue -%}{%- endif -%}
             <button type="button" class="hlt-bb__thumb{% if block.settings.style == 'quote' %} hlt-bb__thumb--quote{% endif %}" role="listitem" data-hlt-thumb="{{ block.id }}" {% if block.settings.only_for == 'value' %}data-hlt-size-only="value" hidden{% endif %} aria-label="Image">
               {%- if block.settings.style == 'quote' -%}
                 <span aria-hidden="true">“ ”</span>
@@ -671,6 +746,7 @@
     { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "S$" },
     { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Buttons elsewhere scroll to #this-id.", "default": "hlt-buy-box" },
     { "type": "checkbox", "id": "age_image_first", "label": "Show each age's bundle image first in the gallery", "default": true },
+    { "type": "checkbox", "id": "gallery_from_product", "label": "Take the gallery images from the product", "info": "The main image follows the chosen age and pack, using each variant's own image. The product's remaining images become the smaller tiles, and the uploaded photo blocks below are ignored while this is on. Quote blocks still show.", "default": true },
     { "type": "text", "id": "view_all_label", "label": "Gallery 'View all' label", "info": "Shown on desktop when there are more than 4 gallery images under the main image.", "default": "View all" },
     { "type": "text", "id": "view_less_label", "label": "Gallery 'View less' label", "default": "View less" },
     { "type": "checkbox", "id": "tile_captions", "label": "Show text on the smaller gallery images", "info": "The main bundle image always keeps its text.", "default": false },
