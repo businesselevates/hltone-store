@@ -37,6 +37,73 @@
     },
     "header": {
       "type": "header",
+      "blocks": {
+        "shop_image_1": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Clearance Sale"
+          }
+        },
+        "shop_image_2": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Baby Snacks"
+          }
+        },
+        "shop_image_3": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Baby Wipes"
+          }
+        },
+        "shop_image_4": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Breastfeeding Essentials"
+          }
+        },
+        "shop_image_5": {
+          "type": "shop_image",
+          "settings": {
+            "match": "4m+"
+          }
+        },
+        "shop_image_6": {
+          "type": "shop_image",
+          "settings": {
+            "match": "6m+"
+          }
+        },
+        "shop_image_7": {
+          "type": "shop_image",
+          "settings": {
+            "match": "7m+"
+          }
+        },
+        "shop_image_8": {
+          "type": "shop_image",
+          "settings": {
+            "match": "10m+"
+          }
+        },
+        "shop_image_9": {
+          "type": "shop_image",
+          "settings": {
+            "match": "12m+"
+          }
+        }
+      },
+      "block_order": [
+        "shop_image_1",
+        "shop_image_2",
+        "shop_image_3",
+        "shop_image_4",
+        "shop_image_5",
+        "shop_image_6",
+        "shop_image_7",
+        "shop_image_8",
+        "shop_image_9"
+      ],
       "settings": {
         "logo_position": "middle-left",
         "mobile_logo_position": "center",

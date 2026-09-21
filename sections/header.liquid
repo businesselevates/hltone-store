@@ -493,7 +493,7 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 25,
   "settings": [
     {
       "type": "select",
@@ -681,6 +681,24 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "shop_image",
+      "name": "Shop menu image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "match",
+          "label": "Menu item",
+          "info": "The menu item this image belongs to, spelled exactly as the menu shows it, for example Baby Snacks or 6m+."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Replaces the collection or product image the card would use otherwise. Square images look best."
+        }
+      ]
     }
   ]
 }

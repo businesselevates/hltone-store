@@ -19,6 +19,7 @@
   assign shop_all_label = 'Shop all'
   assign shop_all_url = routes.all_products_collection_url
   assign preview_limit = 8
+  assign image_blocks = section.blocks | where: 'type', 'shop_image'
 -%}
 
 <nav class="header__inline-menu hlt-nav" data-hlt-shop-nav>
@@ -78,14 +79,12 @@
                     when 'article_link'
                       assign card_image = childlink.object.image
                   endcase
-                  assign card_title = childlink.title | escape
                 -%}
-                {% render 'hlt-shop-card', title: card_title, url: childlink.url, image: card_image %}
+                {% render 'hlt-shop-card', title: childlink.title, url: childlink.url, image: card_image, blocks: image_blocks %}
               {%- endfor -%}
             {%- elsif link.type == 'collection_link' -%}
               {%- for product in link.object.products limit: preview_limit -%}
-                {%- assign card_title = product.title | escape -%}
-                {% render 'hlt-shop-card', title: card_title, url: product.url, image: product.featured_image %}
+                {% render 'hlt-shop-card', title: product.title, url: product.url, image: product.featured_image, blocks: image_blocks %}
               {%- endfor -%}
             {%- endif -%}
           </div>
