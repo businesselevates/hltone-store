@@ -1,0 +1,26 @@
+{% comment %}
+  One card in the Shop menu panel.
+
+  Accepts:
+  - title: already-escaped label
+  - url: where the card goes
+  - image: an image object, or blank for the placeholder
+
+  Usage:
+  {% render 'hlt-shop-card', title: link.title | escape, url: link.url, image: img %}
+{% endcomment %}
+
+<a class="hlt-shop-card" href="{{ url }}">
+  <span class="hlt-shop-card__media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 480
+        | image_tag: loading: 'lazy', widths: '200, 320, 480', sizes: '(min-width: 1200px) 220px, 20vw', alt: ''
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'hlt-shop-card__ph' }}
+    {%- endif -%}
+  </span>
+  <span class="hlt-shop-card__title">{{ title }}</span>
+</a>
