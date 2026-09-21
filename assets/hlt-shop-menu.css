@@ -16,12 +16,16 @@
 .hlt-nav__trigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   padding: 1.2rem 0;
   border: 0;
   background: none;
-  color: inherit;
-  font: inherit;
+  color: rgb(var(--color-foreground));
+  font-family: inherit;
+  /* The bar carries one link, so it has to hold its own against the logo. */
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
 }
 
