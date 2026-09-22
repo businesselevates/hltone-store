@@ -198,6 +198,16 @@
   line-height: 1.05; letter-spacing: -0.01em; color: var(--hlt-navy); white-space: nowrap;
 }
 .hlt-bb__per { font-family: var(--hlt-font-mono); font-size: 12px; color: var(--hlt-ocean); margin-top: 3px; }
+
+/* Single-product mode. There are no pack cards to carry the price, so it gets
+   a line of its own above the variant chips, one size up from the card price. */
+.hlt-bb__lead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.hlt-bb__lead .hlt-bb__price { font-size: 32px; }
+.hlt-bb__was {
+  font-family: var(--hlt-font-mono); font-size: 13px; color: var(--hlt-ocean);
+  text-decoration: line-through; white-space: nowrap;
+}
+.hlt-bb__was[hidden] { display: none; }
 .hlt-bb__bullets { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1.5px dashed rgba(27, 46, 92, 0.14); display: grid; gap: 6px; font-size: 14px; color: var(--hlt-navy); }
 .hlt-bb__bullets li { position: relative; padding-left: 22px; }
 .hlt-bb__bullets li::before { content: ''; position: absolute; left: 2px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--hlt-splash); }

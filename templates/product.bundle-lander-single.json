@@ -63,72 +63,6 @@
             "icon": "package"
           }
         },
-        "age_1": {
-          "type": "age",
-          "settings": {
-            "chip_label": "8 months+, First Melts",
-            "option_value": "8 months +",
-            "image": "shopify://shop_images/Yummybara_Snack_Discovery_Pantry_HLT_One_33bdb2b51a2087ef.webp",
-            "image_text_standard": "12 boxes. 10 different snacks. 56 snack packs.",
-            "image_text_value": "24 boxes. 10 different snacks. 112 snack packs.",
-            "card1_line": "12 boxes, 56 snack packs",
-            "card1_price": "S$64.99",
-            "card1_save": "Save S$7.21",
-            "card1_per": "About S$1.16 a snack",
-            "card1_first_bullet": "One box of nearly every flavour for this age",
-            "fallback_standard": "64.99",
-            "card2_line": "24 boxes, 112 snack packs",
-            "card2_price": "S$119.99",
-            "card2_save": "Save S$24.41",
-            "card2_per": "About S$1.07 a snack",
-            "card2_first_bullet": "Every flavour for this age, two or three boxes each",
-            "fallback_value": "119.99"
-          }
-        },
-        "age_2": {
-          "type": "age",
-          "settings": {
-            "chip_label": "10 months+, First Bites",
-            "option_value": "10 Months +",
-            "image": "shopify://shop_images/Yummybara_Weekly_Snack_Pantry_HLT_One_e220d227675bd8b2.webp",
-            "image_text_standard": "14 boxes. 11 different snacks. 112 snack packs.",
-            "image_text_value": "28 boxes. 13 different snacks. 216 snack packs.",
-            "card1_line": "14 boxes, 112 snack packs",
-            "card1_price": "S$71.99",
-            "card1_save": "Save S$7.51",
-            "card1_per": "About S$0.64 a snack",
-            "card1_first_bullet": "Two boxes of each rusk flavour, plus the melts",
-            "fallback_standard": "71.99",
-            "card2_line": "28 boxes, 216 snack packs",
-            "card2_price": "S$134.99",
-            "card2_save": "Save S$25.01",
-            "card2_per": "About S$0.62 a snack",
-            "card2_first_bullet": "The rusks doubled, and every melt flavour",
-            "fallback_value": "134.99"
-          }
-        },
-        "age_3": {
-          "type": "age",
-          "settings": {
-            "chip_label": "12 months+, Big Crunch",
-            "option_value": "12 Months +",
-            "image": "shopify://shop_images/familysnackpantry1.webp",
-            "image_text_standard": "12 boxes. 12 different snacks. 72 snack packs.",
-            "image_text_value": "24 boxes. 24 different snacks. 143 snack packs.",
-            "card1_line": "12 boxes, 72 snack packs",
-            "card1_price": "S$68.99",
-            "card1_save": "Save S$7.51",
-            "card1_per": "About S$0.96 a snack",
-            "card1_first_bullet": "Twelve different 12 months+ boxes, one of each",
-            "fallback_standard": "68.99",
-            "card2_line": "24 boxes, 143 snack packs",
-            "card2_price": "S$124.99",
-            "card2_save": "Save S$24.81",
-            "card2_per": "About S$0.87 a snack",
-            "card2_first_bullet": "Every 12 months+ product, plus four softer boxes",
-            "fallback_value": "124.99"
-          }
-        },
         "gallery_image_4": {
           "type": "gallery_image",
           "settings": {
@@ -302,23 +236,12 @@
             "line": "For hands and faces after snack time.",
             "hide_on_value": true
           }
-        },
-        "pair_next_age_3": {
-          "type": "pair_next",
-          "settings": {
-            "title": "The next age bundle",
-            "line": "Ready for when they move up.",
-            "image": "shopify://shop_images/Yummybara_Weekly_Snack_Pantry_HLT_One_e220d227675bd8b2.webp"
-          }
         }
       },
       "block_order": [
         "tag_1",
         "tag_2",
         "tag_3",
-        "age_1",
-        "age_2",
-        "age_3",
         "gallery_image_4",
         "gallery_image_5",
         "gallery_image_6",
@@ -335,8 +258,7 @@
         "dropdown_17",
         "dropdown_18",
         "pair_product_1",
-        "pair_product_2",
-        "pair_next_age_3"
+        "pair_product_2"
       ],
       "settings": {
         "product": "",
@@ -359,7 +281,7 @@
         "badge2_text": "",
         "show_eyebrow": false,
         "eyebrow": "Yummybara by HLT One",
-        "title": "Yummybara Age Bundle",
+        "title": "",
         "title_size": 36,
         "body": "<p>Snacks you can hand over anywhere: made for your child's age, with no added refined sugar or salt, in snack-sized packs sealed one by one.</p>",
         "tags": "Easy for little mouths | No added sugar or salt | Sealed one by one",
@@ -378,7 +300,9 @@
         "background": "paper",
         "padding_top": 32,
         "padding_bottom": 40,
-        "buy_mode": "bundle"
+        "buy_mode": "simple",
+        "variant_label": "",
+        "compare_label": "was"
       }
     },
     "featured_collection_34NAQ9": {

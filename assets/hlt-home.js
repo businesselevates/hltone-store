@@ -281,7 +281,11 @@
     if (!ages.length) return;
     var state = { age: ages[0].key, size: 'standard' };
     var addBtn = box.querySelector('[data-hlt-add-bundle]');
-    var priceEl = box.querySelector('[data-hlt-btn-price]');
+    /* Single-product mode prints the price twice, on its own line and on the
+       button, so every copy is updated rather than only the first. */
+    var priceEls = box.querySelectorAll('[data-hlt-btn-price]');
+    var compareEls = box.querySelectorAll('[data-hlt-compare]');
+    var compareWraps = box.querySelectorAll('[data-hlt-compare-wrap]');
     var errorEl = box.querySelector('[data-hlt-error]');
     var gallery = box.querySelector('[data-hlt-gallery]');
 
@@ -303,7 +307,9 @@
         b.classList.toggle('is-selected', on);
       });
       applyVisibility(state);
-      if (priceEl) priceEl.textContent = v.price || '';
+      priceEls.forEach(function (el) { el.textContent = v.price || ''; });
+      compareEls.forEach(function (el) { el.textContent = v.compare || ''; });
+      compareWraps.forEach(function (el) { el.hidden = !v.compare; });
       if (addBtn) {
         var unavailable = !v.id || v.available === false;
         addBtn.disabled = unavailable;

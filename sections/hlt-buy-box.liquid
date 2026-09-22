@@ -1,8 +1,31 @@
 {%- liquid
+  comment
+    The section normally follows the page it sits on, so one template serves
+    every product. Picking a product in the settings pins it to that one
+    instead, which is what a landing page outside /products/... needs.
+  endcomment
+  assign page_product = product
   assign product = section.settings.product
+  if product == blank
+    assign product = page_product
+  endif
+
+  comment
+    'bundle' is the age + pack buy box. 'simple' is the same page for a product
+    that has no such options: the variants become one row of chips, or nothing
+    at all when there is only one.
+  endcomment
+  assign buy_mode = section.settings.buy_mode
+  if buy_mode == blank
+    assign buy_mode = 'bundle'
+  endif
+
   assign prefix = section.settings.price_prefix
   assign anchor = section.settings.anchor_id | default: 'hlt-buy-box'
   assign age_blocks = section.blocks | where: 'type', 'age'
+  if buy_mode == 'simple'
+    assign age_blocks = section.blocks | where: 'type', 'hlt-no-such-block'
+  endif
   assign first_age = age_blocks.first
   assign use_product_images = section.settings.gallery_from_product
   assign variant_image_ids = ''
@@ -14,6 +37,21 @@
     endfor
     assign variant_image_ids = variant_image_ids | append: ','
   endif
+
+  comment
+    Bundle mode keeps each variant's own shot for the main image, so those are
+    held back from the tiles. Simple mode has no per-variant main image, so
+    every product image is a tile.
+  endcomment
+  assign skip_image_ids = variant_image_ids
+  if buy_mode == 'simple'
+    assign skip_image_ids = ''
+  endif
+
+  assign bb_title = section.settings.title
+  if bb_title == blank and product != blank
+    assign bb_title = product.title
+  endif
 -%}
 
 {%- capture bundle_json -%}
@@ -21,6 +59,39 @@
   "addLabel": {{ section.settings.add_label | json }},
   "soldOutLabel": {{ section.settings.sold_out_label | json }},
   "ages": [
+    {%- if buy_mode == 'simple' -%}
+      {%- comment -%}
+        One entry per variant, with the same variant under both keys. The buy
+        box script reads this shape either way, so nothing in it has to know
+        which mode the section is in.
+      {%- endcomment -%}
+      {%- if product != blank -%}
+        {%- for v in product.variants -%}
+          {%- liquid
+            assign v_key = 'v' | append: v.id
+            assign v_compare = nil
+            if v.compare_at_price > v.price
+              assign v_compare = v.compare_at_price
+            endif
+          -%}
+          {
+            "key": {{ v_key | json }},
+            "standard": {
+              "id": {{ v.id }},
+              "available": {{ v.available }},
+              "price": {{ v.price | money_without_currency | json }},
+              "compare": {% if v_compare %}{{ v_compare | money_without_currency | json }}{% else %}null{% endif %}
+            },
+            "value": {
+              "id": {{ v.id }},
+              "available": {{ v.available }},
+              "price": {{ v.price | money_without_currency | json }},
+              "compare": {% if v_compare %}{{ v_compare | money_without_currency | json }}{% else %}null{% endif %}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- else -%}
     {%- for age in age_blocks -%}
       {%- liquid
         assign v_std = nil
@@ -41,15 +112,18 @@
         "standard": {
           "id": {% if v_std %}{{ v_std.id }}{% else %}null{% endif %},
           "available": {% if v_std %}{{ v_std.available }}{% else %}false{% endif %},
-          "price": {% if v_std %}{{ v_std.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_standard | json }}{% endif %}
+          "price": {% if v_std %}{{ v_std.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_standard | json }}{% endif %},
+          "compare": null
         },
         "value": {
           "id": {% if v_val %}{{ v_val.id }}{% else %}null{% endif %},
           "available": {% if v_val %}{{ v_val.available }}{% else %}false{% endif %},
-          "price": {% if v_val %}{{ v_val.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_value | json }}{% endif %}
+          "price": {% if v_val %}{{ v_val.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_value | json }}{% endif %},
+          "compare": null
         }
       }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
+    {%- endif -%}
   ]
 }
 {%- endcapture -%}
@@ -115,7 +189,7 @@
           {%- if use_product_images and product != blank -%}
             {%- for image in product.images -%}
               {%- assign needle = ',' | append: image.id | append: ',' -%}
-              {%- unless variant_image_ids contains needle -%}
+              {%- unless skip_image_ids contains needle -%}
                 {%- assign hlt_tile_n = hlt_tile_n | plus: 1 -%}
                 <figure class="hlt-bb__slide{% if hlt_tile_n > 4 %} hlt-bb__slide--extra{% endif %}" data-hlt-slide="prod-{{ image.id }}">
                   <div class="hlt-media" style="--hlt-ratio: 1 / 1;">
@@ -204,7 +278,7 @@
         {%- if use_product_images and product != blank -%}
           {%- for image in product.images -%}
             {%- assign needle = ',' | append: image.id | append: ',' -%}
-            {%- unless variant_image_ids contains needle -%}
+            {%- unless skip_image_ids contains needle -%}
               <button type="button" class="hlt-bb__thumb" role="listitem" data-hlt-thumb="prod-{{ image.id }}" aria-label="Image">
                 {{ image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '' }}
               </button>
@@ -260,7 +334,7 @@
         </ul>
       {%- endif -%}
       {%- if section.settings.show_eyebrow and section.settings.eyebrow != blank -%}<p class="hlt-overline">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      {%- if section.settings.title != blank -%}<h2 class="hlt-h2 hlt-bb__title" style="--hlt-title-size: {{ section.settings.title_size }}px;">{{ section.settings.title }}</h2>{%- endif -%}
+      {%- if bb_title != blank -%}<h2 class="hlt-h2 hlt-bb__title" style="--hlt-title-size: {{ section.settings.title_size }}px;">{{ bb_title }}</h2>{%- endif -%}
       {%- if section.settings.body != blank -%}<div class="hlt-body">{{ section.settings.body }}</div>{%- endif -%}
     </div>
 
@@ -290,9 +364,36 @@
     <div class="hlt-bb__panel" data-hlt-reveal="right">
       <div class="hlt-bb__panel-inner hlt-stack" style="--hlt-gap: 26px;">
         {%- if product == blank and request.design_mode -%}
-          <p class="hlt-bb__notice">Pick the bundle product in this section's settings so "Add to cart" works.</p>
+          <p class="hlt-bb__notice">This section found no product. Put it on a product page, or pick one in its settings, so "Add to cart" works.</p>
         {%- endif -%}
 
+        {%- if buy_mode == 'simple' and product != blank -%}
+          {%- comment -%}
+            The price sits on its own line here. In bundle mode each pack card
+            carries its own, so this line would only repeat them.
+          {%- endcomment -%}
+          <div class="hlt-bb__group hlt-bb__lead">
+            <p class="hlt-bb__price">{{ prefix }}<span data-hlt-btn-price>{{ product.selected_or_first_available_variant.price | money_without_currency }}</span></p>
+            <p class="hlt-bb__was" data-hlt-compare-wrap hidden>{{ section.settings.compare_label | default: 'was' }} {{ prefix }}<span data-hlt-compare></span></p>
+          </div>
+
+          {%- if product.variants.size > 1 -%}
+            {%- assign variant_label = section.settings.variant_label -%}
+            {%- if variant_label == blank -%}{%- assign variant_label = product.options.first -%}{%- endif -%}
+            <div class="hlt-bb__group">
+              <p class="hlt-bb__label">{{ variant_label }}</p>
+              <div class="hlt-bb__chips" role="group" aria-label="{{ variant_label | escape }}">
+                {%- for v in product.variants -%}
+                  <button type="button" class="hlt-bb__chip" data-hlt-age="v{{ v.id }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                    <strong>{{ v.title }}</strong>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if age_blocks.size > 0 -%}
         <div class="hlt-bb__group">
           <p class="hlt-bb__label">{{ section.settings.age_label }}</p>
           <div class="hlt-bb__chips" role="group" aria-label="{{ section.settings.age_label | escape }}">
@@ -305,7 +406,9 @@
             {%- endfor -%}
           </div>
         </div>
+        {%- endif -%}
 
+        {%- if buy_mode == 'bundle' -%}
         <div class="hlt-bb__group">
           <p class="hlt-bb__label">{{ section.settings.bundle_label }}</p>
           <div class="hlt-bb__cards" role="radiogroup" aria-label="{{ section.settings.bundle_label | escape }}">
@@ -364,10 +467,18 @@
             {%- endfor -%}
           </div>
         </div>
+        {%- endif -%}
 
         <div class="hlt-stack" style="--hlt-gap: 14px;">
           <button type="button" class="hlt-btn hlt-btn--block hlt-bb__add" data-hlt-add-bundle>
-            <span><span data-hlt-btn-label>{{ section.settings.add_label }}</span><span class="hlt-bb__add-price" data-hlt-price-wrap>, {{ prefix }}<span data-hlt-btn-price>{{ first_age.settings.fallback_standard }}</span></span></span>
+            {%- liquid
+              if buy_mode == 'simple' and product != blank
+                assign add_fallback_price = product.selected_or_first_available_variant.price | money_without_currency
+              else
+                assign add_fallback_price = first_age.settings.fallback_standard
+              endif
+            -%}
+            <span><span data-hlt-btn-label>{{ section.settings.add_label }}</span><span class="hlt-bb__add-price" data-hlt-price-wrap>, {{ prefix }}<span data-hlt-btn-price>{{ add_fallback_price }}</span></span></span>
           </button>
           <p class="hlt-bb__error" role="alert" data-hlt-error hidden></p>
 
@@ -513,15 +624,45 @@
   </div>
 </section>
 
-{%- if section.settings.sticky_bar and age_blocks.size > 0 -%}
+{%- liquid
+  comment
+    The bar needs something to add. In bundle mode that is the age blocks, in
+    simple mode the product's own variants.
+  endcomment
+  assign show_sticky = false
+  if section.settings.sticky_bar
+    if buy_mode == 'simple'
+      if product != blank
+        assign show_sticky = true
+      endif
+    elsif age_blocks.size > 0
+      assign show_sticky = true
+    endif
+  endif
+  assign sticky_variant_label = section.settings.variant_label
+  if sticky_variant_label == blank and product != blank
+    assign sticky_variant_label = product.options.first
+  endif
+-%}
+{%- if show_sticky -%}
   <div class="hlt hlt-sticky" data-hlt-sticky-bar aria-hidden="true">
     <div class="hlt-sticky__inner">
+      {%- if age_blocks.size > 0 -%}
       <label class="hlt-sticky__field">
         <span class="visually-hidden">{{ section.settings.age_label }}</span>
         <select data-hlt-sticky-age>
           {%- for age in age_blocks -%}<option value="{{ age.id }}">{{ age.settings.chip_label }}</option>{%- endfor -%}
         </select>
       </label>
+      {%- elsif buy_mode == 'simple' and product.variants.size > 1 -%}
+      <label class="hlt-sticky__field">
+        <span class="visually-hidden">{{ sticky_variant_label }}</span>
+        <select data-hlt-sticky-age>
+          {%- for v in product.variants -%}<option value="v{{ v.id }}">{{ v.title }}</option>{%- endfor -%}
+        </select>
+      </label>
+      {%- endif -%}
+      {%- if buy_mode == 'bundle' -%}
       <label class="hlt-sticky__field">
         <span class="visually-hidden">{{ section.settings.bundle_label }}</span>
         <select data-hlt-sticky-size>
@@ -529,6 +670,7 @@
           <option value="value">{{ section.settings.card2_title }}</option>
         </select>
       </label>
+      {%- endif -%}
       <button type="button" class="hlt-btn hlt-sticky__btn" data-hlt-sticky-add>
         <span><span data-hlt-sticky-label>{{ section.settings.add_label }}</span></span>
       </button>
@@ -740,7 +882,10 @@
   "max_blocks": 40,
   "settings": [
     { "type": "header", "content": "Product" },
-    { "type": "product", "id": "product", "label": "Bundle product", "info": "The product with an age option (first) and a size option (second)." },
+    { "type": "select", "id": "buy_mode", "label": "Buy box", "default": "bundle", "info": "Bundle needs an age option (first) and a size option (second). Single suits any other product, including one with no options at all.", "options": [ { "value": "bundle", "label": "Bundle (age + pack)" }, { "value": "simple", "label": "Single product" } ] },
+    { "type": "product", "id": "product", "label": "Product", "info": "Leave empty and the section shows the product whose page it is on, so one template serves every product. Pick one to pin the section to it." },
+    { "type": "text", "id": "variant_label", "label": "Variant label (Single only)", "info": "Above the variant chips. Empty uses the product's own option name. Hidden when the product has one variant." },
+    { "type": "text", "id": "compare_label", "label": "Compare-at word (Single only)", "info": "Shown before the crossed-out price.", "default": "was" },
     { "type": "text", "id": "standard_value", "label": "Size option value for Standard", "default": "Standard" },
     { "type": "text", "id": "value_value", "label": "Size option value for Value pack", "default": "Value Pack" },
     { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "S$" },
