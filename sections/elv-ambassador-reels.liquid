@@ -32,6 +32,7 @@
   #elv-reels-{{ sid }} .elv-reels__title {
     color: {{ section.settings.title_color }};
     font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight | default: 500 }};
   }
   #elv-reels-{{ sid }}.is-docked > .page-width {
     max-width: none;
@@ -389,6 +390,14 @@
     { "type": "text", "id": "title", "label": "Title", "default": "What our Ambassadors are saying" },
     { "type": "range", "id": "title_size", "label": "Title size", "min": 14, "max": 36, "step": 1, "unit": "px", "default": 20 },
     { "type": "color", "id": "title_color", "label": "Title color", "default": "#1B2E5C" },
+    { "type": "select", "id": "title_weight", "label": "Title weight", "default": "500",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ] },
     { "type": "color", "id": "accent_color", "label": "Icon / accent color", "default": "#1B2E5C" },
     { "type": "color_background", "id": "overlay_color", "label": "Popup overlay", "default": "rgba(234,246,251,0.6)" },
     { "type": "header", "content": "Thumbnails" },
