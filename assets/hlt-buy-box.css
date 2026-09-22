@@ -199,15 +199,31 @@
 }
 .hlt-bb__per { font-family: var(--hlt-font-mono); font-size: 12px; color: var(--hlt-ocean); margin-top: 3px; }
 
-/* Single-product mode. There are no pack cards to carry the price, so it gets
-   a line of its own above the variant chips, one size up from the card price. */
-.hlt-bb__lead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
-.hlt-bb__lead .hlt-bb__price { font-size: 32px; }
+/* Single-product mode. One panel stands in for the two pack cards, so it takes
+   the selected card's look -- navy edge, pale fill, savings pill on the top
+   left -- without the radio, since there is nothing to choose between. */
+.hlt-bb__solo {
+  position: relative;
+  margin-top: 8px;
+  padding: 18px;
+  border: 2px solid var(--hlt-navy); border-radius: var(--hlt-r-card);
+  background: var(--hlt-splash-pale); box-shadow: var(--hlt-shadow);
+}
+.hlt-bb__solo-save { border-color: var(--hlt-sun); background: var(--hlt-sun); font-weight: 700; }
+.hlt-bb__solo-save[hidden] { display: none; }
+/* With no title the price carries the panel on its own, so it leads from the
+   left at the size the page title would. */
+.hlt-bb__solo-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.hlt-bb__solo-price .hlt-bb__price { font-size: 32px; }
 .hlt-bb__was {
   font-family: var(--hlt-font-mono); font-size: 13px; color: var(--hlt-ocean);
   text-decoration: line-through; white-space: nowrap;
 }
 .hlt-bb__was[hidden] { display: none; }
+/* The product's own description, which is where a bundle's contents live. */
+.hlt-bb__desc ul { margin: 6px 0 6px 18px; padding: 0; }
+.hlt-bb__desc ul ul { margin-top: 4px; margin-bottom: 8px; }
+.hlt-bb__desc li { margin-bottom: 4px; }
 .hlt-bb__bullets { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1.5px dashed rgba(27, 46, 92, 0.14); display: grid; gap: 6px; font-size: 14px; color: var(--hlt-navy); }
 .hlt-bb__bullets li { position: relative; padding-left: 22px; }
 .hlt-bb__bullets li::before { content: ''; position: absolute; left: 2px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--hlt-splash); }
@@ -237,6 +253,8 @@
   .hlt-bb__card-tag { top: 12px; right: 12px; padding: 3px 10px; font-size: 11px; letter-spacing: 0.08em; }
   .hlt-bb__card-head { order: 1; width: 100%; }
   .hlt-bb__card-save { position: static; order: 2; margin-top: 10px; }
+  .hlt-bb__solo { padding: 14px; }
+  .hlt-bb__solo .hlt-bb__solo-save { display: inline-block; margin: 0 0 12px; }
   .hlt-bb__bullets { order: 3; width: 100%; }
   /* Price and per-snack line share a row under the pack name. */
   .hlt-bb__card-price { text-align: left; width: 100%; }

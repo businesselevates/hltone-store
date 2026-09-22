@@ -70,24 +70,23 @@
           {%- liquid
             assign v_key = 'v' | append: v.id
             assign v_compare = nil
+            assign v_save = nil
             if v.compare_at_price > v.price
               assign v_compare = v.compare_at_price
+              assign v_save = v.compare_at_price | minus: v.price
             endif
           -%}
+          {%- capture v_money -%}
+            "id": {{ v.id }},
+            "available": {{ v.available }},
+            "price": {{ v.price | money_without_currency | json }},
+            "compare": {% if v_compare %}{{ v_compare | money_without_currency | json }}{% else %}null{% endif %},
+            "save": {% if v_save %}{{ v_save | money_without_currency | json }}{% else %}null{% endif %}
+          {%- endcapture -%}
           {
             "key": {{ v_key | json }},
-            "standard": {
-              "id": {{ v.id }},
-              "available": {{ v.available }},
-              "price": {{ v.price | money_without_currency | json }},
-              "compare": {% if v_compare %}{{ v_compare | money_without_currency | json }}{% else %}null{% endif %}
-            },
-            "value": {
-              "id": {{ v.id }},
-              "available": {{ v.available }},
-              "price": {{ v.price | money_without_currency | json }},
-              "compare": {% if v_compare %}{{ v_compare | money_without_currency | json }}{% else %}null{% endif %}
-            }
+            "standard": { {{ v_money }} },
+            "value": { {{ v_money }} }
           }{% unless forloop.last %},{% endunless %}
         {%- endfor -%}
       {%- endif -%}
@@ -113,13 +112,15 @@
           "id": {% if v_std %}{{ v_std.id }}{% else %}null{% endif %},
           "available": {% if v_std %}{{ v_std.available }}{% else %}false{% endif %},
           "price": {% if v_std %}{{ v_std.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_standard | json }}{% endif %},
-          "compare": null
+          "compare": null,
+          "save": null
         },
         "value": {
           "id": {% if v_val %}{{ v_val.id }}{% else %}null{% endif %},
           "available": {% if v_val %}{{ v_val.available }}{% else %}false{% endif %},
           "price": {% if v_val %}{{ v_val.price | money_without_currency | json }}{% else %}{{ age.settings.fallback_value | json }}{% endif %},
-          "compare": null
+          "compare": null,
+          "save": null
         }
       }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
@@ -368,18 +369,25 @@
         {%- endif -%}
 
         {%- if buy_mode == 'simple' and product != blank -%}
-          {%- comment -%}
-            The price sits on its own line here. In bundle mode each pack card
-            carries its own, so this line would only repeat them.
-          {%- endcomment -%}
-          <div class="hlt-bb__group hlt-bb__lead">
-            <p class="hlt-bb__price">{{ prefix }}<span data-hlt-btn-price>{{ product.selected_or_first_available_variant.price | money_without_currency }}</span></p>
-            <p class="hlt-bb__was" data-hlt-compare-wrap hidden>{{ section.settings.compare_label | default: 'was' }} {{ prefix }}<span data-hlt-compare></span></p>
-          </div>
+          {%- liquid
+            assign solo_variant = product.selected_or_first_available_variant
+            assign variant_label = section.settings.variant_label
+            if variant_label == blank
+              assign variant_label = product.options.first
+            endif
+            assign solo_bullets = section.settings.solo_bullets | newline_to_br | split: '<br />'
+            assign solo_has_head = false
+            if section.settings.solo_title != blank or section.settings.solo_line != blank
+              assign solo_has_head = true
+            endif
+          -%}
 
+          {%- comment -%}
+            Same rhythm as bundle mode: the choice first, then one panel that
+            carries the price, the saving and what the money buys. With one
+            variant the chips have nothing to offer, so only the panel shows.
+          {%- endcomment -%}
           {%- if product.variants.size > 1 -%}
-            {%- assign variant_label = section.settings.variant_label -%}
-            {%- if variant_label == blank -%}{%- assign variant_label = product.options.first -%}{%- endif -%}
             <div class="hlt-bb__group">
               <p class="hlt-bb__label">{{ variant_label }}</p>
               <div class="hlt-bb__chips" role="group" aria-label="{{ variant_label | escape }}">
@@ -391,6 +399,42 @@
               </div>
             </div>
           {%- endif -%}
+
+          <div class="hlt-bb__solo">
+            <span class="hlt-bb__card-save hlt-bb__solo-save" data-hlt-save-wrap hidden>{{ section.settings.save_label | default: 'Save' }} {{ prefix }}<span data-hlt-save></span></span>
+
+            {%- if solo_has_head -%}
+              <div class="hlt-bb__card-head">
+                <div>
+                  {%- if section.settings.solo_title != blank -%}<p class="hlt-h4">{{ section.settings.solo_title }}</p>{%- endif -%}
+                  {%- if section.settings.solo_line != blank -%}<p class="hlt-bb__card-line">{{ section.settings.solo_line }}</p>{%- endif -%}
+                </div>
+                <div class="hlt-bb__card-price">
+                  <p class="hlt-bb__price">{{ prefix }}<span data-hlt-btn-price>{{ solo_variant.price | money_without_currency }}</span></p>
+                  <p class="hlt-bb__was" data-hlt-compare-wrap hidden>{{ section.settings.compare_label | default: 'was' }} {{ prefix }}<span data-hlt-compare></span></p>
+                </div>
+              </div>
+            {%- else -%}
+              <div class="hlt-bb__solo-price">
+                <p class="hlt-bb__price">{{ prefix }}<span data-hlt-btn-price>{{ solo_variant.price | money_without_currency }}</span></p>
+                <p class="hlt-bb__was" data-hlt-compare-wrap hidden>{{ section.settings.compare_label | default: 'was' }} {{ prefix }}<span data-hlt-compare></span></p>
+              </div>
+            {%- endif -%}
+
+            {%- assign solo_gift = false -%}
+            {%- if section.settings.show_gift and section.settings.gift_bullet != blank -%}{%- assign solo_gift = true -%}{%- endif -%}
+            {%- if solo_bullets.size > 0 or solo_gift -%}
+              <ul class="hlt-bb__bullets">
+                {%- for b in solo_bullets -%}
+                  {%- assign bb = b | strip -%}
+                  {%- if bb != blank -%}<li>{{ bb }}</li>{%- endif -%}
+                {%- endfor -%}
+                {%- if solo_gift -%}
+                  <li class="hlt-bb__gift">{% render 'hlt-icon', name: 'gift', size: 18 %}{{ section.settings.gift_bullet }}</li>
+                {%- endif -%}
+              </ul>
+            {%- endif -%}
+          </div>
         {%- endif -%}
 
         {%- if age_blocks.size > 0 -%}
@@ -503,6 +547,20 @@
         </div>
 
         <div class="hlt-bb__dropdowns">
+          {%- comment -%}
+            What a bundle holds is written on the product, not in this template,
+            so Single mode offers the product's own description as the first row.
+            That is the one place a shared template can carry copy that differs
+            per product.
+          {%- endcomment -%}
+          {%- if buy_mode == 'simple' and section.settings.solo_description and product != blank and product.description != blank -%}
+            <details class="hlt-acc"{% if section.settings.solo_description_open %} open{% endif %}>
+              <summary>{{ section.settings.solo_description_title | default: "What's inside" }}<span class="hlt-acc__icon" aria-hidden="true"></span></summary>
+              <div class="hlt-acc__body">
+                <div class="hlt-acc__content hlt-body hlt-bb__desc">{{ product.description }}</div>
+              </div>
+            </details>
+          {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'dropdown' -%}
               <details class="hlt-acc" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
@@ -884,8 +942,17 @@
     { "type": "header", "content": "Product" },
     { "type": "select", "id": "buy_mode", "label": "Buy box", "default": "bundle", "info": "Bundle needs an age option (first) and a size option (second). Single suits any other product, including one with no options at all.", "options": [ { "value": "bundle", "label": "Bundle (age + pack)" }, { "value": "simple", "label": "Single product" } ] },
     { "type": "product", "id": "product", "label": "Product", "info": "Leave empty and the section shows the product whose page it is on, so one template serves every product. Pick one to pin the section to it." },
-    { "type": "text", "id": "variant_label", "label": "Variant label (Single only)", "info": "Above the variant chips. Empty uses the product's own option name. Hidden when the product has one variant." },
-    { "type": "text", "id": "compare_label", "label": "Compare-at word (Single only)", "info": "Shown before the crossed-out price.", "default": "was" },
+    { "type": "header", "content": "Single product panel" },
+    { "type": "paragraph", "content": "The panel that replaces the two pack cards. It carries the price, the saving and what the money buys." },
+    { "type": "text", "id": "variant_label", "label": "Variant label", "info": "Above the variant chips. Empty uses the product's own option name. The chips hide when the product has one variant." },
+    { "type": "text", "id": "solo_title", "label": "Panel title", "info": "Empty leaves the panel with the price alone, which reads well when the page title already says what this is." },
+    { "type": "text", "id": "solo_line", "label": "Panel line", "info": "A short line under the title, for example what is in the box." },
+    { "type": "textarea", "id": "solo_bullets", "label": "Panel bullets", "info": "One per line.", "default": "Free delivery" },
+    { "type": "text", "id": "compare_label", "label": "Compare-at word", "info": "Before the crossed-out price.", "default": "was" },
+    { "type": "text", "id": "save_label", "label": "Savings word", "info": "Before the amount in the savings pill. The pill shows only when the variant has a compare-at price.", "default": "Save" },
+    { "type": "checkbox", "id": "solo_description", "label": "Show the product description", "info": "As the first collapsible row under Add to cart. This is what lets one template carry different contents per product.", "default": true },
+    { "type": "text", "id": "solo_description_title", "label": "Description row title", "default": "What's inside" },
+    { "type": "checkbox", "id": "solo_description_open", "label": "Open the description row by default", "default": true },
     { "type": "text", "id": "standard_value", "label": "Size option value for Standard", "default": "Standard" },
     { "type": "text", "id": "value_value", "label": "Size option value for Value pack", "default": "Value Pack" },
     { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "S$" },

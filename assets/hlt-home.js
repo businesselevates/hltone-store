@@ -286,6 +286,8 @@
     var priceEls = box.querySelectorAll('[data-hlt-btn-price]');
     var compareEls = box.querySelectorAll('[data-hlt-compare]');
     var compareWraps = box.querySelectorAll('[data-hlt-compare-wrap]');
+    var saveEls = box.querySelectorAll('[data-hlt-save]');
+    var saveWraps = box.querySelectorAll('[data-hlt-save-wrap]');
     var errorEl = box.querySelector('[data-hlt-error]');
     var gallery = box.querySelector('[data-hlt-gallery]');
 
@@ -310,6 +312,8 @@
       priceEls.forEach(function (el) { el.textContent = v.price || ''; });
       compareEls.forEach(function (el) { el.textContent = v.compare || ''; });
       compareWraps.forEach(function (el) { el.hidden = !v.compare; });
+      saveEls.forEach(function (el) { el.textContent = v.save || ''; });
+      saveWraps.forEach(function (el) { el.hidden = !v.save; });
       if (addBtn) {
         var unavailable = !v.id || v.available === false;
         addBtn.disabled = unavailable;

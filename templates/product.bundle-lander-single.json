@@ -283,7 +283,7 @@
         "eyebrow": "Yummybara by HLT One",
         "title": "",
         "title_size": 36,
-        "body": "<p>Snacks you can hand over anywhere: made for your child's age, with no added refined sugar or salt, in snack-sized packs sealed one by one.</p>",
+        "body": "<p>Snacks you can hand over anywhere: no added refined sugar or salt, in snack-sized packs sealed one by one.</p>",
         "tags": "Easy for little mouths | No added sugar or salt | Sealed one by one",
         "age_label": "Pick your child's age",
         "bundle_label": "Pick your bundle",
@@ -302,7 +302,14 @@
         "padding_bottom": 40,
         "buy_mode": "simple",
         "variant_label": "",
-        "compare_label": "was"
+        "compare_label": "was",
+        "solo_title": "",
+        "solo_line": "",
+        "solo_bullets": "Free delivery",
+        "save_label": "Save",
+        "solo_description": true,
+        "solo_description_title": "What's inside",
+        "solo_description_open": true
       }
     },
     "featured_collection_34NAQ9": {
