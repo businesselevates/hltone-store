@@ -18,7 +18,7 @@
     "hlt_hook",
     "blocks_DNfkqw",
     "hlt_promises_strip",
-    "hlt_problem",
+    "hlt_media_text_d84apd",
     "hlt_belief",
     "hlt_benefit_age",
     "hlt_benefit_feel",
@@ -633,49 +633,55 @@
         "tilt": false
       }
     },
-    "hlt_problem": {
-      "type": "hlt-text",
+    "hlt_media_text_d84apd": {
+      "type": "hlt-media-text",
       "blocks": {
-        "heading_1": {
+        "heading_EDPR4b": {
           "type": "heading",
           "settings": {
             "text": "Most snacks packed for a day out are a compromise.",
             "size": "hlt-h2"
           }
         },
-        "body_2": {
+        "body_y6JEHU": {
           "type": "body",
           "settings": {
-            "text": "<p>Parents in Singapore say it plainly: \"These are basically junk food tbh but they have their uses.\" You pack them anyway, because a hungry toddler halfway round the zoo will not wait.</p>",
-            "large": true
+            "text": "<p>Parents in Singapore say it plainly: \"These are basically junk food tbh but they have their uses.\" You pack them anyway, because a hungry toddler halfway round the zoo will not wait. Then the open bag rolls around at the bottom of the stroller, goes soft, and ends up in the bin. One parent put it this way: other brands \"always got wasted because they couldn't keep.\"</p>",
+            "large": false
           }
         },
-        "body_3": {
-          "type": "body",
+        "subheading_Qj7VNA": {
+          "type": "subheading",
           "settings": {
-            "text": "<p>Then the open bag rolls around at the bottom of the stroller, goes soft, and ends up in the bin. One parent put it this way: other brands \"always got wasted because they couldn't keep.\"</p>",
-            "large": true
+            "text": "The fault sits with the snack you had to settle for, not with you."
           }
         },
-        "body_4": {
-          "type": "body",
+        "button_pGXNcU": {
+          "type": "button",
+          "disabled": true,
           "settings": {
-            "text": "<p><strong>The fault sits with the snack you had to settle for, not with you.</strong></p>",
-            "large": true
+            "label": "Find the bundle for their age",
+            "scroll": true,
+            "scroll_target": "#hlt-buy-box",
+            "link": "",
+            "style": "navy"
           }
         }
       },
       "block_order": [
-        "heading_1",
-        "body_2",
-        "body_3",
-        "body_4"
+        "heading_EDPR4b",
+        "body_y6JEHU",
+        "subheading_Qj7VNA",
+        "button_pGXNcU"
       ],
       "settings": {
-        "layout": "split",
-        "width": "wide",
+        "style": "card",
+        "media_side": "right",
         "background": "cream",
-        "sparkles": false,
+        "image": "shopify://shop_images/section-03_problem_compromise-snack.webp",
+        "ratio": "1 / 1",
+        "parallax_speed": "0.12",
+        "sparkles": true,
         "wave_top": false,
         "wave_top_color": "paper",
         "wave_bottom": false,
@@ -774,7 +780,7 @@
         "style": "card",
         "media_side": "left",
         "background": "cream",
-        "image": "shopify://shop_images/Rectangle_8_ee743172-cd7f-4cec-8bc6-b07ec820854a.webp",
+        "image": "shopify://shop_images/section-05_texture-by-age.webp",
         "ratio": "1 / 1",
         "parallax_speed": "0.12",
         "sparkles": true,
@@ -819,7 +825,7 @@
         "style": "card",
         "media_side": "right",
         "background": "paper",
-        "image": "shopify://shop_images/Yummybara_Freeze_Dried_Fruits_20g_8_months_Yummybara.webp",
+        "image": "shopify://shop_images/section-06_turn-the-box-over.webp",
         "ratio": "1 / 1",
         "parallax_speed": "0.12",
         "sparkles": false,
@@ -868,7 +874,7 @@
         "style": "card",
         "media_side": "left",
         "background": "splash-pale",
-        "image": "shopify://shop_images/hf_20260528_081153_2_e4c73b72-324e-481d-aca1-49c9ef45c103.webp",
+        "image": "shopify://shop_images/section-07_take-anywhere.webp",
         "ratio": "4 / 3",
         "parallax_speed": "0.12",
         "sparkles": false,
@@ -1220,7 +1226,7 @@
         "layout": "overlay",
         "media_side": "right",
         "background": "cream",
-        "image": "shopify://shop_images/yummybara-hero-v3-wide-3to1.webp",
+        "image": "shopify://shop_images/section-11_final-cta.webp",
         "ratio": "16 / 9",
         "overlay": 10,
         "parallax_speed": "0.12",
