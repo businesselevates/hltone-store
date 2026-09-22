@@ -22,6 +22,7 @@
     "hlt_belief",
     "hlt_benefit_age",
     "hlt_benefit_feel",
+    "comparison_table_yqwghc",
     "hlt_benefit_take",
     "blocks_9gETXV",
     "hlt_reviews",
@@ -835,6 +836,151 @@
         "wave_bottom_color": "paper",
         "padding_top": 56,
         "padding_bottom": 56
+      }
+    },
+    "comparison_table_yqwghc": {
+      "type": "comparison-table",
+      "blocks": {
+        "heading_Jih8Cg": {
+          "type": "heading",
+          "settings": {
+            "heading": "What you get in every bundle, next to most snacks in the bag",
+            "heading_size": "medium",
+            "heading_align": "center"
+          }
+        },
+        "table_VnaBg7": {
+          "type": "table",
+          "settings": {
+            "col1_label": "",
+            "col2_label": "Yummybara",
+            "col3_label": "Most Snacks in the Bag",
+            "image_height": 110,
+            "float_images": true,
+            "default_badge": "More",
+            "show_check_icons": true,
+            "table_width": "medium",
+            "mobile_layout": "compact"
+          }
+        },
+        "row_N96Dwp": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "Texture made for their age",
+            "our_value": "Melts, bites or crunch, by age",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "Melts, bites or crunch, by age",
+            "our_icon": "check",
+            "competitor_value": "Not always",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "row_PCR9VD": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "No added refined sugar or salt",
+            "our_value": "Every snack",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "",
+            "our_icon": "check",
+            "competitor_value": "Not always",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "row_yFV7rN": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "Organic",
+            "our_value": "Every snack",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "",
+            "our_icon": "check",
+            "competitor_value": "Not always",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "row_UatURW": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "No preservatives",
+            "our_value": "Every snack",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "",
+            "our_icon": "check",
+            "competitor_value": "Not always",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "row_wNBxap": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "Halal certified",
+            "our_value": "Every snack",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "",
+            "our_icon": "check",
+            "competitor_value": "Not always",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "row_AaL4aE": {
+          "type": "row",
+          "settings": {
+            "ingredient_name": "Packed for the bag",
+            "our_value": "Snack-sized packs, sealed one by one",
+            "our_badge": "",
+            "hide_badge": false,
+            "our_detail": "",
+            "our_icon": "check",
+            "competitor_value": "Often one big bag",
+            "competitor_detail": "",
+            "competitor_icon": "cross"
+          }
+        },
+        "button_R7NtPn": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop now",
+            "button_link": "",
+            "open_in_new_tab": false,
+            "button_style": "primary",
+            "button_align": "center",
+            "use_theme_styles": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_Jih8Cg",
+        "table_VnaBg7",
+        "row_N96Dwp",
+        "row_PCR9VD",
+        "row_yFV7rN",
+        "row_UatURW",
+        "row_wNBxap",
+        "row_AaL4aE",
+        "button_R7NtPn"
+      ],
+      "name": "Comparison table",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "highlight_color": "",
+        "competitor_icon_color": "",
+        "content_max_width": 680,
+        "corner_radius": 16,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "hlt_benefit_take": {
