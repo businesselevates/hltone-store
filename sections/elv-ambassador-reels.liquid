@@ -33,13 +33,23 @@
     color: {{ section.settings.title_color }};
     font-size: {{ section.settings.title_size }}px;
   }
+  #elv-reels-{{ sid }}.is-docked > .page-width {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #elv-reels-{{ sid }}.is-docked .elv-reels__inner {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
   .elv-reels-modal[data-section="{{ sid }}"] {
     --elv-ink: {{ section.settings.accent_color }};
     --elv-overlay: {{ section.settings.overlay_color }};
   }
 </style>
 
-<div class="elv-reels" id="elv-reels-{{ sid }}" data-elv-reels="{{ sid }}">
+<div class="elv-reels" id="elv-reels-{{ sid }}" data-elv-reels="{{ sid }}" data-elv-dock="{{ section.settings.dock | default: 'standalone' }}">
   <div class="page-width">
     <div class="elv-reels__inner">
       {%- if section.settings.title != blank -%}
@@ -252,9 +262,22 @@
       document.head.appendChild(s);
     }
 
+    /* Move the whole section into the buy box gallery column when asked.
+       The popup already lives on <body>, so it is unaffected by the move. */
+    function dock(root) {
+      if (!root || root.getAttribute('data-elv-dock') !== 'buybox') return;
+      var wrap = root.closest('.shopify-section') || root;
+      var target = document.querySelector('.hlt-bb__gallery');
+      if (!target || wrap.parentNode === target) return;
+      target.appendChild(wrap);
+      root.classList.add('is-docked');
+    }
+
     function init() {
       var root = document.querySelector('[data-elv-reels="' + SID + '"]');
-      if (!root || root.dataset.elvReady) return;
+      if (!root) return;
+      dock(root);
+      if (root.dataset.elvReady) return;
       root.dataset.elvReady = '1';
 
       var swiperEl = root.querySelector('.elv-reels__swiper');
@@ -359,6 +382,9 @@
     { "type": "range", "id": "thumb_height", "label": "Height", "min": 120, "max": 420, "step": 4, "unit": "px", "default": 168 },
     { "type": "range", "id": "thumb_radius", "label": "Corner radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 8 },
     { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "dock", "label": "Placement", "default": "standalone",
+      "info": "Inside buy box gallery moves this row under the product gallery of the HLT buy box on the same page. Max width and Alignment are then ignored.",
+      "options": [ { "value": "standalone", "label": "Standalone section" }, { "value": "buybox", "label": "Inside buy box gallery" } ] },
     { "type": "range", "id": "max_width", "label": "Max width", "min": 320, "max": 1600, "step": 20, "unit": "px", "default": 620 },
     { "type": "select", "id": "align", "label": "Alignment", "default": "right",
       "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },

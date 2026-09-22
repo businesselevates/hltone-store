@@ -11,6 +11,7 @@
   "order": [
     "hlt_page_settings",
     "hlt_buy_box",
+    "elv_reels_buybox",
     "featured_collection_34NAQ9",
     "178952848870002bae",
     "shop_products_chips",
@@ -26,6 +27,7 @@
     "hlt_benefit_take",
     "blocks_9gETXV",
     "hlt_reviews",
+    "elv_trusted_marquee",
     "hlt_why_bundle",
     "hlt_faq",
     "hlt_final_cta",
@@ -548,6 +550,7 @@
         "media_side": "left",
         "background": "splash-pale",
         "image": "shopify://shop_images/section-02_hook_hand-over_1bc44fc5-21e5-4d56-b6f2-49b689d2c21b.webp",
+        "ratio_mobile": "",
         "ratio": "4 / 3",
         "overlay": 45,
         "parallax_speed": "0.15",
@@ -657,31 +660,6 @@
             "size": "hlt-h2"
           }
         },
-        "body_y6JEHU": {
-          "type": "body",
-          "settings": {
-            "text": "<p>Parents in Singapore say it plainly: \"These are basically junk food tbh but they have their uses.\" You pack them anyway, because a hungry toddler halfway round the zoo will not wait. Then the open bag rolls around at the bottom of the stroller, goes soft, and ends up in the bin. One parent put it this way: other brands \"always got wasted because they couldn't keep.\"</p>",
-            "large": false
-          },
-          "disabled": true
-        },
-        "subheading_Qj7VNA": {
-          "type": "subheading",
-          "settings": {
-            "text": "That’s on the snack, not on you."
-          }
-        },
-        "button_pGXNcU": {
-          "type": "button",
-          "disabled": true,
-          "settings": {
-            "label": "Find the bundle for their age",
-            "scroll": true,
-            "scroll_target": "#hlt-buy-box",
-            "link": "",
-            "style": "navy"
-          }
-        },
         "row_junk": {
           "type": "icon_row",
           "settings": {
@@ -701,6 +679,31 @@
           "settings": {
             "icon": "bin",
             "text": "And ends up in the bin."
+          }
+        },
+        "subheading_Qj7VNA": {
+          "type": "subheading",
+          "settings": {
+            "text": "That’s on the snack, not on you."
+          }
+        },
+        "button_pGXNcU": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "label": "Find the bundle for their age",
+            "scroll": true,
+            "scroll_target": "#hlt-buy-box",
+            "link": "",
+            "style": "navy"
+          }
+        },
+        "body_y6JEHU": {
+          "type": "body",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Parents in Singapore say it plainly: \"These are basically junk food tbh but they have their uses.\" You pack them anyway, because a hungry toddler halfway round the zoo will not wait. Then the open bag rolls around at the bottom of the stroller, goes soft, and ends up in the bin. One parent put it this way: other brands \"always got wasted because they couldn't keep.\"</p>",
+            "large": false
           }
         }
       },
@@ -1007,11 +1010,14 @@
           "settings": {
             "button_label": "Pack Your First Bundle",
             "button_link": "#hlt-buy-box",
+            "scroll_to_target": false,
+            "scroll_target": "#hlt-buy-box",
             "open_in_new_tab": false,
             "button_style": "primary",
+            "show_arrow": true,
             "button_align": "center",
             "use_theme_styles": true,
-            "bold_text": false,
+            "bold_text": true,
             "text_size": 16,
             "full_width_mobile": false,
             "space_above": 32,
@@ -1433,6 +1439,8 @@
         "media_side": "right",
         "background": "cream",
         "image": "shopify://shop_images/section-11_final-cta_4ce7517b-68a4-4afa-8b8f-aefd8b8473d2.webp",
+        "image_mobile": "shopify://shop_images/section-11_final-cta_MOBILE.webp",
+        "ratio_mobile": "",
         "ratio": "16 / 9",
         "overlay": 10,
         "parallax_speed": "0.12",
@@ -1543,6 +1551,169 @@
     "179006777257ddf294": {
       "type": "_blocks",
       "settings": {}
+    },
+    "elv_reels_buybox": {
+      "type": "elv-ambassador-reels",
+      "blocks": {
+        "reel_1": {
+          "type": "reel",
+          "settings": {
+            "label": "Ambassador 1",
+            "video_url": ""
+          }
+        },
+        "reel_2": {
+          "type": "reel",
+          "settings": {
+            "label": "Ambassador 2",
+            "video_url": ""
+          }
+        },
+        "reel_3": {
+          "type": "reel",
+          "settings": {
+            "label": "Ambassador 3",
+            "video_url": ""
+          }
+        },
+        "reel_4": {
+          "type": "reel",
+          "settings": {
+            "label": "Ambassador 4",
+            "video_url": ""
+          }
+        },
+        "reel_5": {
+          "type": "reel",
+          "settings": {
+            "label": "Ambassador 5",
+            "video_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_1",
+        "reel_2",
+        "reel_3",
+        "reel_4",
+        "reel_5"
+      ],
+      "settings": {
+        "title": "What our ambassadors are saying",
+        "title_size": 18,
+        "title_color": "#1B2E5C",
+        "accent_color": "#1B2E5C",
+        "overlay_color": "rgba(234,246,251,0.6)",
+        "thumb_width": 104,
+        "thumb_height": 168,
+        "thumb_radius": 8,
+        "dock": "buybox",
+        "max_width": 620,
+        "align": "left",
+        "padding_top": 20,
+        "padding_bottom": 0
+      }
+    },
+    "elv_trusted_marquee": {
+      "type": "elv-trusted-marquee",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "card_6": {
+          "type": "card",
+          "settings": {
+            "name": "",
+            "role": "Ambassador",
+            "quote": "",
+            "video_url": "",
+            "link": ""
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "1M+",
+            "label": "Customer purchases"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "64M+",
+            "label": "Servings worldwide"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5",
+        "card_6",
+        "stat_1",
+        "stat_2"
+      ],
+      "settings": {
+        "eyebrow": "Trusted by the best",
+        "title": "Parents, paediatric dietitians and <em>thousands of little eaters.</em>",
+        "subtitle": "",
+        "bg_color": "#FFFBF1",
+        "ink_color": "#1B2E5C",
+        "gold_color": "#EAC35B",
+        "serif_font": "",
+        "speed": 7,
+        "padding_top": 72,
+        "padding_bottom": 64
+      }
     }
   }
 }
