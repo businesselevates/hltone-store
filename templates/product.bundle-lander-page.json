@@ -1607,7 +1607,7 @@
         "thumb_width": 104,
         "thumb_height": 168,
         "thumb_radius": 8,
-        "dock": "buybox",
+        "dock": "panel",
         "max_width": 620,
         "align": "left",
         "padding_top": 20,

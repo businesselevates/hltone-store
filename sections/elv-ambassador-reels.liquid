@@ -264,10 +264,18 @@
 
     /* Move the whole section into the buy box gallery column when asked.
        The popup already lives on <body>, so it is unaffected by the move. */
+    var DOCK_TARGETS = {
+      panel: '.hlt-bb__panel',
+      gallery: '.hlt-bb__gallery',
+      buybox: '.hlt-bb__gallery' /* legacy value */
+    };
+
     function dock(root) {
-      if (!root || root.getAttribute('data-elv-dock') !== 'buybox') return;
+      if (!root) return;
+      var selector = DOCK_TARGETS[root.getAttribute('data-elv-dock')];
+      if (!selector) return;
       var wrap = root.closest('.shopify-section') || root;
-      var target = document.querySelector('.hlt-bb__gallery');
+      var target = document.querySelector(selector);
       if (!target || wrap.parentNode === target) return;
       target.appendChild(wrap);
       root.classList.add('is-docked');
@@ -383,8 +391,12 @@
     { "type": "range", "id": "thumb_radius", "label": "Corner radius", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 8 },
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "dock", "label": "Placement", "default": "standalone",
-      "info": "Inside buy box gallery moves this row under the product gallery of the HLT buy box on the same page. Max width and Alignment are then ignored.",
-      "options": [ { "value": "standalone", "label": "Standalone section" }, { "value": "buybox", "label": "Inside buy box gallery" } ] },
+      "info": "The two buy box placements move this row into the HLT buy box on the same page. Max width and Alignment are then ignored \u2014 the column decides the width.",
+      "options": [
+        { "value": "standalone", "label": "Standalone section" },
+        { "value": "panel", "label": "In buy box, under the panel (right column)" },
+        { "value": "gallery", "label": "In buy box, under the gallery (left column)" }
+      ] },
     { "type": "range", "id": "max_width", "label": "Max width", "min": 320, "max": 1600, "step": 20, "unit": "px", "default": 620 },
     { "type": "select", "id": "align", "label": "Alignment", "default": "right",
       "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
