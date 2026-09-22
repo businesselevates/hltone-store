@@ -250,6 +250,7 @@
         "dropdown_16": {
           "type": "dropdown",
           "settings": {
+            "show": true,
             "title": "Tell me more",
             "text": "<p>Most snacks packed for a day out are a compromise, given because there is nothing else to hand. Yummybara is made to be the snack you are glad to hand over. Each age gets a texture it can manage: melts that soften as soon as they touch saliva at 8 months+, baked rusks that hold their shape at 10 months+, and real crunch at 12 months+. Every snack is organic, halal certified, and made with no preservatives and no added refined sugar or salt. Each one comes in its own snack-sized pack, sealed one by one, so a few go in the bag for the zoo or a long car ride.</p>",
             "open": false,
@@ -262,6 +263,7 @@
         "dropdown_17": {
           "type": "dropdown",
           "settings": {
+            "show": true,
             "title": "What's inside",
             "text": "<p><strong>First Melts, 8 months+:</strong> yoghurt, cereal, coconut milk and cheese melts, plus freeze-dried rice rusks.</p><p><strong>First Bites, 10 months+:</strong> baked rice rusks, plus the melts from First Melts.</p><p><strong>Big Crunch, 12 months+:</strong> filled rice sticks, puff pops, DHA puff rice sticks, shrimp wafer crisps, dark chocolate melts, triangle corn puffs and freeze-dried fruit.</p>",
             "open": false,
@@ -274,6 +276,7 @@
         "dropdown_18": {
           "type": "dropdown",
           "settings": {
+            "show": true,
             "title": "How to serve",
             "text": "<p>Pick the bundle for your child's age. If they are between two ages, pick the younger one.</p><p>Always stay with your child while they eat.</p>",
             "open": false,

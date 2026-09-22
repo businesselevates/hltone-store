@@ -562,7 +562,7 @@
             </details>
           {%- endif -%}
           {%- for block in section.blocks -%}
-            {%- if block.type == 'dropdown' -%}
+            {%- if block.type == 'dropdown' and block.settings.show -%}
               <details class="hlt-acc" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
                 <summary>{{ block.settings.title }}<span class="hlt-acc__icon" aria-hidden="true"></span></summary>
                 <div class="hlt-acc__body">
@@ -1078,6 +1078,7 @@
       "type": "dropdown",
       "name": "Dropdown",
       "settings": [
+        { "type": "checkbox", "id": "show", "label": "Show this row", "info": "Turn it off for a product this row's text was not written for. The row keeps its copy for whenever it is wanted back.", "default": true },
         { "type": "text", "id": "title", "label": "Title", "default": "Tell me more" },
         { "type": "richtext", "id": "text", "label": "Text" },
         { "type": "checkbox", "id": "open", "label": "Open by default", "default": false },
