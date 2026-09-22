@@ -264,18 +264,24 @@
 
     /* Move the whole section into the buy box gallery column when asked.
        The popup already lives on <body>, so it is unaffected by the move. */
+    /* .hlt-bb__side is the right column itself; .hlt-bb__card inside it carries
+       the border, so appending to the side lands the row below the card rather
+       than inside it. Falls back to the panel on a buy box without the wrapper. */
     var DOCK_TARGETS = {
-      panel: '.hlt-bb__panel',
-      gallery: '.hlt-bb__gallery',
-      buybox: '.hlt-bb__gallery' /* legacy value */
+      panel: ['.hlt-bb__side', '.hlt-bb__panel'],
+      gallery: ['.hlt-bb__gallery'],
+      buybox: ['.hlt-bb__gallery'] /* legacy value */
     };
 
     function dock(root) {
       if (!root) return;
-      var selector = DOCK_TARGETS[root.getAttribute('data-elv-dock')];
-      if (!selector) return;
+      var candidates = DOCK_TARGETS[root.getAttribute('data-elv-dock')];
+      if (!candidates) return;
+      var target = null;
+      for (var i = 0; i < candidates.length && !target; i++) {
+        target = document.querySelector(candidates[i]);
+      }
       var wrap = root.closest('.shopify-section') || root;
-      var target = document.querySelector(selector);
       if (!target || wrap.parentNode === target) return;
       target.appendChild(wrap);
       root.classList.add('is-docked');
@@ -394,7 +400,7 @@
       "info": "The two buy box placements move this row into the HLT buy box on the same page. Max width and Alignment are then ignored \u2014 the column decides the width.",
       "options": [
         { "value": "standalone", "label": "Standalone section" },
-        { "value": "panel", "label": "In buy box, under the panel (right column)" },
+        { "value": "panel", "label": "In buy box, below the card (right column)" },
         { "value": "gallery", "label": "In buy box, under the gallery (left column)" }
       ] },
     { "type": "range", "id": "max_width", "label": "Max width", "min": 320, "max": 1600, "step": 20, "unit": "px", "default": 620 },
