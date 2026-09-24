@@ -5,6 +5,11 @@
   child links, or, when it has none and points at a collection, that
   collection's products.
 
+  A top-level item only earns a place in the panel if it has something to
+  preview -- child links, or a collection whose products can be shown. The
+  rest (About, Events and any other flat page link) sit in the header bar
+  beside Shop rather than being buried inside it.
+
   The panel follows the header's own menu setting: a section schema accepts
   only one link_list setting and `menu` already uses it, so pointing the panel
   at a different menu means changing the header menu itself.
@@ -23,7 +28,7 @@
 -%}
 
 <nav class="header__inline-menu hlt-nav" data-hlt-shop-nav>
-  <ul class="list-menu list-menu--inline" role="list">
+  <ul class="list-menu list-menu--inline hlt-nav__list" role="list">
     <li>
       <button
         type="button"
@@ -36,6 +41,19 @@
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </button>
     </li>
+    {%- for link in shop_menu.links -%}
+      {%- unless link.links.size > 0 or link.type == 'collection_link' -%}
+        <li>
+          <a
+            href="{{ link.url }}"
+            class="header__menu-item list-menu__item link focus-inset hlt-nav__link{% if link.current or link.child_active %} hlt-nav__link--current{% endif %}"
+            {% if link.current %}aria-current="page"{% endif %}
+          >
+            <span>{{ link.title | escape }}</span>
+          </a>
+        </li>
+      {%- endunless -%}
+    {%- endfor -%}
   </ul>
 
   <div
@@ -46,15 +64,19 @@
   >
     <div class="hlt-shop-panel__inner">
       <div class="hlt-shop-panel__side">
+        {%- assign cat_index = 0 -%}
         {%- for link in shop_menu.links -%}
-          <a
-            class="hlt-shop-cat{% if forloop.first %} is-active{% endif %}"
-            href="{{ link.url }}"
-            data-hlt-cat="{{ forloop.index }}"
-          >
-            <span>{{ link.title | escape }}</span>
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </a>
+          {%- if link.links.size > 0 or link.type == 'collection_link' -%}
+            {%- assign cat_index = cat_index | plus: 1 -%}
+            <a
+              class="hlt-shop-cat{% if cat_index == 1 %} is-active{% endif %}"
+              href="{{ link.url }}"
+              data-hlt-cat="{{ cat_index }}"
+            >
+              <span>{{ link.title | escape }}</span>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </a>
+          {%- endif -%}
         {%- endfor -%}
         {%- if shop_all_url != blank -%}
           <a class="button hlt-shop-panel__all" href="{{ shop_all_url }}">{{ shop_all_label | escape }}</a>
@@ -62,8 +84,13 @@
       </div>
 
       <div class="hlt-shop-panel__main">
+        {%- assign pane_index = 0 -%}
         {%- for link in shop_menu.links -%}
-          <div class="hlt-shop-grid" data-hlt-pane="{{ forloop.index }}"{% unless forloop.first %} hidden{% endunless %}>
+          {%- unless link.links.size > 0 or link.type == 'collection_link' -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- assign pane_index = pane_index | plus: 1 -%}
+          <div class="hlt-shop-grid" data-hlt-pane="{{ pane_index }}"{% unless pane_index == 1 %} hidden{% endunless %}>
             {%- if link.links.size > 0 -%}
               {%- for childlink in link.links -%}
                 {%- liquid
