@@ -6,6 +6,13 @@
 .hlt-bb__gallery { grid-area: gallery; min-width: 0; }
 .hlt-bb__panel { grid-area: panel; min-width: 0; }
 .hlt-bb__pair { grid-area: pair; min-width: 0; }
+/* A section docked into the buy box (the ambassador reels) ends up as a grid
+   item here -- on phones .hlt-bb__side is display:contents, so it lands in the
+   single column. Grid items default to min-width: auto, so the reel carousel's
+   fixed-width slides would stretch the column past the viewport and push the
+   whole card off screen; the areas above carry min-width: 0 for the same
+   reason. */
+.hlt-bb__grid .shopify-section { min-width: 0; max-width: 100%; }
 .hlt-bb__side, .hlt-bb__card { display: contents; }
 /* Phones and tablets: the whole block (title, gallery, buy box) sits in one card. */
 @media (max-width: 989px) {
