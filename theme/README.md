@@ -9,7 +9,7 @@ lives in Shopify.
 
 | Section | File |
 | --- | --- |
-| H00 bar + H01 menu | `sections/header-group.json`, `sections/header.liquid`, `snippets/hlt-shop-menu.liquid`, `snippets/hlt-age-picker.liquid`, `snippets/header-drawer.liquid`, `assets/hlt-shop-menu.css` |
+| H00 bar + H01 menu | `sections/header-group.json`, `snippets/hlt-shop-menu.liquid`, `snippets/hlt-age-picker.liquid`, `snippets/header-drawer.liquid`, `assets/hlt-shop-menu.css` |
 | H02 hero | `sections/hlt-hp-hero.liquid` |
 | H02b trust logos | `sections/hlt-hp-trust.liquid` |
 | H03 start here | `sections/hlt-hp-start.liquid` |

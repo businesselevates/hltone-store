@@ -15,21 +15,40 @@
   <div class="hlt-age__row">
     {%- for i in (1..3) -%}
       {%- liquid
+        comment
+          Defaults for the three age bundles. A header setting with the same
+          id (hlt_age_1_product and so on) overrides them if one is added.
+        endcomment
+        case i
+          when 1
+            assign d_handle = 'first-melts-8-months'
+            assign d_label = '8 months+'
+            assign d_name = 'First Melts'
+          when 2
+            assign d_handle = 'first-bites-10-months'
+            assign d_label = '10 months+'
+            assign d_name = 'First Bites'
+          else
+            assign d_handle = 'big-crunch-12-months'
+            assign d_label = '12 months+'
+            assign d_name = 'Big Crunch'
+        endcase
         assign p_key = 'hlt_age_' | append: i | append: '_product'
         assign l_key = 'hlt_age_' | append: i | append: '_label'
         assign n_key = 'hlt_age_' | append: i | append: '_name'
-        assign age_product = section.settings[p_key]
-        assign age_label = section.settings[l_key]
+        assign age_product = section.settings[p_key] | default: all_products[d_handle]
+        assign age_label = section.settings[l_key] | default: d_label
+        assign age_name = section.settings[n_key] | default: d_name
       -%}
       {%- if age_product != blank and age_label != blank -%}
         <a class="hlt-age__opt" href="{{ age_product.url }}">
           <b>{{ age_label | escape }}</b>
-          {%- if section.settings[n_key] != blank -%}<span>{{ section.settings[n_key] | escape }}</span>{%- endif -%}
+          {%- if age_name != blank -%}<span>{{ age_name | escape }}</span>{%- endif -%}
         </a>
       {%- endif -%}
     {%- endfor -%}
   </div>
-  {%- if section.settings.hlt_age_hint != blank -%}
-    <p class="hlt-age__hint">{{ section.settings.hlt_age_hint | escape }}</p>
+  {%- if section.settings.hlt_age_hint != 'none' -%}
+    <p class="hlt-age__hint">{{ section.settings.hlt_age_hint | default: 'Between two ages? Pick the younger one.' | escape }}</p>
   {%- endif -%}
 </div>

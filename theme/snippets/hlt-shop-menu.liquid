@@ -11,8 +11,10 @@
     age, each answer opening that age's bundle.
   - Age bundles opens the same question in a dialog.
 
-  The ages, the card and the labels are set in the header section under
-  "HLT One: menu and age picker".
+  The three ages default to First Melts, First Bites and Big Crunch (see
+  hlt-age-picker). Header settings named hlt_age_1_product, hlt_snack_label,
+  hlt_menu_card_image and so on override the defaults if they are added to
+  the header schema.
 
   Usage:
   {% render 'hlt-shop-menu' %}
@@ -27,7 +29,7 @@
   assign shop_label = section.settings.hlt_shop_label | default: 'Shop'
   assign snack_label = section.settings.hlt_snack_label | default: 'Find their snack'
   assign bundles_label = section.settings.hlt_bundles_label | default: 'Age bundles'
-  assign first_bundle = section.settings.hlt_age_1_product
+  assign first_bundle = section.settings.hlt_age_1_product | default: all_products['first-melts-8-months']
   assign bundle_url = first_bundle.url | default: routes.all_products_collection_url
   assign card_image = section.settings.hlt_menu_card_image | default: first_bundle.featured_image
   assign column_count = 0

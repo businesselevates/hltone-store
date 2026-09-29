@@ -23,7 +23,7 @@
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- if section.settings.enable_shop_mega -%}
                 <li>
-                  <a href="{{ section.settings.hlt_age_1_product.url | default: routes.all_products_collection_url }}" class="hlt-drawer-snack focus-inset" data-hlt-age-open>
+                  <a href="{{ section.settings.hlt_age_1_product.url | default: all_products['first-melts-8-months'].url | default: routes.all_products_collection_url }}" class="hlt-drawer-snack focus-inset" data-hlt-age-open>
                     <span>{{ section.settings.hlt_snack_label | default: 'Find their snack' | escape }}</span>
                     {%- render 'hlt-icon', name: 'arrow-right', size: 20 -%}
                   </a>
