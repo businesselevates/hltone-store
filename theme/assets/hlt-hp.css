@@ -60,13 +60,16 @@
 }
 
 /* ---------- H02b Trust logos ---------- */
-.hlt-hp-trust { background: var(--hlt-paper); text-align: center; }
+.hlt-hp-trust { background: var(--hlt-paper); text-align: center; overflow: hidden; }
 .hlt-hp-trust .hlt__inner { padding-top: 40px; padding-bottom: 44px; }
 .hlt-hp-trust__label { margin-bottom: 18px; }
+/* The logo row breaks out of the centred column and runs edge to edge. */
 .hlt-hp-trust__viewport {
+  --hlt-hp-fade: 120px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 60px, #000 calc(100% - 60px), transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 60px, #000 calc(100% - 60px), transparent 100%);
+  width: 100vw; margin-left: calc(50% - 50vw);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--hlt-hp-fade), #000 calc(100% - var(--hlt-hp-fade)), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 var(--hlt-hp-fade), #000 calc(100% - var(--hlt-hp-fade)), transparent 100%);
 }
 /* The logos are rendered four times (three copies aria-hidden), so sliding
    the row by half its width loops seamlessly even on a very wide screen. */
@@ -81,6 +84,7 @@
 .hlt-hp-trust__logo img { display: block; height: 44px; width: auto; max-width: 170px; object-fit: contain; }
 .hlt-hp-trust__logo figcaption { font-family: var(--hlt-font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--hlt-grey); }
 @media (max-width: 749px) {
+  .hlt-hp-trust__viewport { --hlt-hp-fade: 40px; }
   .hlt-hp-trust__row { --hlt-hp-logo-gap: 36px; animation-duration: 36s; }
   .hlt-hp-trust__logo img { height: 34px; }
 }
