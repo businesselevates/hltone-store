@@ -1,0 +1,66 @@
+{%- comment -%}
+  H04 Why a bundle (29 Sep 2026 homepage draft), in Bloom's Subscribe & Save
+  slot. When the subscription goes live, Subscribe & Save takes this slot.
+{%- endcomment -%}
+{%- liquid
+  assign img = section.settings.image
+  assign fallback = section.settings.fallback_product.featured_image
+  assign cta_url = section.settings.fallback_product.url | default: routes.all_products_collection_url
+-%}
+<section class="hlt hlt--cream hlt-hp hlt-hp-band">
+  <div class="hlt__inner">
+    <div class="hlt-hp-band__grid">
+      <div class="hlt-hp-band__media{% if img == blank %} hlt-hp-media-fallback{% endif %}">
+        {%- if img != blank -%}
+          {{ img | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1600', sizes: '(min-width: 750px) 50vw, 100vw', alt: section.settings.image_alt }}
+        {%- elsif fallback != blank -%}
+          {{ fallback | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600, 900, 1200', sizes: '(min-width: 750px) 40vw, 80vw', alt: section.settings.image_alt }}
+        {%- endif -%}
+      </div>
+      <div class="hlt-hp-band__panel">
+        <h2 class="hlt-h2">{{ section.settings.heading | escape }}</h2>
+        <ul class="hlt-hp-perks" role="list">
+          {%- for block in section.blocks -%}
+            <li class="hlt-hp-perk" {{ block.shopify_attributes }}>
+              <span class="hlt-hp-perk__icon">{% render 'hlt-icon', name: block.settings.icon, size: 24 %}</span>
+              <span>{{ block.settings.text | escape }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+        {%- if section.settings.button_label != blank -%}
+          <div class="hlt-btn-row"><a class="hlt-btn" href="{{ cta_url }}" data-hlt-age-open>{{ section.settings.button_label | escape }}</a></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HLT HP: Why a bundle",
+  "tag": "div",
+  "class": "hlt-hp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A bundle for their age, delivered free." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Choose their bundle", "info": "Opens the age question." },
+    { "type": "image_picker", "id": "image", "label": "Image (IMG-12)", "info": "1600 x 1400. Big Crunch Value pack boxes on a counter, a child's hand reaching in." },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Yummybara Big Crunch bundle boxes" },
+    { "type": "product", "id": "fallback_product", "label": "Fallback product", "info": "Its main image shows on Splash Blue until the photo exists." }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "package", "label": "Box" }, { "value": "tag", "label": "Price tag" }, { "value": "truck", "label": "Truck" },
+          { "value": "smile", "label": "Smile" }, { "value": "gift", "label": "Gift" }, { "value": "check", "label": "Tick" },
+          { "value": "clock", "label": "Clock" }, { "value": "heart", "label": "Heart" }, { "value": "sparkle", "label": "Sparkle" }
+        ], "default": "check" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "HLT HP: Why a bundle" } ]
+}
+{% endschema %}

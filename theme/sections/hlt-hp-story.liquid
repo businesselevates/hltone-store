@@ -1,0 +1,41 @@
+{%- comment -%}
+  H06 Our story (29 Sep 2026 homepage draft), in Bloom's founder-story slot.
+  To be rewritten around the founder's own story once HLT One sends it.
+{%- endcomment -%}
+<section class="hlt hlt--paper hlt-hp hlt-hp-story">
+  <div class="hlt__inner">
+    <div class="hlt-hp-story__grid">
+      <div class="hlt-media" style="--hlt-ratio: 1 / 1;">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 750px) 50vw, 100vw', alt: section.settings.image_alt }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hlt-placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="hlt-hp-story__text">
+        <h2 class="hlt-h2">{{ section.settings.heading | escape }}</h2>
+        <div class="hlt-rte">{{ section.settings.text }}</div>
+        {%- if section.settings.button_label != blank -%}
+          <div class="hlt-btn-row"><a class="hlt-btn hlt-btn--outline" href="{{ section.settings.button_link | default: '/pages/about' }}">{{ section.settings.button_label | escape }}</a></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HLT HP: Our story",
+  "tag": "div",
+  "class": "hlt-hp-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image (IMG-17)", "info": "1400 x 1400. A parent and toddler sharing a snack on a bench or in the car. Warm, unposed." },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "A parent and toddler sharing a Yummybara snack" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The snack in the bag should be one you're glad to give." },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Our story" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "HLT HP: Our story" } ]
+}
+{% endschema %}

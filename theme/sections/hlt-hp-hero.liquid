@@ -1,0 +1,77 @@
+{%- comment -%}
+  H02 Hero (29 Sep 2026 homepage draft). One slide at launch, text live on top
+  of the photo. Until the IMG-02 / IMG-03 shoot exists the right half shows the
+  fallback product's pack shot on Splash Blue.
+{%- endcomment -%}
+{%- liquid
+  assign img = section.settings.image
+  assign img_m = section.settings.image_mobile | default: img
+  assign fallback = section.settings.fallback_image | default: section.settings.fallback_product.featured_image
+  assign cta_url = section.settings.fallback_product.url | default: routes.all_products_collection_url
+  assign focal_style = 'object-position: ' | append: section.settings.focal
+-%}
+<section class="hlt hlt-hp hlt-hp-hero{% if img != blank %} hlt-hp-hero--has-image{% endif %}" style="--hlt-hero-scrim: {{ section.settings.scrim | divided_by: 100.0 }};">
+  <div class="hlt-hp-hero__grid">
+    {%- if img != blank -%}
+      <picture class="hlt-hp-hero__bg">
+        <source media="(max-width: 749px)" srcset="{{ img_m | image_url: width: 750 }} 750w, {{ img_m | image_url: width: 1170 }} 1170w" sizes="100vw">
+        {{ img | image_url: width: 2560 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '1100, 1500, 2000, 2560', sizes: '100vw', alt: section.settings.image_alt, style: focal_style }}
+      </picture>
+    {%- elsif fallback != blank -%}
+      <div class="hlt-hp-hero__bg hlt-hp-hero__bg--fallback">
+        {{ fallback | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(min-width: 750px) 50vw, 100vw', alt: section.settings.image_alt }}
+      </div>
+    {%- endif -%}
+
+    <div class="hlt-hp-hero__text">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hlt-overline">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hlt-h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="hlt-hp-hero__body">{{ section.settings.body | escape }}</p>
+      {%- endif -%}
+      <div class="hlt-hp-hero__ctas">
+        {%- if section.settings.button_label != blank -%}
+          {%- if section.settings.button_link != blank -%}
+            <a class="hlt-btn" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
+          {%- else -%}
+            <a class="hlt-btn" href="{{ cta_url }}" data-hlt-age-open>{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a class="hlt-hp__link" href="{{ section.settings.link_url | default: routes.all_products_collection_url }}">{{ section.settings.link_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HLT HP: Hero",
+  "tag": "div",
+  "class": "hlt-hp-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Yummybara baby and toddler snacks" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Snacks you can hand over anywhere." },
+    { "type": "textarea", "id": "body", "label": "Text", "default": "Made for your child's age, with no added refined sugar or salt, in snack-sized packs sealed one by one." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Choose their bundle" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to open the age question (Find their snack)." },
+    { "type": "text", "id": "link_label", "label": "Second link label", "default": "Shop all snacks" },
+    { "type": "url", "id": "link_url", "label": "Second link" },
+    { "type": "header", "content": "Image (IMG-02 desktop, IMG-03 mobile)" },
+    { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "2560 x 1000. Subject on the right; the text sits live on the left." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "1170 x 1500. Subject in the bottom half." },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "A parent handing a Yummybara snack pack to a toddler" },
+    { "type": "select", "id": "focal", "label": "Desktop image focus", "options": [ { "value": "center", "label": "Centre" }, { "value": "right center", "label": "Right" }, { "value": "left center", "label": "Left" } ], "default": "right center" },
+    { "type": "range", "id": "scrim", "label": "Pale fade behind the text", "min": 0, "max": 100, "step": 10, "unit": "%", "default": 0, "info": "Raise it if the photo is busy behind the words." },
+    { "type": "header", "content": "Until the photo exists" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Shown on Splash Blue when no photo is set." },
+    { "type": "product", "id": "fallback_product", "label": "Fallback product", "info": "Its main image is used if no fallback image is set. Also the no-JS target of the button." }
+  ],
+  "presets": [ { "name": "HLT HP: Hero" } ]
+}
+{% endschema %}

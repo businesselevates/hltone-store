@@ -1,0 +1,146 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free delivery on orders over S$60. Every age bundle ships free.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-2",
+        "show_line_separator": false,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "shop_image_1": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Clearance Sale"
+          }
+        },
+        "shop_image_2": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Baby Snacks"
+          }
+        },
+        "shop_image_3": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Baby Wipes"
+          }
+        },
+        "shop_image_4": {
+          "type": "shop_image",
+          "settings": {
+            "match": "Breastfeeding Essentials"
+          }
+        },
+        "shop_image_5": {
+          "type": "shop_image",
+          "settings": {
+            "match": "4m+"
+          }
+        },
+        "shop_image_6": {
+          "type": "shop_image",
+          "settings": {
+            "match": "6m+"
+          }
+        },
+        "shop_image_7": {
+          "type": "shop_image",
+          "settings": {
+            "match": "7m+"
+          }
+        },
+        "shop_image_8": {
+          "type": "shop_image",
+          "settings": {
+            "match": "10m+"
+          }
+        },
+        "shop_image_9": {
+          "type": "shop_image",
+          "settings": {
+            "match": "12m+"
+          }
+        }
+      },
+      "block_order": [
+        "shop_image_1",
+        "shop_image_2",
+        "shop_image_3",
+        "shop_image_4",
+        "shop_image_5",
+        "shop_image_6",
+        "shop_image_7",
+        "shop_image_8",
+        "shop_image_9"
+      ],
+      "settings": {
+        "logo_position": "middle-center",
+        "mobile_logo_position": "center",
+        "menu": "hlt-header-sep-2026",
+        "menu_type_desktop": "dropdown",
+        "enable_shop_mega": true,
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": false,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 12,
+        "padding_bottom": 12,
+        "hlt_shop_label": "Shop",
+        "hlt_snack_label": "Find their snack",
+        "hlt_bundles_label": "Age bundles",
+        "hlt_age_question": "How old is your child?",
+        "hlt_age_hint": "Between two ages? Pick the younger one.",
+        "hlt_age_1_label": "8 months+",
+        "hlt_age_1_name": "First Melts",
+        "hlt_age_1_product": "first-melts-8-months",
+        "hlt_age_2_label": "10 months+",
+        "hlt_age_2_name": "First Bites",
+        "hlt_age_2_product": "first-bites-10-months",
+        "hlt_age_3_label": "12 months+",
+        "hlt_age_3_name": "Big Crunch",
+        "hlt_age_3_product": "big-crunch-12-months",
+        "hlt_menu_card_heading": "Not sure where to start?",
+        "hlt_menu_card_button": "Choose their bundle"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}
