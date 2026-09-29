@@ -126,7 +126,11 @@
 .hlt-hp-chip:hover { border-color: var(--hlt-navy); }
 .hlt-hp-chip[data-sold-out] { opacity: 0.45; text-decoration: line-through; }
 .hlt-hp-card__pack { font-size: 14px; color: var(--hlt-grey); }
-.hlt-hp-card .hlt-btn { margin-top: auto; min-height: 48px; padding: 12px 18px; font-size: 16px; width: 100%; }
+/* The CTA sits at the foot of every card, whatever the chips above it wrap to.
+   Product cards wrap their button in a form, so the form takes the push. */
+.hlt-hp-card__form, .hlt-hp-card > .hlt-btn { margin-top: auto; }
+.hlt-hp-card .hlt-btn { min-height: 48px; padding: 12px 18px; font-size: 16px; width: 100%; }
+.hlt-hp-card__form .hlt-hp-card__error { margin-top: 8px; }
 .hlt-hp-card__error { font-size: 13px; color: #b3261e; }
 
 /* ---------- H04 Why a bundle ---------- */
