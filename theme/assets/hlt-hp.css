@@ -195,6 +195,7 @@
   color: var(--hlt-navy); transition: transform 0.3s var(--hlt-ease);
 }
 .hlt-hp-tile:hover .hlt-hp-tile__go { transform: translateX(4px); }
+.hlt-hp-tile__go .hlt-icon { width: 32px; height: 32px; stroke-width: 2.75; }
 
 /* ---------- H06 Story ---------- */
 .hlt-hp-story__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
