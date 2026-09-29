@@ -18,12 +18,12 @@
     {%- endif -%}
     <div class="hlt-hp-trust__viewport">
       <ul class="hlt-hp-trust__row" role="list">
-        {%- for pass in (1..2) -%}
+        {%- for pass in (1..4) -%}
           {%- for block in logos -%}
             {%- if block.settings.image != blank -%}
-              <li class="hlt-hp-trust__logo{% if pass == 2 %} hlt-hp-trust__logo--dup{% endif %}"{% if pass == 2 %} aria-hidden="true"{% else %} {{ block.shopify_attributes }}{% endif %}>
+              <li class="hlt-hp-trust__logo{% if pass > 1 %} hlt-hp-trust__logo--dup{% endif %}"{% if pass > 1 %} aria-hidden="true"{% else %} {{ block.shopify_attributes }}{% endif %}>
                 <figure class="hlt-hp-trust__fig">
-                  {%- if pass == 2 -%}
+                  {%- if pass > 1 -%}
                     {{ block.settings.image | image_url: height: 88 | image_tag: loading: 'lazy', alt: '', height: 44 }}
                   {%- else -%}
                     {{ block.settings.image | image_url: height: 88 | image_tag: loading: 'lazy', alt: block.settings.name, height: 44 }}
