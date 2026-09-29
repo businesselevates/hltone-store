@@ -9,7 +9,8 @@ lives in Shopify.
 
 | Section | File |
 | --- | --- |
-| H00 bar + H01 menu | `sections/header-group.json`, `snippets/hlt-shop-menu.liquid`, `snippets/hlt-age-picker.liquid`, `snippets/header-drawer.liquid`, `assets/hlt-shop-menu.css` |
+| H00 bar + H01 menu (**hidden**: the draft shows the live menu; flip `hlt_use_new_nav` in `snippets/hlt-shop-menu.liquid` and set the header menu to `hlt-header-sep-2026` to show it) | `snippets/hlt-nav-2026.liquid`, `assets/hlt-nav-2026.css`, `snippets/hlt-shop-menu.liquid`, `snippets/header-drawer.liquid`, `sections/header-group.json` |
+| Age question dialog (every Choose their bundle button) | `snippets/hlt-age-dialog.liquid`, `snippets/hlt-age-picker.liquid` |
 | H02 hero | `sections/hlt-hp-hero.liquid` |
 | H02b trust logos | `sections/hlt-hp-trust.liquid` |
 | H03 start here | `sections/hlt-hp-start.liquid` |

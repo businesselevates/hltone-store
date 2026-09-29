@@ -21,6 +21,9 @@
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+              {%- comment -%}
+                29 Sep 2026 new nav, hidden: "Find their snack" as the first line of
+                the mobile menu. Remove this comment wrapper to show it again.
               {%- if section.settings.enable_shop_mega -%}
                 <li>
                   <a href="{{ section.settings.hlt_age_1_product.url | default: all_products['first-melts-8-months'].url | default: routes.all_products_collection_url }}" class="hlt-drawer-snack focus-inset" data-hlt-age-open>
@@ -29,6 +32,7 @@
                   </a>
                 </li>
               {%- endif -%}
+              {%- endcomment -%}
               {%- for link in section.settings.menu.links -%}
                 <li>
                   {%- if link.links != blank -%}

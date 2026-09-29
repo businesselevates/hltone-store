@@ -105,9 +105,9 @@
         "shop_image_9"
       ],
       "settings": {
-        "logo_position": "middle-center",
+        "logo_position": "middle-left",
         "mobile_logo_position": "center",
-        "menu": "hlt-header-sep-2026",
+        "menu": "main-menu",
         "menu_type_desktop": "dropdown",
         "enable_shop_mega": true,
         "sticky_header_type": "on-scroll-up",

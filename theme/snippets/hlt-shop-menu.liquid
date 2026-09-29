@@ -1,41 +1,45 @@
+{%- comment -%}
+  29 Sep 2026: the new nav (Shop | Find their snack | Age bundles) is built in
+  snippets/hlt-nav-2026.liquid but hidden for now. Set this to true, and point
+  the header's menu at 'hlt-header-sep-2026', to show it again.
+{%- endcomment -%}
+{%- assign hlt_use_new_nav = false -%}
+
+{%- render 'hlt-age-dialog' -%}
+
+{%- if hlt_use_new_nav -%}
+  {%- render 'hlt-nav-2026' -%}
+{%- else -%}
 {% comment %}
-  HLT One header nav (29 Sep 2026 homepage draft), laid out on Bloom's:
-  Shop ▾ | Find their snack ▾ | Age bundles.
+  Bloom-style Shop menu for the header: one "Shop" trigger that opens a
+  full-width panel. The panel's left rail lists the header menu's top-level
+  items and the area beside it previews whatever the hovered item holds — its
+  child links, or, when it has none and points at a collection, that
+  collection's products.
 
-  - Shop opens a full-width panel. Every top-level item of the header menu
-    that has child links becomes a column (Age bundles, Shop by age, Shop by
-    snack, Habibara), with a "Not sure where to start?" card at the end.
-    Flat top-level links (About, Events) stay out of the desktop bar; the
-    mobile drawer still lists them, and the footer carries them too.
-  - Find their snack replaces Bloom's quiz: a small panel asking the child's
-    age, each answer opening that age's bundle.
-  - Age bundles opens the same question in a dialog.
+  A top-level item only earns a place in the panel if it has something to
+  preview -- child links, or a collection whose products can be shown. The
+  rest (About, Events and any other flat page link) sit in the header bar
+  beside Shop rather than being buried inside it.
 
-  The three ages default to First Melts, First Bites and Big Crunch (see
-  hlt-age-picker). Header settings named hlt_age_1_product, hlt_snack_label,
-  hlt_menu_card_image and so on override the defaults if they are added to
-  the header schema.
+  The panel follows the header's own menu setting: a section schema accepts
+  only one link_list setting and `menu` already uses it, so pointing the panel
+  at a different menu means changing the header menu itself.
 
   Usage:
   {% render 'hlt-shop-menu' %}
 {% endcomment %}
 
-{%- comment -%} Homepage draft styles and the age picker load here so every page that has the header gets them. {%- endcomment -%}
-{{ 'hlt-hp.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'hlt-hp.js' | asset_url }}" defer="defer"></script>
-
 {%- liquid
   assign shop_menu = section.settings.menu
-  assign shop_label = section.settings.hlt_shop_label | default: 'Shop'
-  assign snack_label = section.settings.hlt_snack_label | default: 'Find their snack'
-  assign bundles_label = section.settings.hlt_bundles_label | default: 'Age bundles'
-  assign first_bundle = section.settings.hlt_age_1_product | default: all_products['first-melts-8-months']
-  assign bundle_url = first_bundle.url | default: routes.all_products_collection_url
-  assign card_image = section.settings.hlt_menu_card_image | default: first_bundle.featured_image
-  assign column_count = 0
+  assign shop_label = 'Shop'
+  assign shop_all_label = 'Shop all'
+  assign shop_all_url = routes.all_products_collection_url
+  assign preview_limit = 8
+  assign image_blocks = section.blocks | where: 'type', 'shop_image'
 -%}
 
-<nav class="header__inline-menu hlt-nav" data-hlt-shop-nav aria-label="Main">
+<nav class="header__inline-menu hlt-nav" data-hlt-shop-nav>
   <ul class="list-menu list-menu--inline hlt-nav__list" role="list">
     <li>
       <button
@@ -49,71 +53,85 @@
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </button>
     </li>
-    <li class="hlt-snack" data-hlt-snack>
-      <button
-        type="button"
-        class="header__menu-item list-menu__item link focus-inset hlt-nav__trigger"
-        aria-expanded="false"
-        aria-controls="HltSnackPanel"
-        data-hlt-snack-trigger
-      >
-        <span>{{ snack_label | escape }}</span>
-        {{- 'icon-caret.svg' | inline_asset_content -}}
-      </button>
-      <div id="HltSnackPanel" class="hlt-snack__panel" data-hlt-snack-panel hidden>
-        {% render 'hlt-age-picker', heading_id: 'HltSnackQ' %}
-      </div>
-    </li>
-    <li>
-      <a href="{{ bundle_url }}" class="header__menu-item list-menu__item link focus-inset hlt-nav__link" data-hlt-age-open>
-        <span>{{ bundles_label | escape }}</span>
-      </a>
-    </li>
+    {%- for link in shop_menu.links -%}
+      {%- unless link.links.size > 0 or link.type == 'collection_link' -%}
+        <li>
+          <a
+            href="{{ link.url }}"
+            class="header__menu-item list-menu__item link focus-inset hlt-nav__link{% if link.current or link.child_active %} hlt-nav__link--current{% endif %}"
+            {% if link.current %}aria-current="page"{% endif %}
+          >
+            <span>{{ link.title | escape }}</span>
+          </a>
+        </li>
+      {%- endunless -%}
+    {%- endfor -%}
   </ul>
 
-  <div id="HltShopPanel" class="hlt-shop-panel color-{{ section.settings.menu_color_scheme }} gradient" data-hlt-shop-panel hidden>
-    <div class="hlt-shop-panel__inner page-width">
-      {%- for link in shop_menu.links -%}
-        {%- if link.links.size > 0 and column_count < 4 -%}
-          {%- assign column_count = column_count | plus: 1 -%}
-          <div class="hlt-shop-col">
-            <p class="hlt-shop-col__title">
-              <a href="{{ link.url }}">{{ link.title | escape }}</a>
-            </p>
-            <ul class="hlt-shop-col__list" role="list">
-              {%- for childlink in link.links -%}
-                <li>
-                  <a href="{{ childlink.url }}"{% if childlink.current %} aria-current="page"{% endif %}>{{ childlink.title | escape }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-
-      <div class="hlt-shop-promo">
-        <a class="hlt-shop-promo__media" href="{{ bundle_url }}" data-hlt-age-open tabindex="-1" aria-hidden="true">
-          {%- if card_image != blank -%}
-            {{ card_image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '260px', alt: '' }}
-          {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'hlt-shop-promo__ph' }}
+  <div
+    id="HltShopPanel"
+    class="hlt-shop-panel color-{{ section.settings.menu_color_scheme }} gradient"
+    data-hlt-shop-panel
+    hidden
+  >
+    <div class="hlt-shop-panel__inner">
+      <div class="hlt-shop-panel__side">
+        {%- assign cat_index = 0 -%}
+        {%- for link in shop_menu.links -%}
+          {%- if link.links.size > 0 or link.type == 'collection_link' -%}
+            {%- assign cat_index = cat_index | plus: 1 -%}
+            <a
+              class="hlt-shop-cat{% if cat_index == 1 %} is-active{% endif %}"
+              href="{{ link.url }}"
+              data-hlt-cat="{{ cat_index }}"
+            >
+              <span>{{ link.title | escape }}</span>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </a>
           {%- endif -%}
-        </a>
-        <p class="hlt-shop-promo__title">{{ section.settings.hlt_menu_card_heading | default: 'Not sure where to start?' | escape }}</p>
-        <a class="button hlt-shop-promo__btn" href="{{ bundle_url }}" data-hlt-age-open>{{ section.settings.hlt_menu_card_button | default: 'Choose their bundle' | escape }}</a>
+        {%- endfor -%}
+        {%- if shop_all_url != blank -%}
+          <a class="button hlt-shop-panel__all" href="{{ shop_all_url }}">{{ shop_all_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      <div class="hlt-shop-panel__main">
+        {%- assign pane_index = 0 -%}
+        {%- for link in shop_menu.links -%}
+          {%- unless link.links.size > 0 or link.type == 'collection_link' -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- assign pane_index = pane_index | plus: 1 -%}
+          <div class="hlt-shop-grid" data-hlt-pane="{{ pane_index }}"{% unless pane_index == 1 %} hidden{% endunless %}>
+            {%- if link.links.size > 0 -%}
+              {%- for childlink in link.links -%}
+                {%- liquid
+                  assign card_image = blank
+                  case childlink.type
+                    when 'collection_link'
+                      assign card_image = childlink.object.featured_image
+                      if card_image == blank
+                        assign card_image = childlink.object.products.first.featured_image
+                      endif
+                    when 'product_link'
+                      assign card_image = childlink.object.featured_image
+                    when 'article_link'
+                      assign card_image = childlink.object.image
+                  endcase
+                -%}
+                {% render 'hlt-shop-card', title: childlink.title, url: childlink.url, image: card_image, blocks: image_blocks %}
+              {%- endfor -%}
+            {%- elsif link.type == 'collection_link' -%}
+              {%- for product in link.object.products limit: preview_limit -%}
+                {% render 'hlt-shop-card', title: product.title, url: product.url, image: product.featured_image, blocks: image_blocks %}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
       </div>
     </div>
   </div>
 </nav>
-
-<dialog id="HltAgeDialog" class="hlt-age-dialog" aria-labelledby="HltAgeDialogQ">
-  <div class="hlt-age-dialog__inner">
-    <button type="button" class="hlt-age-dialog__close" data-hlt-age-close aria-label="Close">
-      {%- render 'hlt-icon', name: 'plus', size: 24 -%}
-    </button>
-    {% render 'hlt-age-picker', heading_id: 'HltAgeDialogQ' %}
-  </div>
-</dialog>
 
 <script>
   (function () {
@@ -124,6 +142,9 @@
     var trigger = nav.querySelector('[data-hlt-shop-trigger]');
     var panel = nav.querySelector('[data-hlt-shop-panel]');
     if (!trigger || !panel) return;
+
+    var cats = Array.prototype.slice.call(panel.querySelectorAll('[data-hlt-cat]'));
+    var panes = Array.prototype.slice.call(panel.querySelectorAll('[data-hlt-pane]'));
     var closeTimer = null;
 
     function setOpen(on) {
@@ -131,7 +152,6 @@
       panel.hidden = !on;
       trigger.setAttribute('aria-expanded', on ? 'true' : 'false');
       nav.classList.toggle('is-open', on);
-      if (on) document.dispatchEvent(new CustomEvent('hlt:menu-open', { detail: 'shop' }));
     }
 
     /* A short delay on the way out, so crossing the gap between the trigger and
@@ -141,15 +161,23 @@
       closeTimer = window.setTimeout(function () { setOpen(false); }, 180);
     }
 
-    trigger.addEventListener('mouseenter', function () { setOpen(true); });
-    trigger.addEventListener('click', function () { setOpen(panel.hidden); });
-    trigger.parentElement.addEventListener('mouseleave', closeSoon);
-    panel.addEventListener('mouseenter', function () { setOpen(true); });
-    panel.addEventListener('mouseleave', closeSoon);
+    function show(key) {
+      cats.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-hlt-cat') === key); });
+      panes.forEach(function (p) { p.hidden = p.getAttribute('data-hlt-pane') !== key; });
+    }
 
-    document.addEventListener('hlt:menu-open', function (e) {
-      if (e.detail !== 'shop' && !panel.hidden) setOpen(false);
+    trigger.addEventListener('mouseenter', function () { setOpen(true); });
+    trigger.addEventListener('focus', function () { setOpen(true); });
+    trigger.addEventListener('click', function () { setOpen(panel.hidden); });
+    panel.addEventListener('mouseenter', function () { setOpen(true); });
+    nav.addEventListener('mouseleave', closeSoon);
+
+    cats.forEach(function (c) {
+      var key = c.getAttribute('data-hlt-cat');
+      c.addEventListener('mouseenter', function () { show(key); });
+      c.addEventListener('focus', function () { show(key); });
     });
+
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !panel.hidden) {
         setOpen(false);
@@ -158,8 +186,9 @@
     });
     ['click', 'focusin'].forEach(function (type) {
       document.addEventListener(type, function (e) {
-        if (!panel.hidden && !panel.contains(e.target) && !trigger.contains(e.target)) setOpen(false);
+        if (!panel.hidden && !nav.contains(e.target)) setOpen(false);
       });
     });
   })();
 </script>
+{%- endif -%}
