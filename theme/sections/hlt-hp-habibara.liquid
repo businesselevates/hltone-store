@@ -7,7 +7,7 @@
   assign img_m = section.settings.image_mobile | default: img
   assign pack = section.settings.fallback_product.featured_image
 -%}
-<section class="hlt hlt--cream hlt-hp hlt-hp-habi" style="--hlt-hp-habi-bg: {{ section.settings.bg }};">
+<section class="hlt hlt--cream hlt-hp hlt-hp-habi{% if img != blank %} hlt-hp-habi--has-image{% endif %}" style="--hlt-hp-habi-bg: {{ section.settings.bg }};">
   <div class="hlt__inner">
     <div class="hlt-hp-habi__grid">
       {%- if img != blank -%}

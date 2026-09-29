@@ -41,6 +41,15 @@
   background: linear-gradient(90deg, var(--hlt-splash-pale) 60%, rgba(234, 246, 251, 0));
   opacity: var(--hlt-hero-scrim, 0);
 }
+/* With a photo, the grid follows the photo's shape (2:1 desktop art, tall phone
+   art) and the copy sits live on its empty side. */
+.hlt-hp-hero--has-image .hlt-hp-hero__grid { min-height: clamp(460px, 50vw, 800px); }
+@media (max-width: 749px) {
+  .hlt-hp-hero--has-image .hlt-hp-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; aspect-ratio: 1200 / 2592; }
+  .hlt-hp-hero--has-image .hlt-hp-hero__bg { position: absolute; inset: 0; aspect-ratio: auto; }
+  .hlt-hp-hero--has-image .hlt-hp-hero__bg img { object-position: center bottom !important; }
+  .hlt-hp-hero--has-image .hlt-hp-hero__text { align-self: start; padding-top: 44px; }
+}
 @media (max-width: 749px) {
   .hlt-hp-hero__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
   .hlt-hp-hero__bg { position: relative; inset: auto; order: 2; aspect-ratio: 1170 / 1500; }
@@ -191,10 +200,17 @@
 .hlt-hp-habi__text > * + * { margin-top: 16px; }
 .hlt-hp-habi .hlt-h2 { font-size: clamp(30px, 3.4vw, 44px); }
 .hlt-hp-habi .hlt-body { color: var(--hlt-navy); max-width: 40ch; }
+.hlt-hp-habi--has-image .hlt-hp-habi__grid { min-height: 0; aspect-ratio: 3200 / 1125; }
+.hlt-hp-habi__bg img { object-position: right center; }
 @media (max-width: 749px) {
   .hlt-hp-habi__grid { grid-template-columns: minmax(0, 1fr); }
   .hlt-hp-habi__bg { position: relative; aspect-ratio: 1170 / 1300; order: 2; }
   .hlt-hp-habi__pack { order: 2; }
+  /* The phone art leaves its top half empty for the copy. */
+  .hlt-hp-habi--has-image .hlt-hp-habi__grid { aspect-ratio: 1170 / 1300; }
+  .hlt-hp-habi--has-image .hlt-hp-habi__bg { position: absolute; inset: 0; aspect-ratio: auto; }
+  .hlt-hp-habi--has-image .hlt-hp-habi__bg img { object-position: center bottom; }
+  .hlt-hp-habi--has-image .hlt-hp-habi__text { align-self: start; padding-bottom: 40%; }
 }
 
 /* ---------- H09 Reviews ---------- */

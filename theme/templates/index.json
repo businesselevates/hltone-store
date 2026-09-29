@@ -16,12 +16,15 @@
         "heading": "Snacks you can hand over anywhere.",
         "body": "Made for your child's age, with no added refined sugar or salt, in snack-sized packs sealed one by one.",
         "button_label": "Choose their bundle",
+        "button_link": "",
         "link_label": "Shop all snacks",
         "link_url": "shopify://collections/yummybara",
-        "image_alt": "A parent handing a Yummybara snack pack to a toddler",
+        "image": "shopify://shop_images/homepage-02_hero_desktop.webp",
+        "image_alt": "Yummybara snack boxes for every age",
         "focal": "right center",
         "scrim": 0,
-        "fallback_product": "first-melts-8-months"
+        "fallback_product": "first-melts-8-months",
+        "image_mobile": "shopify://shop_images/homepage-02_hero_mobile.webp"
       }
     },
     "hlt_hp_hero_spare": {
@@ -34,6 +37,7 @@
         "button_label": "Shop freeze-dried fruit",
         "button_link": "shopify://products/yummybara-freeze-dried-fruits-20g-8-months",
         "link_label": "",
+        "link_url": "",
         "image_alt": "Yummybara freeze-dried fruit",
         "focal": "right center",
         "scrim": 0,
@@ -257,7 +261,8 @@
         "product_8"
       ],
       "settings": {
-        "heading": "Start here"
+        "heading": "Start here",
+        "currency_prefix": "S$"
       }
     },
     "hlt_hp_band": {
@@ -301,8 +306,9 @@
       "settings": {
         "heading": "A bundle for their age, delivered free.",
         "button_label": "Choose their bundle",
-        "image_alt": "Yummybara Big Crunch bundle boxes",
-        "fallback_product": "big-crunch-12-months"
+        "image_alt": "Big Crunch bundle boxes: jumbo filled rice sticks, corn puff pops and shrimp wafer crisps",
+        "fallback_product": "big-crunch-12-months",
+        "image": "shopify://shop_images/homepage-04_why-a-bundle.webp"
       }
     },
     "hlt_hp_tiles": {
@@ -314,7 +320,8 @@
             "title": "8 months+",
             "subtitle": "Melts",
             "link": "shopify://collections/8m",
-            "fallback_product": "first-melts-8-months"
+            "fallback_product": "first-melts-8-months",
+            "image": "shopify://shop_images/homepage-05_age-8m.webp"
           }
         },
         "tile_2": {
@@ -323,6 +330,7 @@
             "title": "10 months+",
             "subtitle": "Rice rusks and melts",
             "link": "shopify://collections/10m",
+            "image": "shopify://shop_images/homepage-05_age-10m.webp",
             "fallback_product": "first-bites-10-months"
           }
         },
@@ -332,7 +340,8 @@
             "title": "12 months+",
             "subtitle": "Real crunch",
             "link": "shopify://collections/12m",
-            "fallback_product": "big-crunch-12-months"
+            "fallback_product": "big-crunch-12-months",
+            "image": "shopify://shop_images/homepage-05_age-12m.webp"
           }
         },
         "tile_4": {
@@ -341,7 +350,8 @@
             "title": "Shop all",
             "subtitle": "",
             "link": "shopify://collections/yummybara",
-            "fallback_product": "yummybara-freeze-dried-fruits-20g-8-months"
+            "fallback_product": "yummybara-freeze-dried-fruits-20g-8-months",
+            "image": "shopify://shop_images/homepage-05_age-shop-all.webp"
           }
         }
       },
@@ -358,8 +368,8 @@
     "hlt_hp_story": {
       "type": "hlt-hp-story",
       "settings": {
-        "image": "shopify://shop_images/Yummybara_On-The-Go_Snack_Kit_Yummybara_1c71d816e4c7df2e.webp",
-        "image_alt": "Yummybara snack packs ready for a day out",
+        "image": "shopify://shop_images/homepage-06_story.webp",
+        "image_alt": "A parent handing a snack pack to a toddler on a park bench",
         "heading": "The snack in the bag should be one you're glad to give.",
         "text": "<p>Most snacks packed for a day out are a compromise. You pack them anyway, because a hungry toddler halfway round the zoo will not wait.</p><p>Yummybara is a Singapore brand of baby and toddler snacks made so you don't have to settle. Each one is made for a particular age, with no added refined sugar or salt and no preservatives, and every one is halal certified.</p>",
         "button_label": "Our story",
@@ -375,8 +385,10 @@
         "button_label": "Shop Habibara",
         "button_link": "shopify://collections/habibara",
         "bg": "#fde8ea",
-        "image_alt": "Habibara Pure & Gentle baby wet wipes, 80 sheets",
-        "fallback_product": "habibara-pure-gentle-baby-mouth-hand-wipes-80-sheets"
+        "image_alt": "Habibara baby wipes beside an open pack of yoghurt melts",
+        "fallback_product": "habibara-pure-gentle-baby-mouth-hand-wipes-80-sheets",
+        "image": "shopify://shop_images/homepage-08_habibara_desktop.webp",
+        "image_mobile": "shopify://shop_images/homepage-08_habibara_mobile.webp"
       }
     },
     "hlt_hp_reviews": {
@@ -386,28 +398,40 @@
           "type": "review",
           "settings": {
             "quote": "It's not easy finding snacks that they both genuinely enjoy, but HLT One has become one of their favourites.",
-            "who": "Rina, mum of two"
+            "who": "Rina, mum of two",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
             "quote": "I've been ordering this almost every other week with the rate my toddler is going. It's one of her almost-daily snacks! Fast delivery as always.",
-            "who": "Sent to us on Messenger"
+            "who": "Sent to us on Messenger",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
             "quote": "Tastes good even for adults, not too sweet, and melts in the mouth. Baby loves it so much that I had to find it online!",
-            "who": "Shopee review"
+            "who": "Shopee review",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         },
         "review_4": {
           "type": "review",
           "settings": {
             "quote": "These are so good and so crunchy! My baby absolutely adores them and just can't get enough. Definitely recommend.",
-            "who": "Shopee review"
+            "who": "Shopee review",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         },
         "review_5": {
@@ -415,6 +439,7 @@
           "settings": {
             "quote": "Easy for a 1-year-old to eat, with no ingredients other than the fruit itself.",
             "who": "Shopee review, mum of a 1-year-old",
+            "image_alt": "",
             "link_label": "Shop Freeze-Dried Fruit",
             "link": "shopify://products/yummybara-freeze-dried-fruits-20g-8-months"
           }
@@ -423,14 +448,20 @@
           "type": "review",
           "settings": {
             "quote": "He loves it, and it stays crispy even when it's been opened for days, unlike other brands we'd tried, which always got wasted because they couldn't keep.",
-            "who": "Sent to us on WhatsApp"
+            "who": "Sent to us on WhatsApp",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         },
         "review_7": {
           "type": "review",
           "settings": {
             "quote": "Trust me, my house only has HLT One snacks now. No more other biscuits. We used to buy fish or animal biscuits and ended up stopping. We changed everything to HLT.",
-            "who": "Sent to us on WhatsApp"
+            "who": "Sent to us on WhatsApp",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
           }
         }
       },
