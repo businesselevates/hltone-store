@@ -114,7 +114,7 @@
         "cert_9": {
           "type": "cert",
           "settings": {
-            "show": false,
+            "show": true,
             "badge_text": "HACCP",
             "label": "HACCP certified"
           }
@@ -122,7 +122,7 @@
         "cert_10": {
           "type": "cert",
           "settings": {
-            "show": false,
+            "show": true,
             "badge_text": "ISO 22000",
             "label": "ISO 22000 certified"
           }
@@ -130,7 +130,7 @@
         "cert_11": {
           "type": "cert",
           "settings": {
-            "show": false,
+            "show": true,
             "badge_text": "ORGANIC",
             "label": "Organic certified"
           }
