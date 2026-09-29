@@ -160,7 +160,7 @@
 .hlt-hp-tile:hover > img { transform: scale(1.05); }
 .hlt-hp-tile__label {
   position: absolute; left: 12px; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 2px;
-  padding: 10px 14px; border-radius: 14px; background: var(--hlt-paper); width: fit-content; max-width: calc(100% - 24px);
+  padding: 8px 10px; width: fit-content; max-width: calc(100% - 24px);
 }
 .hlt-hp-tile__label b { font-family: var(--hlt-font-display); font-weight: 800; font-size: clamp(20px, 2vw, 26px); line-height: 1.05; }
 .hlt-hp-tile__label span { font-size: 14px; font-weight: 600; color: var(--hlt-ocean); }
