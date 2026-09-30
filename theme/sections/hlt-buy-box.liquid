@@ -134,6 +134,7 @@
   class="hlt hlt--{{ section.settings.background }} hlt-bb"
   style="--hlt-pt: {{ section.settings.padding_top }}px; --hlt-pb: {{ section.settings.padding_bottom }}px;"
   data-hlt-buy-box
+  {% if section.settings.after_add == 'checkout' %}data-hlt-checkout{% endif %}
   tabindex="-1"
 >
   <script type="application/json" data-hlt-bundle-data>{{ bundle_json }}</script>
@@ -752,7 +753,7 @@
   endif
 -%}
 {%- if show_sticky -%}
-  <div class="hlt hlt-sticky" data-hlt-sticky-bar aria-hidden="true">
+  <div class="hlt hlt-sticky" data-hlt-sticky-bar{% if section.settings.after_add == 'checkout' %} data-hlt-checkout{% endif %} aria-hidden="true">
     <div class="hlt-sticky__inner">
       {%- if age_blocks.size > 0 -%}
       <label class="hlt-sticky__field">
@@ -823,7 +824,7 @@
       if (sizeSel) sizeSel.addEventListener('change', function () { if (box.hltSet) box.hltSet(null, sizeSel.value); });
       if (btn) {
         btn.addEventListener('click', function () {
-          if (window.HLT && window.HLT.addToCart) window.HLT.addToCart(btn.getAttribute('data-variant-id'), btn, err);
+          if (window.HLT && window.HLT.addToCart) window.HLT.addToCart(btn.getAttribute('data-variant-id'), btn, err, bar.hasAttribute('data-hlt-checkout'));
         });
       }
 
@@ -1032,6 +1033,7 @@
     { "type": "text", "id": "age_label", "label": "Age label", "default": "Pick your child's age" },
     { "type": "text", "id": "bundle_label", "label": "Bundle label", "default": "Pick your bundle" },
     { "type": "text", "id": "add_label", "label": "Add to cart label", "default": "Add to cart" },
+    { "type": "select", "id": "after_add", "label": "After Add to cart", "default": "cart", "info": "Applies to the main button and the sticky bar. Pair it with buttons always open the cart.", "options": [ { "value": "cart", "label": "Open the slide-out cart" }, { "value": "checkout", "label": "Go straight to checkout" } ] },
     { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
     { "type": "header", "content": "Card 1 (Standard)" },
     { "type": "text", "id": "card1_title", "label": "Title", "default": "Standard" },

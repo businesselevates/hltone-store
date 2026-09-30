@@ -213,9 +213,11 @@
   function cartElement() {
     return doc.querySelector('cart-drawer') || doc.querySelector('cart-notification');
   }
-  function addToCart(variantId, button, errorEl) {
+  /* toCheckout: add the item, then send the shopper straight to checkout
+     instead of opening the slide-out cart. */
+  function addToCart(variantId, button, errorEl, toCheckout) {
     if (!variantId) return Promise.resolve();
-    var cart = cartElement();
+    var cart = toCheckout ? null : cartElement();
     var body = { id: Number(variantId), quantity: 1 };
     if (cart && typeof cart.getSectionsToRender === 'function') {
       body.sections = cart.getSectionsToRender().map(function (s) { return s.id; });
@@ -233,6 +235,12 @@
       .then(function (res) {
         if (res.status) {
           if (errorEl) { errorEl.textContent = res.description || res.message; errorEl.hidden = false; }
+          return;
+        }
+        if (toCheckout) {
+          doc.dispatchEvent(new CustomEvent('hlt:cart-added', { detail: res }));
+          var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+          window.location.href = root + 'checkout';
           return;
         }
         if (cart && typeof cart.renderContents === 'function') {
@@ -346,7 +354,7 @@
     });
     if (addBtn) {
       addBtn.addEventListener('click', function () {
-        addToCart(addBtn.getAttribute('data-variant-id'), addBtn, errorEl);
+        addToCart(addBtn.getAttribute('data-variant-id'), addBtn, errorEl, box.hasAttribute('data-hlt-checkout'));
       });
     }
 
