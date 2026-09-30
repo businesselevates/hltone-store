@@ -1,0 +1,127 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "image_grYLE9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/hlt1-logo-white.webp",
+            "image_width": 150,
+            "alignment": ""
+          }
+        },
+        "text_DE7HDL": {
+          "type": "text",
+          "settings": {
+            "heading": "",
+            "subtext": "<p>Gentle snacks for growing little tummies. Powered by StageWise™. Halal Certified. Brand of Singapore.</p>"
+          }
+        },
+        "link_list_mRWqUJ": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Useful Links",
+            "menu": "footer"
+          }
+        },
+        "link_list_bWiTUK": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Shop",
+            "menu": "product-menu-for-footer"
+          }
+        }
+      },
+      "block_order": [
+        "image_grYLE9",
+        "text_DE7HDL",
+        "link_list_mRWqUJ",
+        "link_list_bWiTUK"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 100,
+        "padding_bottom": 36
+      },
+      "disabled": true
+    },
+    "hlt_footer": {
+      "type": "hlt-footer",
+      "blocks": {
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "heading": "Shop",
+            "label_1": "Age bundles",
+            "url_1": "shopify://products/first-melts-8-months",
+            "label_2": "Shop by age",
+            "url_2": "shopify://collections/yummybara",
+            "label_3": "Habibara",
+            "url_3": "shopify://collections/habibara"
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "heading": "Help",
+            "label_1": "Shipping policy",
+            "url_1": "https://www.hltone.com/policies/shipping-policy",
+            "label_2": "Refund policy",
+            "url_2": "https://www.hltone.com/policies/refund-policy",
+            "label_3": "Contact us",
+            "url_3": "shopify://pages/contact"
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "heading": "Company",
+            "label_1": "About HLT One",
+            "url_1": "shopify://pages/about",
+            "label_2": "Events",
+            "url_2": "shopify://pages/events"
+          }
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2",
+        "column_3"
+      ],
+      "settings": {
+        "heading": "News from Yummybara",
+        "text": "New flavours, restocks and the next fair we'll be at.",
+        "klaviyo_form_id": "T4xtAp",
+        "klaviyo_site_id": "Xv5vrT",
+        "consent": "By joining you agree to receive marketing emails from HLT One. Unsubscribe any time.",
+        "logo": "shopify://shop_images/logo-2048x1093_2.png",
+        "logo_width": 130
+      }
+    }
+  },
+  "order": [
+    "hlt_footer",
+    "footer"
+  ]
+}

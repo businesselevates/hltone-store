@@ -1,0 +1,149 @@
+/* HLT One header nav (29 Sep 2026 homepage draft): Shop ▾ | Find their snack ▾ | Age bundles.
+   Shop opens a full-width panel of link columns plus a bundle card, laid out on
+   Bloom's. Desktop only: below 990px Dawn hides .header__inline-menu and the
+   drawer takes over. Brand: Nunito for links, DM Mono for column labels,
+   Baloo 2 for the card heading, pill CTA. */
+
+.header-wrapper { position: relative; }
+.hlt-nav { position: static; }
+
+.hlt-nav__list { display: flex; align-items: center; gap: 2.8rem; flex-wrap: wrap; }
+
+.hlt-nav__trigger,
+.hlt-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.2rem 0;
+  border: 0;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font-family: 'Nunito', var(--font-body-family);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hlt-nav__link:hover,
+.hlt-nav__trigger:hover { text-decoration: underline; text-underline-offset: 0.4rem; text-decoration-color: #5ec2e7; text-decoration-thickness: 0.2rem; }
+.hlt-nav__trigger svg { width: 1rem; height: 1rem; transition: transform 0.25s ease; }
+.hlt-nav.is-open [data-hlt-shop-trigger] svg,
+.hlt-snack.is-open [data-hlt-snack-trigger] svg { transform: rotate(180deg); }
+
+/* ---------- Shop panel ---------- */
+.hlt-shop-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 6;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  box-shadow: 0 2.4rem 4rem -2.8rem rgba(27, 46, 92, 0.45);
+}
+.hlt-shop-panel[hidden] { display: none; }
+.hlt-shop-panel__inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(22rem, 1.25fr);
+  gap: 3.2rem;
+  padding-top: 3.2rem;
+  padding-bottom: 3.6rem;
+}
+.hlt-shop-col__title {
+  margin: 0 0 1.2rem;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.hlt-shop-col__title a { color: rgba(var(--color-foreground), 0.7); text-decoration: none; }
+.hlt-shop-col__title a:hover { color: rgb(var(--color-foreground)); }
+.hlt-shop-col__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+.hlt-shop-col__list a {
+  color: rgb(var(--color-foreground));
+  font-family: 'Nunito', var(--font-body-family);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.hlt-shop-col__list a:hover,
+.hlt-shop-col__list a[aria-current] { text-decoration: underline; text-underline-offset: 0.3rem; text-decoration-color: #5ec2e7; text-decoration-thickness: 0.2rem; }
+
+.hlt-shop-promo { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+.hlt-shop-promo__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 26rem;
+  overflow: hidden;
+  border-radius: 2rem;
+  background: #5ec2e7;
+}
+.hlt-shop-promo__media img,
+.hlt-shop-promo__media svg { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.hlt-shop-promo__media:hover img { transform: scale(1.04); }
+.hlt-shop-promo__title {
+  margin: 0;
+  font-family: 'Baloo 2', 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: rgb(var(--color-foreground));
+}
+.hlt-shop-promo__btn {
+  min-height: 4.6rem;
+  padding: 1rem 2.4rem;
+  border-radius: 10rem;
+  font-family: 'Baloo 2', 'Nunito', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.hlt-shop-promo__btn::after,
+.hlt-shop-promo__btn::before { border-radius: 10rem; }
+
+/* ---------- Find their snack panel ---------- */
+.hlt-snack { position: relative; }
+.hlt-snack__panel {
+  position: absolute;
+  left: -2.4rem;
+  top: 100%;
+  z-index: 7;
+  width: 46rem;
+  padding: 2.4rem;
+  border-radius: 2rem;
+  background: #fffbf1;
+  box-shadow: 0 2.4rem 5rem -2rem rgba(27, 46, 92, 0.4), 0 0 0 0.1rem rgba(27, 46, 92, 0.08);
+}
+.hlt-snack__panel[hidden] { display: none; }
+.hlt-snack__panel .hlt-age__opt { min-width: 0; flex: 1 1 0; padding: 1.2rem 1.4rem; }
+.hlt-snack__panel .hlt-age__opt b { font-size: 1.8rem; }
+.hlt-snack__panel .hlt-age__opt span { font-size: 1.3rem; }
+.hlt-snack__panel .hlt-age__q { font-size: 2.2rem; }
+.hlt-snack__panel .hlt-age__hint { font-size: 1.4rem; }
+
+/* ---------- Mobile drawer: Find their snack as the first line ---------- */
+.hlt-drawer-snack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.1rem 3rem;
+  border: 0;
+  background: #eaf6fb;
+  color: #1b2e5c;
+  font-family: 'Baloo 2', 'Nunito', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+.hlt-drawer-snack svg { width: 2rem; height: 2rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hlt-nav__trigger svg,
+  .hlt-shop-promo__media img { transition: none; }
+}

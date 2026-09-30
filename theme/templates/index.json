@@ -1,0 +1,493 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hlt_hp_hero": {
+      "type": "hlt-hp-hero",
+      "settings": {
+        "eyebrow": "Yummybara baby and toddler snacks",
+        "heading": "Snacks you can hand over anywhere.",
+        "body": "Made for your child's age, with no added refined sugar or salt, in snack-sized packs sealed one by one.",
+        "button_label": "Choose their bundle",
+        "button_link": "",
+        "link_label": "Shop all snacks",
+        "link_url": "shopify://collections/yummybara",
+        "image": "shopify://shop_images/homepage-02_hero_desktop.webp",
+        "image_alt": "Yummybara snack boxes for every age",
+        "focal": "right center",
+        "scrim": 0,
+        "fallback_product": "first-melts-8-months",
+        "image_mobile": "shopify://shop_images/homepage-02_hero_mobile.webp"
+      }
+    },
+    "hlt_hp_hero_spare": {
+      "type": "hlt-hp-hero",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Yummybara freeze-dried fruit",
+        "heading": "Freeze-dried fruit, in snack-sized packs.",
+        "body": "Apple, banana, blueberry, mango and strawberry, for 12 months+.",
+        "button_label": "Shop freeze-dried fruit",
+        "button_link": "shopify://products/yummybara-freeze-dried-fruits-20g-8-months",
+        "link_label": "",
+        "link_url": "",
+        "image_alt": "Yummybara freeze-dried fruit",
+        "focal": "right center",
+        "scrim": 0,
+        "fallback_product": "yummybara-freeze-dried-fruits-20g-8-months"
+      }
+    },
+    "hlt_hp_trust": {
+      "type": "hlt-hp-trust",
+      "blocks": {
+        "logo_1": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_4.webp",
+            "name": "Cold Storage",
+            "caption": ""
+          }
+        },
+        "logo_2": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_6.webp",
+            "name": "Giant",
+            "caption": ""
+          }
+        },
+        "logo_3": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_2.webp",
+            "name": "Sheng Siong",
+            "caption": ""
+          }
+        },
+        "logo_4": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_3.webp",
+            "name": "Mothercare",
+            "caption": ""
+          }
+        },
+        "logo_5": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/My_Chemist_Logo_1-removebg-preview.png",
+            "name": "My Chemist",
+            "caption": "Malaysia"
+          }
+        },
+        "logo_6": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_53-removebg-preview.png",
+            "name": "Mummy's Market",
+            "caption": ""
+          }
+        },
+        "logo_7": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_5.webp",
+            "name": "Supermom",
+            "caption": ""
+          }
+        },
+        "cert_8": {
+          "type": "cert",
+          "settings": {
+            "show": true,
+            "badge_text": "MUIS HALAL",
+            "label": "Halal certified"
+          }
+        },
+        "cert_9": {
+          "type": "cert",
+          "settings": {
+            "show": true,
+            "badge_text": "HACCP",
+            "label": "HACCP certified"
+          }
+        },
+        "cert_10": {
+          "type": "cert",
+          "settings": {
+            "show": true,
+            "badge_text": "ISO 22000",
+            "label": "ISO 22000 certified"
+          }
+        },
+        "cert_11": {
+          "type": "cert",
+          "settings": {
+            "show": true,
+            "badge_text": "ORGANIC",
+            "label": "Organic certified"
+          }
+        }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5",
+        "logo_6",
+        "logo_7",
+        "cert_8",
+        "cert_9",
+        "cert_10",
+        "cert_11"
+      ],
+      "settings": {
+        "label": "Parents have found us at"
+      }
+    },
+    "hlt_hp_start": {
+      "type": "hlt-hp-start",
+      "blocks": {
+        "bundle_1": {
+          "type": "bundle",
+          "settings": {
+            "title": "Yummybara Age Bundle",
+            "age_tag": "8 to 12 months+",
+            "price_prefix": "From",
+            "bundle_1": "first-melts-8-months",
+            "chip_1": "8 months+",
+            "bundle_2": "first-bites-10-months",
+            "chip_2": "10 months+",
+            "bundle_3": "big-crunch-12-months",
+            "chip_3": "12 months+",
+            "pack": "Free delivery",
+            "button_label": "Choose their bundle"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-fruits-20g-8-months",
+            "name": "Freeze-Dried Fruit",
+            "age_tag": "12 months+",
+            "show_options": true,
+            "pack": "4 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-pre-probiotics-cheese-melts-18g-8-months",
+            "name": "Cheese Melts",
+            "age_tag": "8 months+",
+            "show_options": true,
+            "pack": "4 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-pre-probiotic-coconut-milk-melts-18g-8-months",
+            "name": "Coconut Milk Melts",
+            "age_tag": "8 months+",
+            "show_options": true,
+            "pack": "4 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_5": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-dark-chocolate-20g-12-months",
+            "name": "Freeze-Dried Dark Chocolate",
+            "age_tag": "12 months+",
+            "show_options": true,
+            "pack": "10 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_6": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-rice-rusks-20g",
+            "name": "Freeze-Dried Rice Rusks",
+            "age_tag": "8 months+",
+            "show_options": true,
+            "pack": "8 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_7": {
+          "type": "product",
+          "settings": {
+            "product": "yummybara-freeze-dried-pre-probiotics-yoghurt-fruit-melts-20g-8-months",
+            "name": "Yoghurt Fruit Melts",
+            "age_tag": "8 months+",
+            "show_options": true,
+            "pack": "4 packs",
+            "button_label": "Add to cart"
+          }
+        },
+        "product_8": {
+          "type": "product",
+          "settings": {
+            "product": "habibara-pure-gentle-baby-mouth-hand-wipes-80-sheets",
+            "name": "Habibara Baby Wet Wipes, 80 sheets",
+            "age_tag": "Habibara",
+            "show_options": false,
+            "pack": "1 pack",
+            "button_label": "Add to cart"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6",
+        "product_7",
+        "product_8"
+      ],
+      "settings": {
+        "heading": "Start here",
+        "currency_prefix": "S$"
+      }
+    },
+    "hlt_hp_band": {
+      "type": "hlt-hp-band",
+      "blocks": {
+        "perk_1": {
+          "type": "perk",
+          "settings": {
+            "icon": "package",
+            "text": "10 or more different snacks in every bundle"
+          }
+        },
+        "perk_2": {
+          "type": "perk",
+          "settings": {
+            "icon": "tag",
+            "text": "About 10% less than buying the boxes one by one, and more with the Value pack"
+          }
+        },
+        "perk_3": {
+          "type": "perk",
+          "settings": {
+            "icon": "truck",
+            "text": "Free delivery, packed in 1 to 2 business days"
+          }
+        },
+        "perk_4": {
+          "type": "perk",
+          "settings": {
+            "icon": "smile",
+            "text": "Every box suits the age you pick"
+          }
+        }
+      },
+      "block_order": [
+        "perk_1",
+        "perk_2",
+        "perk_3",
+        "perk_4"
+      ],
+      "settings": {
+        "heading": "A bundle for their age, delivered free.",
+        "button_label": "Choose their bundle",
+        "image_alt": "Big Crunch bundle boxes: jumbo filled rice sticks, corn puff pops and shrimp wafer crisps",
+        "fallback_product": "big-crunch-12-months",
+        "image": "shopify://shop_images/homepage-04_why-a-bundle.webp"
+      }
+    },
+    "hlt_hp_tiles": {
+      "type": "hlt-hp-tiles",
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "title": "8 months+",
+            "subtitle": "Melts",
+            "link": "shopify://collections/8m",
+            "fallback_product": "first-melts-8-months",
+            "image": "shopify://shop_images/homepage-05_age-8m.webp"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "title": "10 months+",
+            "subtitle": "Rice rusks and melts",
+            "link": "shopify://collections/10m",
+            "image": "shopify://shop_images/homepage-05_age-10m.webp",
+            "fallback_product": "first-bites-10-months"
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "title": "12 months+",
+            "subtitle": "Real crunch",
+            "link": "shopify://collections/12m",
+            "fallback_product": "big-crunch-12-months",
+            "image": "shopify://shop_images/homepage-05_age-12m.webp"
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "title": "Shop all",
+            "subtitle": "",
+            "link": "shopify://collections/yummybara",
+            "fallback_product": "yummybara-freeze-dried-fruits-20g-8-months",
+            "image": "shopify://shop_images/homepage-05_age-shop-all.webp"
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3",
+        "tile_4"
+      ],
+      "settings": {
+        "heading": "Snacks for the age they are now"
+      }
+    },
+    "hlt_hp_story": {
+      "type": "hlt-hp-story",
+      "settings": {
+        "image": "shopify://shop_images/homepage-06_story.webp",
+        "image_alt": "A parent handing a snack pack to a toddler on a park bench",
+        "heading": "The snack in the bag should be one you're glad to give.",
+        "text": "<p>Most snacks packed for a day out are a compromise. You pack them anyway, because a hungry toddler halfway round the zoo will not wait.</p><p>Yummybara is a Singapore brand of baby and toddler snacks made so you don't have to settle. Each one is made for a particular age, with no added refined sugar or salt and no preservatives, and every one is halal certified.</p>",
+        "button_label": "Our story",
+        "button_link": "shopify://pages/about"
+      }
+    },
+    "hlt_hp_habibara": {
+      "type": "hlt-hp-habibara",
+      "settings": {
+        "eyebrow": "Also from HLT One",
+        "heading": "For the mess after snack time.",
+        "text": "Habibara baby wipes, from 10-sheet packs for the stroller bag to cartons for the cupboard.",
+        "button_label": "Shop Habibara",
+        "button_link": "shopify://collections/habibara",
+        "bg": "#fdf3db",
+        "image_alt": "Habibara baby wipes beside an open pack of yoghurt melts",
+        "fallback_product": "habibara-pure-gentle-baby-mouth-hand-wipes-80-sheets",
+        "image": "shopify://shop_images/homepage-08_habibara_desktop.webp",
+        "image_mobile": "shopify://shop_images/homepage-08_habibara_mobile.webp"
+      }
+    },
+    "hlt_hp_reviews": {
+      "type": "hlt-hp-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "It's not easy finding snacks that they both genuinely enjoy, but HLT One has become one of their favourites.",
+            "who": "Rina, mum of two",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "I've been ordering this almost every other week with the rate my toddler is going. It's one of her almost-daily snacks! Fast delivery as always.",
+            "who": "Sent to us on Messenger",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "Tastes good even for adults, not too sweet, and melts in the mouth. Baby loves it so much that I had to find it online!",
+            "who": "Shopee review",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "quote": "These are so good and so crunchy! My baby absolutely adores them and just can't get enough. Definitely recommend.",
+            "who": "Shopee review",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "quote": "Easy for a 1-year-old to eat, with no ingredients other than the fruit itself.",
+            "who": "Shopee review, mum of a 1-year-old",
+            "image_alt": "",
+            "link_label": "Shop Freeze-Dried Fruit",
+            "link": "shopify://products/yummybara-freeze-dried-fruits-20g-8-months"
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "quote": "He loves it, and it stays crispy even when it's been opened for days, unlike other brands we'd tried, which always got wasted because they couldn't keep.",
+            "who": "Sent to us on WhatsApp",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "quote": "Trust me, my house only has HLT One snacks now. No more other biscuits. We used to buy fish or animal biscuits and ended up stopping. We changed everything to HLT.",
+            "who": "Sent to us on WhatsApp",
+            "image_alt": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7"
+      ],
+      "settings": {
+        "heading": "Parents say their children can't get enough."
+      }
+    }
+  },
+  "order": [
+    "hlt_hp_hero",
+    "hlt_hp_hero_spare",
+    "hlt_hp_trust",
+    "hlt_hp_start",
+    "hlt_hp_band",
+    "hlt_hp_tiles",
+    "hlt_hp_story",
+    "hlt_hp_habibara",
+    "hlt_hp_reviews"
+  ]
+}

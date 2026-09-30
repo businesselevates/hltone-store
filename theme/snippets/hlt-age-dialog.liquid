@@ -1,0 +1,19 @@
+{% comment %}
+  The homepage draft's styles and script, and the "How old is your child?"
+  dialog every "Choose their bundle" button opens. Rendered once, from the
+  header (snippets/hlt-shop-menu.liquid), so every page has it.
+
+  Usage:
+  {% render 'hlt-age-dialog' %}
+{% endcomment %}
+{{ 'hlt-hp.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hlt-hp.js' | asset_url }}" defer="defer"></script>
+
+<dialog id="HltAgeDialog" class="hlt-age-dialog" aria-labelledby="HltAgeDialogQ">
+  <div class="hlt-age-dialog__inner">
+    <button type="button" class="hlt-age-dialog__close" data-hlt-age-close aria-label="Close">
+      {%- render 'hlt-icon', name: 'plus', size: 24 -%}
+    </button>
+    {% render 'hlt-age-picker', heading_id: 'HltAgeDialogQ' %}
+  </div>
+</dialog>

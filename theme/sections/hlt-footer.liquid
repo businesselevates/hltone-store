@@ -1,0 +1,105 @@
+{%- comment -%}
+  H10 Footer with sign-up (29 Sep 2026 homepage draft), on Bloom's footer email
+  form. A plain newsletter sign-up with no discount (Kennedy, 29 Sep). The
+  heading, text and small print are the theme's; the email field, button and
+  thank-you step are the Klaviyo embed form, which also decides the list.
+  Columns are blocks, so links change here without touching the store's
+  navigation menus.
+{%- endcomment -%}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+<footer class="hlt-foot">
+  <div class="hlt-foot__inner">
+    <div class="hlt-foot__top">
+      <div class="hlt-foot__signup">
+        <h2 class="hlt-foot__title">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}<p class="hlt-foot__sub">{{ section.settings.text | escape }}</p>{%- endif -%}
+        {%- if section.settings.klaviyo_form_id != blank -%}
+          {%- comment -%} Klaviyo's own markup, unchanged: its script finds the form by this exact class. {%- endcomment -%}
+          <div class="hlt-foot__klaviyo"><div class="klaviyo-form-{{ section.settings.klaviyo_form_id | strip | escape }}"></div></div>
+          {%- if section.settings.klaviyo_site_id != blank -%}
+            <script>
+              /* The Klaviyo app embed normally loads Klaviyo's script. When a page has
+                 none (a theme preview can skip app embeds), load it here, or the form
+                 above stays empty. */
+              window.addEventListener('load', function () {
+                if (document.querySelector('script[src*="klaviyo.com/onsite/js"]')) return;
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id={{ section.settings.klaviyo_site_id | strip | url_encode }}';
+                document.head.appendChild(s);
+              });
+            </script>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.consent != blank -%}<small class="hlt-foot__small">{{ section.settings.consent | escape }}</small>{%- endif -%}
+      </div>
+
+      <nav class="hlt-foot__cols" aria-label="Footer">
+        {%- for block in section.blocks -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}<h3>{{ block.settings.heading | escape }}</h3>{%- endif -%}
+            <ul role="list">
+              {%- for i in (1..5) -%}
+                {%- liquid
+                  assign l_key = 'label_' | append: i
+                  assign u_key = 'url_' | append: i
+                -%}
+                {%- if block.settings[l_key] != blank and block.settings[u_key] != blank -%}
+                  <li><a href="{{ block.settings[u_key] }}">{{ block.settings[l_key] | escape }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    <div class="hlt-foot__bottom">
+      {%- if section.settings.logo != blank -%}
+        <a class="hlt-foot__logo" href="{{ routes.root_url }}">
+          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: section.settings.logo_width, alt: shop.name }}
+        </a>
+      {%- endif -%}
+      {%- render 'social-icons', class: 'hlt-foot__social' -%}
+      <ul class="hlt-foot__legal" role="list">
+        <li>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</li>
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "HLT Footer: sign-up",
+  "tag": "div",
+  "class": "hlt-foot-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "News from Yummybara" },
+    { "type": "text", "id": "text", "label": "Text", "default": "New flavours, restocks and the next fair we'll be at." },
+    { "type": "text", "id": "klaviyo_form_id", "label": "Klaviyo form ID", "default": "T4xtAp", "info": "An Embed form from Klaviyo Sign-up forms. The form sets the email field, the button, the thank-you message and the list. It shows only once the form is published and the Klaviyo app embed is on." },
+    { "type": "text", "id": "klaviyo_site_id", "label": "Klaviyo site ID", "default": "Xv5vrT", "info": "Klaviyo's public API key. Used only when the page has no Klaviyo script of its own." },
+    { "type": "text", "id": "consent", "label": "Small print", "default": "By joining you agree to receive marketing emails from HLT One. Unsubscribe any time." },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 240, "step": 10, "unit": "px", "default": 130 }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "label_1", "label": "Link 1 label" }, { "type": "url", "id": "url_1", "label": "Link 1" },
+        { "type": "text", "id": "label_2", "label": "Link 2 label" }, { "type": "url", "id": "url_2", "label": "Link 2" },
+        { "type": "text", "id": "label_3", "label": "Link 3 label" }, { "type": "url", "id": "url_3", "label": "Link 3" },
+        { "type": "text", "id": "label_4", "label": "Link 4 label" }, { "type": "url", "id": "url_4", "label": "Link 4" },
+        { "type": "text", "id": "label_5", "label": "Link 5 label" }, { "type": "url", "id": "url_5", "label": "Link 5" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "HLT Footer: sign-up" } ]
+}
+{% endschema %}

@@ -1,0 +1,92 @@
+{%- comment -%}
+  H02b Trust logos (29 Sep 2026 homepage draft). Sits right under the hero so a
+  first-time visitor sees who stocks the brand before any product. Logos are
+  all the same height and are not links. On mobile the row loops sideways;
+  the second copy is aria-hidden so screen readers hear each name once.
+  Row 2 holds the certification badges; a badge only shows once its
+  "Show" box is ticked (tick HACCP, ISO 22000 and Organic when HLT One sends
+  each certificate).
+{%- endcomment -%}
+{%- liquid
+  assign logos = section.blocks | where: 'type', 'logo'
+  assign certs = section.blocks | where: 'type', 'cert'
+-%}
+<section class="hlt hlt--paper hlt-hp hlt-hp-trust">
+  <div class="hlt__inner">
+    {%- if section.settings.label != blank -%}
+      <p class="hlt-overline hlt-hp-trust__label">{{ section.settings.label | escape }}</p>
+    {%- endif -%}
+    <div class="hlt-hp-trust__viewport">
+      <ul class="hlt-hp-trust__row" role="list">
+        {%- for pass in (1..4) -%}
+          {%- for block in logos -%}
+            {%- if block.settings.image != blank -%}
+              <li class="hlt-hp-trust__logo{% if pass > 1 %} hlt-hp-trust__logo--dup{% endif %}"{% if pass > 1 %} aria-hidden="true"{% else %} {{ block.shopify_attributes }}{% endif %}>
+                <figure class="hlt-hp-trust__fig">
+                  {%- if pass > 1 -%}
+                    {{ block.settings.image | image_url: height: 88 | image_tag: loading: 'lazy', alt: '', height: 44 }}
+                  {%- else -%}
+                    {{ block.settings.image | image_url: height: 88 | image_tag: loading: 'lazy', alt: block.settings.name, height: 44 }}
+                  {%- endif -%}
+                  {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption | escape }}</figcaption>{%- endif -%}
+                </figure>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- assign shown = 0 -%}
+    {%- for block in certs -%}{%- if block.settings.show -%}{%- assign shown = shown | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- if shown > 0 -%}
+      <ul class="hlt-hp-certs" role="list">
+        {%- for block in certs -%}
+          {%- if block.settings.show -%}
+            <li class="hlt-hp-cert" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+              {%- elsif block.settings.badge_text != blank -%}
+                <span class="hlt-hp-cert__badge" aria-hidden="true">{{ block.settings.badge_text | escape | replace: ' ', '<br>' }}</span>
+              {%- endif -%}
+              <span>{{ block.settings.label | escape }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HLT HP: Trust logos",
+  "tag": "div",
+  "class": "hlt-hp-section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "Parents have found us at", "info": "If every retailer is a current stockist, change to: On the shelf at" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo", "info": "Trimmed, transparent, 80 px tall (IMG-20)." },
+        { "type": "text", "id": "name", "label": "Name (alt text)" },
+        { "type": "text", "id": "caption", "label": "Caption under the logo", "info": "For example: Malaysia" }
+      ]
+    },
+    {
+      "type": "cert",
+      "name": "Certification badge",
+      "settings": [
+        { "type": "checkbox", "id": "show", "label": "Show", "default": true, "info": "Only tick once HLT One has sent the certificate." },
+        { "type": "image_picker", "id": "image", "label": "Badge image", "info": "160 x 160 (IMG-21)." },
+        { "type": "text", "id": "badge_text", "label": "Badge text if no image", "default": "MUIS HALAL" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Halal certified" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "HLT HP: Trust logos" } ]
+}
+{% endschema %}

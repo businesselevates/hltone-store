@@ -1,0 +1,177 @@
+{%- comment -%}
+  H03 Start here (29 Sep 2026 homepage draft), in Bloom's best-sellers slot.
+  The age bundle card comes first and opens the age question; every other card
+  adds to cart and opens the slide-out cart. Prices, flavours and stock are
+  live from Shopify. Desktop shows 4 cards; mobile shows about 1.5 so the next
+  one peeks in.
+{%- endcomment -%}
+{%- assign cur = section.settings.currency_prefix -%}
+<section class="hlt hlt--cream hlt-hp hlt-hp-start">
+  <div class="hlt__inner">
+    <div class="hlt-hp-slider" data-hlt-slider>
+      <div class="hlt-hp__head">
+        <h2 class="hlt-h2">{{ section.settings.heading | escape }}</h2>
+        <div class="hlt-hp-arrows">
+          <button type="button" class="hlt-hp-arrow" data-hlt-prev aria-label="Previous">{% render 'hlt-icon', name: 'arrow-left', size: 22 %}</button>
+          <button type="button" class="hlt-hp-arrow" data-hlt-next aria-label="Next">{% render 'hlt-icon', name: 'arrow-right', size: 22 %}</button>
+        </div>
+      </div>
+
+      <ul class="hlt-hp-track" data-hlt-track role="list">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'bundle' -%}
+              {%- liquid
+                assign b1 = block.settings.bundle_1
+                assign b2 = block.settings.bundle_2
+                assign b3 = block.settings.bundle_3
+                assign min_price = 0
+                for bp in (1..3)
+                  assign bkey = 'bundle_' | append: bp
+                  assign bprod = block.settings[bkey]
+                  if bprod != blank and bprod.available
+                    if min_price == 0 or bprod.price_min < min_price
+                      assign min_price = bprod.price_min
+                    endif
+                  endif
+                endfor
+                assign card_img = block.settings.image | default: b1.featured_image
+              -%}
+              <li class="hlt-hp-card hlt-hp-card--bundle" {{ block.shopify_attributes }}>
+                <a class="hlt-hp-card__media" href="{{ b1.url }}" data-hlt-age-open tabindex="-1" aria-hidden="true">
+                  {%- if card_img != blank -%}
+                    {{ card_img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', sizes: '(min-width: 990px) 300px, 64vw', alt: '' }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'hlt-placeholder' }}
+                  {%- endif -%}
+                </a>
+                {%- if block.settings.age_tag != blank -%}<span class="hlt-hp-card__age">{{ block.settings.age_tag | escape }}</span>{%- endif -%}
+                <a class="hlt-hp-card__name" href="{{ b1.url }}" data-hlt-age-open>{{ block.settings.title | escape }}</a>
+                <span class="hlt-hp-card__price">
+                  {%- if min_price > 0 -%}{{ block.settings.price_prefix | escape }} {{ cur }}{{ min_price | money_without_currency }}{%- endif -%}
+                </span>
+                <ul class="hlt-hp-card__chips" role="list">
+                  {%- for bp in (1..3) -%}
+                    {%- liquid
+                      assign bkey = 'bundle_' | append: bp
+                      assign lkey = 'chip_' | append: bp
+                      assign bprod = block.settings[bkey]
+                    -%}
+                    {%- if bprod != blank and block.settings[lkey] != blank -%}
+                      <li><a class="hlt-hp-chip" href="{{ bprod.url }}">{{ block.settings[lkey] | escape }}</a></li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+                {%- if block.settings.pack != blank -%}<span class="hlt-hp-card__pack">{{ block.settings.pack | escape }}</span>{%- endif -%}
+                <a class="hlt-btn" href="{{ b1.url }}" data-hlt-age-open>{{ block.settings.button_label | escape }}</a>
+              </li>
+
+            {%- when 'product' -%}
+              {%- assign p = block.settings.product -%}
+              {%- if p != blank -%}
+                {%- liquid
+                  assign v = p.selected_or_first_available_variant
+                  assign card_img = block.settings.image | default: p.featured_image
+                  assign card_name = block.settings.name | default: p.title
+                  assign show_chips = false
+                  if block.settings.show_options and p.variants.size > 1
+                    assign show_chips = true
+                  endif
+                -%}
+                <li class="hlt-hp-card" data-hlt-card data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}" {{ block.shopify_attributes }}>
+                  <a class="hlt-hp-card__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+                    {%- if card_img != blank -%}
+                      {{ card_img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', sizes: '(min-width: 990px) 300px, 64vw', alt: '' }}
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'hlt-placeholder' }}
+                    {%- endif -%}
+                  </a>
+                  {%- if block.settings.age_tag != blank -%}<span class="hlt-hp-card__age">{{ block.settings.age_tag | escape }}</span>{%- endif -%}
+                  <a class="hlt-hp-card__name" href="{{ p.url }}">{{ card_name | escape }}</a>
+                  <span class="hlt-hp-card__price" data-hlt-card-price>{{ cur }}{{ v.price | money_without_currency }}</span>
+                  {%- if show_chips -%}
+                    <ul class="hlt-hp-card__chips" role="list" aria-label="{{ p.options.first | escape }}">
+                      {%- for variant in p.variants -%}
+                        <li>
+                          <button
+                            type="button"
+                            class="hlt-hp-chip"
+                            data-hlt-chip="{{ variant.id }}"
+                            aria-pressed="{% if variant.id == v.id %}true{% else %}false{% endif %}"
+                            {% unless variant.available %}data-sold-out{% endunless %}
+                          >{{ variant.title | escape }}</button>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                  {%- if block.settings.pack != blank -%}<span class="hlt-hp-card__pack">{{ block.settings.pack | escape }}</span>{%- endif -%}
+                  {%- form 'product', p, class: 'hlt-hp-card__form' -%}
+                    <input type="hidden" name="id" value="{{ v.id }}">
+                    <button type="submit" class="hlt-btn" data-hlt-card-add{% unless v.available %} disabled{% endunless %}>
+                      {%- if v.available -%}{{ block.settings.button_label | escape }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+                    </button>
+                    <p class="hlt-hp-card__error" data-hlt-card-error role="alert" hidden></p>
+                  {%- endform -%}
+                  <script type="application/json" data-hlt-card-variants>
+                    [
+                      {%- for variant in p.variants -%}
+                        {"id": {{ variant.id }}, "price": {{ variant.price | money_without_currency | prepend: cur | json }}, "available": {{ variant.available | json }}}{% unless forloop.last %},{% endunless %}
+                      {%- endfor -%}
+                    ]
+                  </script>
+                </li>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HLT HP: Start here",
+  "tag": "div",
+  "class": "hlt-hp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Start here" },
+    { "type": "text", "id": "currency_prefix", "label": "Currency sign", "default": "S$" },
+    { "type": "paragraph", "content": "Order the cards by units sold on hltone.com in the last 90 days, with the bundle first. Card images IMG-04 to IMG-11: front-view pack on a plain brand-colour square, 1000 x 1000. Until then each card uses the product's own image." }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Age bundle card",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Yummybara Age Bundle" },
+        { "type": "text", "id": "age_tag", "label": "Age tag", "default": "8 to 12 months+" },
+        { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "From" },
+        { "type": "product", "id": "bundle_1", "label": "Bundle 1" },
+        { "type": "text", "id": "chip_1", "label": "Bundle 1 chip", "default": "8 months+" },
+        { "type": "product", "id": "bundle_2", "label": "Bundle 2" },
+        { "type": "text", "id": "chip_2", "label": "Bundle 2 chip", "default": "10 months+" },
+        { "type": "product", "id": "bundle_3", "label": "Bundle 3" },
+        { "type": "text", "id": "chip_3", "label": "Bundle 3 chip", "default": "12 months+" },
+        { "type": "text", "id": "pack", "label": "Line under the chips", "default": "Free delivery" },
+        { "type": "text", "id": "button_label", "label": "Button", "default": "Choose their bundle", "info": "Opens the age question." },
+        { "type": "image_picker", "id": "image", "label": "Image (IMG-04)", "info": "Falls back to bundle 1's image." }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "name", "label": "Short name", "info": "Leave empty to use the product title." },
+        { "type": "text", "id": "age_tag", "label": "Age tag", "default": "8 months+" },
+        { "type": "checkbox", "id": "show_options", "label": "Show flavour chips", "default": true },
+        { "type": "text", "id": "pack", "label": "Pack line", "default": "4 packs" },
+        { "type": "text", "id": "button_label", "label": "Button", "default": "Add to cart" },
+        { "type": "image_picker", "id": "image", "label": "Image override (IMG-05 to IMG-11)" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "HLT HP: Start here" } ]
+}
+{% endschema %}
