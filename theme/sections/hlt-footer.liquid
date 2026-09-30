@@ -14,7 +14,8 @@
         <h2 class="hlt-foot__title">{{ section.settings.heading | escape }}</h2>
         {%- if section.settings.text != blank -%}<p class="hlt-foot__sub">{{ section.settings.text | escape }}</p>{%- endif -%}
         {%- if section.settings.klaviyo_form_id != blank -%}
-          <div class="hlt-foot__klaviyo klaviyo-form-{{ section.settings.klaviyo_form_id | strip | escape }}"></div>
+          {%- comment -%} Klaviyo's own markup, unchanged: its script finds the form by this exact class. {%- endcomment -%}
+          <div class="hlt-foot__klaviyo"><div class="klaviyo-form-{{ section.settings.klaviyo_form_id | strip | escape }}"></div></div>
         {%- endif -%}
         {%- if section.settings.consent != blank -%}<small class="hlt-foot__small">{{ section.settings.consent | escape }}</small>{%- endif -%}
       </div>
