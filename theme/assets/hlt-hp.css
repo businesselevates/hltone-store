@@ -166,9 +166,10 @@
 /* ---------- H04 Why a bundle ---------- */
 .hlt-hp-band__grid {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); overflow: hidden;
-  border-radius: var(--hlt-r-card); background: var(--hlt-splash-pale);
+  border-radius: var(--hlt-r-card); background: var(--hlt-hp-band-bg, #ceecf8);
 }
-.hlt-hp-band__media { position: relative; min-height: 420px; background: var(--hlt-splash); }
+/* The photo fades down to the panel colour, so its box shares it too. */
+.hlt-hp-band__media { position: relative; min-height: 420px; background: var(--hlt-hp-band-bg, #ceecf8); }
 .hlt-hp-band__media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hlt-hp-band__panel { padding: clamp(28px, 4.5vw, 64px); display: flex; flex-direction: column; justify-content: center; gap: 24px; }
 .hlt-hp-band .hlt-h2 { font-size: clamp(30px, 3.4vw, 44px); }
