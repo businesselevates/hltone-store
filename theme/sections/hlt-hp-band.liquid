@@ -7,7 +7,7 @@
   assign fallback = section.settings.fallback_product.featured_image
   assign cta_url = section.settings.fallback_product.url | default: routes.all_products_collection_url
 -%}
-<section class="hlt hlt--cream hlt-hp hlt-hp-band" style="--hlt-hp-band-bg: {{ section.settings.panel_color }};">
+<section class="hlt hlt--cream hlt-hp hlt-hp-band">
   <div class="hlt__inner">
     <div class="hlt-hp-band__grid">
       <div class="hlt-hp-band__media{% if img == blank %} hlt-hp-media-fallback{% endif %}">
@@ -45,7 +45,6 @@
     { "type": "text", "id": "button_label", "label": "Button", "default": "Choose their bundle", "info": "Opens the age question." },
     { "type": "image_picker", "id": "image", "label": "Image (IMG-12)", "info": "1600 x 1400. Big Crunch Value pack boxes on a counter, a child's hand reaching in." },
     { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Yummybara Big Crunch bundle boxes" },
-    { "type": "color", "id": "panel_color", "label": "Panel colour", "default": "#CEECF8", "info": "Match the darkest blue at the bottom of the image so the panel and the photo read as one band." },
     { "type": "product", "id": "fallback_product", "label": "Fallback product", "info": "Its main image shows on Splash Blue until the photo exists." }
   ],
   "blocks": [
