@@ -353,7 +353,7 @@
       ],
       "settings": {
         "buy_mode": "bundle", "after_add": "checkout",
-        "product": "",
+        "product": "age-group-bundle",
         "variant_label": "",
         "solo_title": "",
         "solo_line": "",
