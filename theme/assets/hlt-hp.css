@@ -289,16 +289,34 @@
 .hlt-foot__top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; }
 .hlt-foot__title { margin: 0 0 8px; font-family: var(--hlt-font-display); font-weight: 800; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.1; color: var(--hlt-splash); }
 .hlt-foot__sub { margin: 0; font-size: 17px; color: var(--hlt-navy-100); }
-.hlt-foot__form { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 12px; max-width: 520px; }
-.hlt-foot__input {
-  flex: 1 1 220px; min-width: 0; min-height: 52px; padding: 12px 20px; border: 0; border-radius: var(--hlt-r-pill);
-  background: var(--hlt-paper); color: var(--hlt-navy); font: inherit; font-size: 16px;
+/* Klaviyo embed form. Klaviyo writes inline styles on its own markup, so these
+   overrides need !important. Email field and button sit on one line, as in the
+   wireframe, whether Klaviyo puts them in one row or two. */
+.hlt-foot__klaviyo { margin: 20px 0 12px; max-width: 520px; }
+.hlt-foot__klaviyo form { background: transparent !important; padding: 0 !important; min-height: 0 !important; box-shadow: none !important; }
+.hlt-foot__klaviyo div:has(> [data-testid="form-row"]) { display: flex !important; flex-flow: row wrap !important; align-items: flex-start; gap: 10px; }
+.hlt-foot__klaviyo [data-testid="form-row"] { padding: 0 !important; margin: 0 !important; }
+.hlt-foot__klaviyo [data-testid="form-row"]:has(input) { flex: 1 1 220px; min-width: 0; }
+.hlt-foot__klaviyo [data-testid="form-row"] > div, .hlt-foot__klaviyo [data-testid="form-component"] { padding: 0 !important; background: transparent !important; }
+.hlt-foot__klaviyo input[type="email"] {
+  min-height: 52px !important; height: 52px !important; padding: 12px 20px !important; border: 0 !important; border-radius: var(--hlt-r-pill) !important;
+  background: var(--hlt-paper) !important; color: var(--hlt-navy) !important;
+  font-family: var(--hlt-font-body) !important; font-size: 16px !important; letter-spacing: 0 !important;
 }
-.hlt-foot__input:focus-visible { outline: 3px solid var(--hlt-splash); outline-offset: 2px; }
-.hlt-foot .hlt-btn { --hlt-btn-bg: var(--hlt-splash); --hlt-btn-text: var(--hlt-navy); min-height: 52px; padding: 12px 28px; }
+.hlt-foot__klaviyo input[type="email"]::placeholder { color: rgba(27, 46, 92, 0.6); letter-spacing: 0; }
+.hlt-foot__klaviyo input[type="email"]:focus-visible { outline: 3px solid var(--hlt-splash) !important; outline-offset: 2px; }
+.hlt-foot__klaviyo button {
+  min-height: 52px !important; height: 52px !important; width: auto !important; padding: 12px 28px !important; border: 0 !important; border-radius: var(--hlt-r-pill) !important;
+  background: var(--hlt-splash) !important; color: var(--hlt-navy) !important;
+  font-family: var(--hlt-font-body) !important; font-size: 16px !important; font-weight: 800 !important; letter-spacing: 0 !important; text-transform: none !important;
+}
+.hlt-foot__klaviyo button:hover { background: var(--hlt-cream) !important; }
+.hlt-foot__klaviyo button:focus-visible { outline: 3px solid var(--hlt-cream) !important; outline-offset: 2px; }
+/* Text Klaviyo shows on its own (the thank-you step, field errors) reads on navy. */
+.hlt-foot__klaviyo p, .hlt-foot__klaviyo h1, .hlt-foot__klaviyo h2, .hlt-foot__klaviyo span:not(:empty) { color: var(--hlt-cream) !important; font-family: var(--hlt-font-body) !important; }
+.hlt-foot__klaviyo h1, .hlt-foot__klaviyo h2 { font-family: var(--hlt-font-display) !important; font-size: 22px !important; line-height: 1.2 !important; }
+.hlt-foot__klaviyo button * { color: inherit !important; font: inherit !important; }
 .hlt-foot__small { display: block; font-size: 13px; line-height: 1.5; opacity: 0.8; max-width: 520px; }
-.hlt-foot__msg { margin: 18px 0 0; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); color: var(--hlt-cream); font-weight: 600; }
-.hlt-foot__msg--err { background: rgba(239, 160, 166, 0.2); }
 .hlt-foot__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .hlt-foot__cols h3 { margin: 0 0 12px; font-family: var(--hlt-font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hlt-sun); }
 .hlt-foot__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }

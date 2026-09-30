@@ -110,13 +110,10 @@
         "column_3"
       ],
       "settings": {
-        "heading": "10% off your first order",
-        "text": "Sign up for our emails and we'll send you a code.",
-        "placeholder": "Email address",
-        "button": "Send my code",
+        "heading": "News from Yummybara",
+        "text": "New flavours, restocks and the next fair we'll be at.",
+        "klaviyo_form_id": "RZ4Q4V",
         "consent": "By joining you agree to receive marketing emails from HLT One. Unsubscribe any time.",
-        "success": "Thank you. Your discount code has been sent to your email.",
-        "tags": "newsletter,first-order-20",
         "logo": "shopify://shop_images/logo-2048x1093_2.png",
         "logo_width": 130
       }
