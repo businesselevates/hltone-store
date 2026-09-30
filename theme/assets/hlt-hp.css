@@ -299,14 +299,17 @@
 .hlt-foot__klaviyo [data-testid="form-row"]:has(input) { flex: 1 1 220px; min-width: 0; }
 .hlt-foot__klaviyo [data-testid="form-row"] > div, .hlt-foot__klaviyo [data-testid="form-component"] { padding: 0 !important; background: transparent !important; }
 .hlt-foot__klaviyo input[type="email"] {
-  min-height: 52px !important; height: 52px !important; padding: 12px 20px !important; border: 0 !important; border-radius: var(--hlt-r-pill) !important;
+  box-sizing: border-box !important; min-height: 52px !important; height: 52px !important; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: var(--hlt-r-pill) !important;
   background: var(--hlt-paper) !important; color: var(--hlt-navy) !important;
   font-family: var(--hlt-font-body) !important; font-size: 16px !important; letter-spacing: 0 !important;
 }
 .hlt-foot__klaviyo input[type="email"]::placeholder { color: rgba(27, 46, 92, 0.6); letter-spacing: 0; }
 .hlt-foot__klaviyo input[type="email"]:focus-visible { outline: 3px solid var(--hlt-splash) !important; outline-offset: 2px; }
 .hlt-foot__klaviyo button {
-  min-height: 52px !important; height: 52px !important; width: auto !important; padding: 12px 28px !important; border: 0 !important; border-radius: var(--hlt-r-pill) !important;
+  /* Klaviyo's button is content-box, so padding would add to the height; border-box keeps it level with the field. */
+  box-sizing: border-box !important; display: inline-flex !important; align-items: center; justify-content: center;
+  min-height: 52px !important; height: 52px !important; width: auto !important; margin: 0 !important; padding: 0 28px !important; line-height: 1 !important;
+  border: 0 !important; border-radius: var(--hlt-r-pill) !important;
   background: var(--hlt-splash) !important; color: var(--hlt-navy) !important;
   font-family: var(--hlt-font-body) !important; font-size: 16px !important; font-weight: 800 !important; letter-spacing: 0 !important; text-transform: none !important;
 }
